@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          基于ROS2设计action - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/08/23/基于ROS2设计action/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ROS2, action, C++" title="ROS2, action, C++">ROS2, action, C++</a>
+                            
+                        </div>
+                        <h1>基于ROS2设计action</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-08-23
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>action是ROS2中的一种通信类型，用于长时间运行的任务。它有三部分组成：目标（Goal）、反馈（Feedback）和结果（Result）。</p>
+<p>action建立在topic和service的基础上，它的功能类似于service，但是操作是可以被抢占的（在执行的过程中取消），它提供稳定的反馈，而不是返回单一相应的服务。</p>
+<p>action也是使用client-server模型。 </p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/Action-SingleActionClient.gif" alt="action"></p>
+<h1 id="创建一个action"><a href="#创建一个action" class="headerlink" title="创建一个action"></a>创建一个action</h1><h2 id="1-创建名为action-tutorials-interfaces的功能包"><a href="#1-创建名为action-tutorials-interfaces的功能包" class="headerlink" title="1 创建名为action_tutorials_interfaces的功能包"></a>1 创建名为action_tutorials_interfaces的功能包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p action_ws&#x2F;src</span><br><span class="line">cd action_ws&#x2F;src</span><br><span class="line">ros2 pkg create action_tutorials_interfaces</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-定义action"><a href="#2-定义action" class="headerlink" title="2 定义action"></a>2 定义action</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd action_tutorials_interfaces</span><br><span class="line">mkdir action</span><br></pre></td></tr></table></figure>
+
+<p>在action目录中新建名为Fibonacci.action的文件，并包含以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int32 order</span><br><span class="line">---</span><br><span class="line">int32[] sequence</span><br><span class="line">---</span><br><span class="line">int32[] partial_sequence</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/tree_show" alt="image-20210823111503074"></p>
+<h2 id="3-编译action"><a href="#3-编译action" class="headerlink" title="3 编译action"></a>3 编译action</h2><p>如果我们希望在自己的代码中使用自定义的action类型，我们必须将action的定义传递给rosidl代码去生成相应的pipline。</p>
+<p>首先，修改CMakeList.txt，在ament_package()之前添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find_package(rosidl_default_generators REQUIRED)</span><br><span class="line"></span><br><span class="line">rosidl_generate_interfaces($&#123;PROJECT_NAME&#125;</span><br><span class="line">  &quot;action&#x2F;Fibonacci.action&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>接下来修改package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;buildtool_depend&gt;rosidl_default_generators&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line"></span><br><span class="line">&lt;depend&gt;action_msgs&lt;&#x2F;depend&gt;</span><br><span class="line"></span><br><span class="line">&lt;member_of_group&gt;rosidl_interface_packages&lt;&#x2F;member_of_group&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后编译整个功能包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Change to the root of the workspace</span><br><span class="line">cd ~&#x2F;action_ws</span><br><span class="line"># Build</span><br><span class="line">colcon build</span><br></pre></td></tr></table></figure>
+
+<p>验证生成的action，生成的action的名称为：功能包名/action/Fabonacci</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Source our workspace</span><br><span class="line"># On Windows: call install&#x2F;setup.bat</span><br><span class="line">. install&#x2F;setup.bash</span><br><span class="line"># Check that our action definition exists</span><br><span class="line">ros2 interface show action_tutorials_interfaces&#x2F;action&#x2F;Fibonacci</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/image-20210823111939951.png" alt="image-20210823111939951"></p>
+<p>思考：action存放在哪里？</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/image-20210823113437503.png" alt="image-20210823113437503"></p>
+<h1 id="action的server和client实现"><a href="#action的server和client实现" class="headerlink" title="action的server和client实现"></a>action的server和client实现</h1><h2 id="1-创建功能包（C-版）"><a href="#1-创建功能包（C-版）" class="headerlink" title="1 创建功能包（C++版）"></a>1 创建功能包（C++版）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;robot_sim&#x2F;src</span><br><span class="line">ros2 pkg create --dependencies action_tutorials_interfaces rclcpp rclcpp_action rclcpp_components -- action_tutorials_cpp</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-添加visibility-control文件"><a href="#2-添加visibility-control文件" class="headerlink" title="2 添加visibility control文件"></a>2 添加visibility control文件</h2><p>新建文件action_tutorials_cpp/include/action_tutorials_cpp/visibility_control.h，并写入以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#ifndef ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span><br><span class="line">#define ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">extern &quot;C&quot;</span><br><span class="line">&#123;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This logic was borrowed (then namespaced) from the examples on the gcc wiki:</span><br><span class="line">&#x2F;&#x2F;     https:&#x2F;&#x2F;gcc.gnu.org&#x2F;wiki&#x2F;Visibility</span><br><span class="line"></span><br><span class="line">#if defined _WIN32 || defined __CYGWIN__</span><br><span class="line">  #ifdef __GNUC__</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((dllexport))</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_IMPORT __attribute__ ((dllimport))</span><br><span class="line">  #else</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_EXPORT __declspec(dllexport)</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_IMPORT __declspec(dllimport)</span><br><span class="line">  #endif</span><br><span class="line">  #ifdef ACTION_TUTORIALS_CPP_BUILDING_DLL</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_EXPORT</span><br><span class="line">  #else</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_IMPORT</span><br><span class="line">  #endif</span><br><span class="line">  #define ACTION_TUTORIALS_CPP_PUBLIC_TYPE ACTION_TUTORIALS_CPP_PUBLIC</span><br><span class="line">  #define ACTION_TUTORIALS_CPP_LOCAL</span><br><span class="line">#else</span><br><span class="line">  #define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((visibility(&quot;default&quot;)))</span><br><span class="line">  #define ACTION_TUTORIALS_CPP_IMPORT</span><br><span class="line">  #if __GNUC__ &gt;&#x3D; 4</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_PUBLIC __attribute__ ((visibility(&quot;default&quot;)))</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_LOCAL  __attribute__ ((visibility(&quot;hidden&quot;)))</span><br><span class="line">  #else</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_PUBLIC</span><br><span class="line">    #define ACTION_TUTORIALS_CPP_LOCAL</span><br><span class="line">  #endif</span><br><span class="line">  #define ACTION_TUTORIALS_CPP_PUBLIC_TYPE</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">#endif  &#x2F;&#x2F; ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-创建server"><a href="#3-创建server" class="headerlink" title="3 创建server"></a>3 创建server</h2><p>新建文件fibonacci_action_server.cpp，并写入以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;functional&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line">#include &lt;thread&gt;</span><br><span class="line">  </span><br><span class="line">#include &quot;action_tutorials_interfaces&#x2F;action&#x2F;fibonacci.hpp&quot;</span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;rclcpp_action&#x2F;rclcpp_action.hpp&quot;</span><br><span class="line">#include &quot;rclcpp_components&#x2F;register_node_macro.hpp&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;action_tutorials_cpp&#x2F;visibility_control.h&quot;</span><br><span class="line"></span><br><span class="line">namespace action_tutorials_cpp</span><br><span class="line">&#123;</span><br><span class="line">class FibonacciActionServer : public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  using Fibonacci &#x3D; action_tutorials_interfaces::action::Fibonacci;</span><br><span class="line">  using GoalHandleFibonacci &#x3D; rclcpp_action::ServerGoalHandle&lt;Fibonacci&gt;;</span><br><span class="line"></span><br><span class="line">  ACTION_TUTORIALS_CPP_PUBLIC</span><br><span class="line">  explicit FibonacciActionServer(const rclcpp::NodeOptions &amp; options &#x3D; rclcpp::NodeOptions())</span><br><span class="line">  : Node(&quot;fibonacci_action_server&quot;, options)</span><br><span class="line">  &#123;</span><br><span class="line">    using namespace std::placeholders;</span><br><span class="line"></span><br><span class="line">    this-&gt;action_server_ &#x3D; rclcpp_action::create_server&lt;Fibonacci&gt;(</span><br><span class="line">      this,</span><br><span class="line">      &quot;fibonacci&quot;,</span><br><span class="line">      std::bind(&amp;FibonacciActionServer::handle_goal, this, _1, _2),</span><br><span class="line">      std::bind(&amp;FibonacciActionServer::handle_cancel, this, _1),</span><br><span class="line">      std::bind(&amp;FibonacciActionServer::handle_accepted, this, _1));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  rclcpp_action::Server&lt;Fibonacci&gt;::SharedPtr action_server_;</span><br><span class="line"></span><br><span class="line">  rclcpp_action::GoalResponse handle_goal(</span><br><span class="line">    const rclcpp_action::GoalUUID &amp; uuid,</span><br><span class="line">    std::shared_ptr&lt;const Fibonacci::Goal&gt; goal)</span><br><span class="line">  &#123;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Received goal request with order %d&quot;, goal-&gt;order);</span><br><span class="line">    (void)uuid;</span><br><span class="line">    return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  rclcpp_action::CancelResponse handle_cancel(</span><br><span class="line">    const std::shared_ptr&lt;GoalHandleFibonacci&gt; goal_handle)</span><br><span class="line">  &#123;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Received request to cancel goal&quot;);</span><br><span class="line">    (void)goal_handle;</span><br><span class="line">    return rclcpp_action::CancelResponse::ACCEPT;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void handle_accepted(const std::shared_ptr&lt;GoalHandleFibonacci&gt; goal_handle)</span><br><span class="line">  &#123;</span><br><span class="line">    using namespace std::placeholders;</span><br><span class="line">    &#x2F;&#x2F; this needs to return quickly to avoid blocking the executor, so spin up a new thread</span><br><span class="line">    std::thread&#123;std::bind(&amp;FibonacciActionServer::execute, this, _1), goal_handle&#125;.detach();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void execute(const std::shared_ptr&lt;GoalHandleFibonacci&gt; goal_handle)</span><br><span class="line">  &#123;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Executing goal&quot;);</span><br><span class="line">    rclcpp::Rate loop_rate(1);</span><br><span class="line">    const auto goal &#x3D; goal_handle-&gt;get_goal();</span><br><span class="line">    auto feedback &#x3D; std::make_shared&lt;Fibonacci::Feedback&gt;();</span><br><span class="line">    auto &amp; sequence &#x3D; feedback-&gt;partial_sequence;</span><br><span class="line">    sequence.push_back(0);</span><br><span class="line">    sequence.push_back(1);</span><br><span class="line">    auto result &#x3D; std::make_shared&lt;Fibonacci::Result&gt;();</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 1; (i &lt; goal-&gt;order) &amp;&amp; rclcpp::ok(); ++i) &#123;</span><br><span class="line">      &#x2F;&#x2F; Check if there is a cancel request</span><br><span class="line">      if (goal_handle-&gt;is_canceling()) &#123;</span><br><span class="line">        result-&gt;sequence &#x3D; sequence;</span><br><span class="line">        goal_handle-&gt;canceled(result);</span><br><span class="line">        RCLCPP_INFO(this-&gt;get_logger(), &quot;Goal canceled&quot;);</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      &#x2F;&#x2F; Update sequence</span><br><span class="line">      sequence.push_back(sequence[i] + sequence[i - 1]);</span><br><span class="line">      &#x2F;&#x2F; Publish feedback</span><br><span class="line">      goal_handle-&gt;publish_feedback(feedback);</span><br><span class="line">      RCLCPP_INFO(this-&gt;get_logger(), &quot;Publish feedback&quot;);</span><br><span class="line"></span><br><span class="line">      loop_rate.sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Check if goal is done</span><br><span class="line">    if (rclcpp::ok()) &#123;</span><br><span class="line">      result-&gt;sequence &#x3D; sequence;</span><br><span class="line">      goal_handle-&gt;succeed(result);</span><br><span class="line">      RCLCPP_INFO(this-&gt;get_logger(), &quot;Goal succeeded&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;  &#x2F;&#x2F; class FibonacciActionServer</span><br><span class="line"></span><br><span class="line">&#125;  &#x2F;&#x2F; namespace action_tutorials_cpp</span><br><span class="line"></span><br><span class="line">RCLCPP_COMPONENTS_REGISTER_NODE(action_tutorials_cpp::FibonacciActionServer)</span><br></pre></td></tr></table></figure>
+
+<p>修改CMakeList.txt，在find_package后写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">add_library(action_server SHARED</span><br><span class="line">  src&#x2F;fibonacci_action_server.cpp)</span><br><span class="line">target_include_directories(action_server PRIVATE</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&gt;)</span><br><span class="line">target_compile_definitions(action_server</span><br><span class="line">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span><br><span class="line">ament_target_dependencies(action_server</span><br><span class="line">  &quot;action_tutorials_interfaces&quot;</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;rclcpp_action&quot;</span><br><span class="line">  &quot;rclcpp_components&quot;)</span><br><span class="line">rclcpp_components_register_node(action_server PLUGIN &quot;action_tutorials_cpp::FibonacciActionServer&quot; EXECUTABLE fibonacci_action_server)</span><br><span class="line">install(TARGETS</span><br><span class="line">  action_server</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin)</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select action_tutorials_cpp</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run action_tutorials_cpp fibonacci_action_server</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/image-20210823155209379.png" alt="image-20210823155209379"></p>
+<h2 id="4-创建Client"><a href="#4-创建Client" class="headerlink" title="4 创建Client"></a>4 创建Client</h2><p>新建文件fibonacci_action_client.cpp，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;functional&gt;</span><br><span class="line">#include &lt;future&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;sstream&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;action_tutorials_interfaces&#x2F;action&#x2F;fibonacci.hpp&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;rclcpp_action&#x2F;rclcpp_action.hpp&quot;</span><br><span class="line">#include &quot;rclcpp_components&#x2F;register_node_macro.hpp&quot;</span><br><span class="line"></span><br><span class="line">namespace action_tutorials_cpp</span><br><span class="line">&#123;</span><br><span class="line">class FibonacciActionClient : public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  using Fibonacci &#x3D; action_tutorials_interfaces::action::Fibonacci;</span><br><span class="line">  using GoalHandleFibonacci &#x3D; rclcpp_action::ClientGoalHandle&lt;Fibonacci&gt;;</span><br><span class="line"></span><br><span class="line">  explicit FibonacciActionClient(const rclcpp::NodeOptions &amp; options)</span><br><span class="line">  : Node(&quot;fibonacci_action_client&quot;, options)</span><br><span class="line">  &#123;</span><br><span class="line">    this-&gt;client_ptr_ &#x3D; rclcpp_action::create_client&lt;Fibonacci&gt;(</span><br><span class="line">      this,</span><br><span class="line">      &quot;fibonacci&quot;);</span><br><span class="line"></span><br><span class="line">    this-&gt;timer_ &#x3D; this-&gt;create_wall_timer(</span><br><span class="line">      std::chrono::milliseconds(500),</span><br><span class="line">      std::bind(&amp;FibonacciActionClient::send_goal, this));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void send_goal()</span><br><span class="line">  &#123;</span><br><span class="line">    using namespace std::placeholders;</span><br><span class="line"></span><br><span class="line">    this-&gt;timer_-&gt;cancel();</span><br><span class="line"></span><br><span class="line">    if (!this-&gt;client_ptr_-&gt;wait_for_action_server()) &#123;</span><br><span class="line">      RCLCPP_ERROR(this-&gt;get_logger(), &quot;Action server not available after waiting&quot;);</span><br><span class="line">      rclcpp::shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    auto goal_msg &#x3D; Fibonacci::Goal();</span><br><span class="line">    goal_msg.order &#x3D; 10;</span><br><span class="line"></span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Sending goal&quot;);</span><br><span class="line"></span><br><span class="line">    auto send_goal_options &#x3D; rclcpp_action::Client&lt;Fibonacci&gt;::SendGoalOptions();</span><br><span class="line">    send_goal_options.goal_response_callback &#x3D;</span><br><span class="line">      std::bind(&amp;FibonacciActionClient::goal_response_callback, this, _1);</span><br><span class="line">    send_goal_options.feedback_callback &#x3D;</span><br><span class="line">      std::bind(&amp;FibonacciActionClient::feedback_callback, this, _1, _2);</span><br><span class="line">    send_goal_options.result_callback &#x3D;</span><br><span class="line">      std::bind(&amp;FibonacciActionClient::result_callback, this, _1);</span><br><span class="line">    this-&gt;client_ptr_-&gt;async_send_goal(goal_msg, send_goal_options);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  rclcpp_action::Client&lt;Fibonacci&gt;::SharedPtr client_ptr_;</span><br><span class="line">  rclcpp::TimerBase::SharedPtr timer_;</span><br><span class="line"></span><br><span class="line">  void goal_response_callback(std::shared_future&lt;GoalHandleFibonacci::SharedPtr&gt; future)</span><br><span class="line">  &#123;</span><br><span class="line">    auto goal_handle &#x3D; future.get();</span><br><span class="line">    if (!goal_handle) &#123;</span><br><span class="line">      RCLCPP_ERROR(this-&gt;get_logger(), &quot;Goal was rejected by server&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      RCLCPP_INFO(this-&gt;get_logger(), &quot;Goal accepted by server, waiting for result&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void feedback_callback(</span><br><span class="line">    GoalHandleFibonacci::SharedPtr,</span><br><span class="line">    const std::shared_ptr&lt;const Fibonacci::Feedback&gt; feedback)</span><br><span class="line">  &#123;</span><br><span class="line">    std::stringstream ss;</span><br><span class="line">    ss &lt;&lt; &quot;Next number in sequence received: &quot;;</span><br><span class="line">    for (auto number : feedback-&gt;partial_sequence) &#123;</span><br><span class="line">      ss &lt;&lt; number &lt;&lt; &quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), ss.str().c_str());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void result_callback(const GoalHandleFibonacci::WrappedResult &amp; result)</span><br><span class="line">  &#123;</span><br><span class="line">    switch (result.code) &#123;</span><br><span class="line">      case rclcpp_action::ResultCode::SUCCEEDED:</span><br><span class="line">        break;</span><br><span class="line">      case rclcpp_action::ResultCode::ABORTED:</span><br><span class="line">        RCLCPP_ERROR(this-&gt;get_logger(), &quot;Goal was aborted&quot;);</span><br><span class="line">        return;</span><br><span class="line">      case rclcpp_action::ResultCode::CANCELED:</span><br><span class="line">        RCLCPP_ERROR(this-&gt;get_logger(), &quot;Goal was canceled&quot;);</span><br><span class="line">        return;</span><br><span class="line">      default:</span><br><span class="line">        RCLCPP_ERROR(this-&gt;get_logger(), &quot;Unknown result code&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    std::stringstream ss;</span><br><span class="line">    ss &lt;&lt; &quot;Result received: &quot;;</span><br><span class="line">    for (auto number : result.result-&gt;sequence) &#123;</span><br><span class="line">      ss &lt;&lt; number &lt;&lt; &quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), ss.str().c_str());</span><br><span class="line">    rclcpp::shutdown();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;  &#x2F;&#x2F; class FibonacciActionClient</span><br><span class="line"></span><br><span class="line">&#125;  &#x2F;&#x2F; namespace action_tutorials_cpp</span><br><span class="line"></span><br><span class="line">RCLCPP_COMPONENTS_REGISTER_NODE(action_tutorials_cpp::FibonacciActionClient)</span><br></pre></td></tr></table></figure>
+
+<p>修改CMakeList.txt，继续加入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">add_library(action_client SHARED</span><br><span class="line">  src&#x2F;fibonacci_action_client.cpp)</span><br><span class="line">target_include_directories(action_client PRIVATE</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&gt;)</span><br><span class="line">target_compile_definitions(action_client</span><br><span class="line">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span><br><span class="line">ament_target_dependencies(action_client</span><br><span class="line">  &quot;action_tutorials_interfaces&quot;</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;rclcpp_action&quot;</span><br><span class="line">  &quot;rclcpp_components&quot;)</span><br><span class="line">rclcpp_components_register_node(action_client PLUGIN &quot;action_tutorials_cpp::FibonacciActionClient&quot; EXECUTABLE fibonacci_action_client)</span><br><span class="line">install(TARGETS</span><br><span class="line">  action_client</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin)</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select action_tutorials_cpp</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run action_tutorials_cpp fibonacci_action_client</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/image-20210823161725373.png" alt="image-20210823161725373"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/image-20210823161801400.png" alt="image-20210823161801400"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/08/23/基于ROS2设计action之补充一：visibility-control/" data-toggle="tooltip" data-placement="top" title="基于ROS2设计action之补充一：visibility control">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/08/20/Ubuntu20-04-Hexo-Github博客搭建方法/" data-toggle="tooltip" data-placement="top" title="Ubuntu20.04+Hexo+Github博客搭建方法">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ROS2, action, C++" title="ROS2, action, C++">ROS2, action, C++</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/08/23/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

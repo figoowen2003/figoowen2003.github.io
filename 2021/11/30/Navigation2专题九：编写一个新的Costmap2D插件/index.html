@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题九：编写一个新的Costmap2D插件 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/11/30/Navigation2专题九：编写一个新的Costmap2D插件/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题九：编写一个新的Costmap2D插件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-11-30
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><p>已经安装或编译了ROS2，Gazebo以及Turtlebot3三个功能包。确定Navigation2也在本地进行了编译，可以参考<a target="_blank" rel="noopener" href="https://navigation.ros.org/build_instructions/index.html#build-instructions%E3%80%82">https://navigation.ros.org/build_instructions/index.html#build-instructions。</a></p>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="1-编写Costmap2D插件"><a href="#1-编写Costmap2D插件" class="headerlink" title="1. 编写Costmap2D插件"></a>1. 编写Costmap2D插件</h2><p>作为演示，我们将创建一个costmap插件，这个插件会将重复的代价梯度放到costmap中。代码实例参考navigation2_tutorials仓库的nav2_gradient_costmap_plugin功能包<a target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2_tutorials/tree/master/nav2_gradient_costmap_plugin%E3%80%82%E5%BD%93%E7%84%B6%E5%A6%82%E6%9E%9C%E6%83%B3%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84Costmap2D%E5%9B%BE%E5%B1%82%E6%8F%92%E4%BB%B6%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%8F%82%E8%80%83%E8%AF%A5%E4%BB%A3%E7%A0%81%E3%80%82">https://github.com/ros-planning/navigation2_tutorials/tree/master/nav2_gradient_costmap_plugin。当然如果想创建自己的Costmap2D图层插件，也可以参考该代码。</a></p>
+<ul>
+<li><p>代码结构如下</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/image-20211130150315694.png" alt="image-20211130150315694"></p>
+</li>
+<li><p>头文件gradient_layer.hpp解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">#ifndef GRADIENT_LAYER_HPP_</span><br><span class="line">#define GRADIENT_LAYER_HPP_</span><br><span class="line"></span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;nav2_costmap_2d&#x2F;layer.hpp&quot;</span><br><span class="line">#include &quot;nav2_costmap_2d&#x2F;layered_costmap.hpp&quot;</span><br><span class="line"></span><br><span class="line">namespace nav2_gradient_costmap_plugin</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">class GradientLayer : public nav2_costmap_2d::Layer</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  GradientLayer();</span><br><span class="line"></span><br><span class="line">  virtual void onInitialize();</span><br><span class="line">  virtual void updateBounds(</span><br><span class="line">    double robot_x, double robot_y, double robot_yaw, double * min_x,</span><br><span class="line">    double * min_y,</span><br><span class="line">    double * max_x,</span><br><span class="line">    double * max_y);</span><br><span class="line">  virtual void updateCosts(</span><br><span class="line">    nav2_costmap_2d::Costmap2D &amp; master_grid,</span><br><span class="line">    int min_i, int min_j, int max_i, int max_j);</span><br><span class="line"></span><br><span class="line">  virtual void reset()</span><br><span class="line">  &#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  virtual void onFootprintChanged();</span><br><span class="line"></span><br><span class="line">  virtual bool isClearable() &#123;return false;&#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  double last_min_x_, last_min_y_, last_max_x_, last_max_y_;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Indicates that the entire gradient should be recalculated next time.</span><br><span class="line">  bool need_recalculation_;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Size of gradient in cells</span><br><span class="line">  int GRADIENT_SIZE &#x3D; 20;</span><br><span class="line">  &#x2F;&#x2F; Step of increasing cost per one cell in gradient</span><br><span class="line">  int GRADIENT_FACTOR &#x3D; 10;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;  &#x2F;&#x2F; namespace nav2_gradient_costmap_plugin</span><br><span class="line"></span><br><span class="line">#endif  &#x2F;&#x2F; GRADIENT_LAYER_HPP_</span><br></pre></td></tr></table></figure>
+
+<p>插件类nav2_gradient_costmap_plugin::GradientLayer继承自基类nav2_costmap_2d::Layer。</p>
+<p>基类提供了一组虚函数，用于在插件中处理代价地图的图层。这些方法在运行时由LayeredCostmap调用</p>
+<table>
+<thead>
+<tr>
+<th><strong>虚拟方法</strong></th>
+<th><strong>方法说明</strong></th>
+<th><strong>需要覆盖吗？</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onInitialize()</td>
+<td>该方法在插件初始化结束时调用。通常在这个方法中声明 ROS 。任何所需的初始化流程都应该在该方法中完成。</td>
+<td>不</td>
+</tr>
+<tr>
+<td>updateBounds()</td>
+<td>调用这个方法会询问插件：需要更新costmap图层的哪个区域。方法有 3 个输入参数：机器人位置和方向；4 个输出参数：指向窗口边界的指针。这些边界用于提升代码性能：只更新窗口内有新的可用信息的区域，避免在每次迭代时更新整个Costmap。</td>
+<td>是的</td>
+</tr>
+<tr>
+<td>updateCosts()</td>
+<td>每次需要重新计算costmap时都会调用该方法。它只更新其边界窗口内的成本图层。方法有 4 个输入参数：需要计算的窗口边界； 1 个输出参数：master_grid，表示对resulting costmap的引用。<code>Layer</code>类为本插件提供了一个内部的costmap用于完成更新，名为costmap_。如果要利用窗口边界的值对master_grid进行更新，需要使用下面四个方法中的一个：<code>updateWithAddition()</code>， <code>updateWithMax()</code>，<code>updateWithOverwrite()</code>或 <code>updateWithTrueOverwrite()</code>。</td>
+<td>是的</td>
+</tr>
+<tr>
+<td>matchSize()</td>
+<td>每次更改地图大小时都会调用方法。</td>
+<td>不</td>
+</tr>
+<tr>
+<td>onFootprintChanged()</td>
+<td>每次更改足迹时都会调用方法。</td>
+<td>不</td>
+</tr>
+<tr>
+<td>reset()</td>
+<td>它可能有任何代码要在成本地图重置期间执行。</td>
+<td>是的</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>源文件gradient_layer.cpp解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;nav2_gradient_costmap_plugin&#x2F;gradient_layer.hpp&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;nav2_costmap_2d&#x2F;costmap_math.hpp&quot;</span><br><span class="line">#include &quot;nav2_costmap_2d&#x2F;footprint.hpp&quot;</span><br><span class="line">#include &quot;rclcpp&#x2F;parameter_events_filter.hpp&quot;</span><br><span class="line"></span><br><span class="line">using nav2_costmap_2d::LETHAL_OBSTACLE;</span><br><span class="line">using nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE;</span><br><span class="line">using nav2_costmap_2d::NO_INFORMATION;</span><br><span class="line"></span><br><span class="line">namespace nav2_gradient_costmap_plugin</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">GradientLayer::GradientLayer()</span><br><span class="line">: last_min_x_(-std::numeric_limits&lt;float&gt;::max()),</span><br><span class="line">  last_min_y_(-std::numeric_limits&lt;float&gt;::max()),</span><br><span class="line">  last_max_x_(std::numeric_limits&lt;float&gt;::max()),</span><br><span class="line">  last_max_y_(std::numeric_limits&lt;float&gt;::max())</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This method is called at the end of plugin initialization.</span><br><span class="line">&#x2F;&#x2F; It contains ROS parameter(s) declaration and initialization</span><br><span class="line">&#x2F;&#x2F; of need_recalculation_ variable.</span><br><span class="line">void</span><br><span class="line">GradientLayer::onInitialize()</span><br><span class="line">&#123;</span><br><span class="line">  auto node &#x3D; node_.lock(); </span><br><span class="line">  declareParameter(&quot;enabled&quot;, rclcpp::ParameterValue(true));</span><br><span class="line">  node-&gt;get_parameter(name_ + &quot;.&quot; + &quot;enabled&quot;, enabled_);</span><br><span class="line"></span><br><span class="line">  need_recalculation_ &#x3D; false;</span><br><span class="line">  current_ &#x3D; true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The method is called to ask the plugin: which area of costmap it needs to update.</span><br><span class="line">&#x2F;&#x2F; Inside this method window bounds are re-calculated if need_recalculation_ is true</span><br><span class="line">&#x2F;&#x2F; and updated independently on its value.</span><br><span class="line">void</span><br><span class="line">GradientLayer::updateBounds(</span><br><span class="line">  double &#x2F;*robot_x*&#x2F;, double &#x2F;*robot_y*&#x2F;, double &#x2F;*robot_yaw*&#x2F;, double * min_x,</span><br><span class="line">  double * min_y, double * max_x, double * max_y)</span><br><span class="line">&#123;</span><br><span class="line">  if (need_recalculation_) &#123;</span><br><span class="line">    last_min_x_ &#x3D; *min_x;</span><br><span class="line">    last_min_y_ &#x3D; *min_y;</span><br><span class="line">    last_max_x_ &#x3D; *max_x;</span><br><span class="line">    last_max_y_ &#x3D; *max_y;</span><br><span class="line">    &#x2F;&#x2F; For some reason when I make these -&lt;double&gt;::max() it does not</span><br><span class="line">    &#x2F;&#x2F; work with Costmap2D::worldToMapEnforceBounds(), so I&#39;m using</span><br><span class="line">    &#x2F;&#x2F; -&lt;float&gt;::max() instead.</span><br><span class="line">    *min_x &#x3D; -std::numeric_limits&lt;float&gt;::max();</span><br><span class="line">    *min_y &#x3D; -std::numeric_limits&lt;float&gt;::max();</span><br><span class="line">    *max_x &#x3D; std::numeric_limits&lt;float&gt;::max();</span><br><span class="line">    *max_y &#x3D; std::numeric_limits&lt;float&gt;::max();</span><br><span class="line">    need_recalculation_ &#x3D; false;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    double tmp_min_x &#x3D; last_min_x_;</span><br><span class="line">    double tmp_min_y &#x3D; last_min_y_;</span><br><span class="line">    double tmp_max_x &#x3D; last_max_x_;</span><br><span class="line">    double tmp_max_y &#x3D; last_max_y_;</span><br><span class="line">    last_min_x_ &#x3D; *min_x;</span><br><span class="line">    last_min_y_ &#x3D; *min_y;</span><br><span class="line">    last_max_x_ &#x3D; *max_x;</span><br><span class="line">    last_max_y_ &#x3D; *max_y;</span><br><span class="line">    *min_x &#x3D; std::min(tmp_min_x, *min_x);</span><br><span class="line">    *min_y &#x3D; std::min(tmp_min_y, *min_y);</span><br><span class="line">    *max_x &#x3D; std::max(tmp_max_x, *max_x);</span><br><span class="line">    *max_y &#x3D; std::max(tmp_max_y, *max_y);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The method is called when footprint was changed.</span><br><span class="line">&#x2F;&#x2F; Here it just resets need_recalculation_ variable.</span><br><span class="line">void</span><br><span class="line">GradientLayer::onFootprintChanged()</span><br><span class="line">&#123;</span><br><span class="line">  need_recalculation_ &#x3D; true;</span><br><span class="line"></span><br><span class="line">  RCLCPP_DEBUG(rclcpp::get_logger(</span><br><span class="line">      &quot;nav2_costmap_2d&quot;), &quot;GradientLayer::onFootprintChanged(): num footprint points: %lu&quot;,</span><br><span class="line">    layered_costmap_-&gt;getFootprint().size());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The method is called when costmap recalculation is required.</span><br><span class="line">&#x2F;&#x2F; It updates the costmap within its window bounds.</span><br><span class="line">&#x2F;&#x2F; Inside this method the costmap gradient is generated and is writing directly</span><br><span class="line">&#x2F;&#x2F; to the resulting costmap master_grid without any merging with previous layers.</span><br><span class="line">void</span><br><span class="line">GradientLayer::updateCosts(</span><br><span class="line">  nav2_costmap_2d::Costmap2D &amp; master_grid, int min_i, int min_j,</span><br><span class="line">  int max_i,</span><br><span class="line">  int max_j)</span><br><span class="line">&#123;</span><br><span class="line">  if (!enabled_) &#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; master_array - is a direct pointer to the resulting master_grid.</span><br><span class="line">  &#x2F;&#x2F; master_grid - is a resulting costmap combined from all layers.</span><br><span class="line">  &#x2F;&#x2F; By using this pointer all layers will be overwritten!</span><br><span class="line">  &#x2F;&#x2F; To work with costmap layer and merge it with other costmap layers,</span><br><span class="line">  &#x2F;&#x2F; please use costmap_ pointer instead (this is pointer to current</span><br><span class="line">  &#x2F;&#x2F; costmap layer grid) and then call one of updates methods:</span><br><span class="line">  &#x2F;&#x2F; - updateWithAddition()</span><br><span class="line">  &#x2F;&#x2F; - updateWithMax()</span><br><span class="line">  &#x2F;&#x2F; - updateWithOverwrite()</span><br><span class="line">  &#x2F;&#x2F; - updateWithTrueOverwrite()</span><br><span class="line">  &#x2F;&#x2F; In this case using master_array pointer is equal to modifying local costmap_</span><br><span class="line">  &#x2F;&#x2F; pointer and then calling updateWithTrueOverwrite():</span><br><span class="line">  unsigned char * master_array &#x3D; master_grid.getCharMap();</span><br><span class="line">  unsigned int size_x &#x3D; master_grid.getSizeInCellsX(), size_y &#x3D; master_grid.getSizeInCellsY();</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; &#123;min_i, min_j&#125; - &#123;max_i, max_j&#125; - are update-window coordinates.</span><br><span class="line">  &#x2F;&#x2F; These variables are used to update the costmap only within this window</span><br><span class="line">  &#x2F;&#x2F; avoiding the updates of whole area.</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">  &#x2F;&#x2F; Fixing window coordinates with map size if necessary.</span><br><span class="line">  min_i &#x3D; std::max(0, min_i);</span><br><span class="line">  min_j &#x3D; std::max(0, min_j);</span><br><span class="line">  max_i &#x3D; std::min(static_cast&lt;int&gt;(size_x), max_i);</span><br><span class="line">  max_j &#x3D; std::min(static_cast&lt;int&gt;(size_y), max_j);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Simply computing one-by-one cost per each cell</span><br><span class="line">  int gradient_index;</span><br><span class="line">  for (int j &#x3D; min_j; j &lt; max_j; j++) &#123;</span><br><span class="line">    &#x2F;&#x2F; Reset gradient_index each time when reaching the end of re-calculated window</span><br><span class="line">    &#x2F;&#x2F; by OY axis.</span><br><span class="line">    gradient_index &#x3D; 0;</span><br><span class="line">    for (int i &#x3D; min_i; i &lt; max_i; i++) &#123;</span><br><span class="line">      int index &#x3D; master_grid.getIndex(i, j);</span><br><span class="line">      &#x2F;&#x2F; setting the gradient cost</span><br><span class="line">      unsigned char cost &#x3D; (LETHAL_OBSTACLE - gradient_index*GRADIENT_FACTOR)%255;</span><br><span class="line">      if (gradient_index &lt;&#x3D; GRADIENT_SIZE) &#123;</span><br><span class="line">        gradient_index++;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        gradient_index &#x3D; 0;</span><br><span class="line">      &#125;</span><br><span class="line">      master_array[index] &#x3D; cost;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;  &#x2F;&#x2F; namespace nav2_gradient_costmap_plugin</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This is the macro allowing a nav2_gradient_costmap_plugin::GradientLayer class</span><br><span class="line">&#x2F;&#x2F; to be registered in order to be dynamically loadable of base type nav2_costmap_2d::Layer.</span><br><span class="line">&#x2F;&#x2F; Usually places in the end of cpp-file where the loadable class written.</span><br><span class="line">#include &quot;pluginlib&#x2F;class_list_macros.hpp&quot;</span><br><span class="line">PLUGINLIB_EXPORT_CLASS(nav2_gradient_costmap_plugin::GradientLayer, nav2_costmap_2d::Layer)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>GradientLayer::onInitialize()包含了ROS参数的声明，并提供了默认值</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">declareParameter(&quot;enabled&quot;, rclcpp::ParameterValue(true));</span><br><span class="line">node_-&gt;get_parameter(name_ + &quot;.&quot; + &quot;enabled&quot;, enabled_);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>同时还设置了need_recalculation_这个边界重计算因子</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">need_recalculation_ &#x3D; false;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>如果need_recalculation_为true，则GradientLayer::updateBounds()方法会重新计算窗口边界并更新它们</li>
+<li>在GradientLayer::updateCosts()方法中，梯度直接写入master_grid而不与之前的图层合并。这等同于使用内部的 Layer类提供的内部costmap_，然后调用updateWithTrueOverwrite()方法。下面是主成本地图的梯度算法：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">int gradient_index;</span><br><span class="line">for (int j &#x3D; min_j; j &lt; max_j; j++) &#123;</span><br><span class="line">  &#x2F;&#x2F; Reset gradient_index each time when reaching the end of re-calculated window</span><br><span class="line">  &#x2F;&#x2F; by OY axis.</span><br><span class="line">  gradient_index &#x3D; 0;</span><br><span class="line">  for (int i &#x3D; min_i; i &lt; max_i; i++) &#123;</span><br><span class="line">    int index &#x3D; master_grid.getIndex(i, j);</span><br><span class="line">    &#x2F;&#x2F; setting the gradient cost</span><br><span class="line">    unsigned char cost &#x3D; (LETHAL_OBSTACLE - gradient_index*GRADIENT_FACTOR)%255;</span><br><span class="line">    if (gradient_index &lt;&#x3D; GRADIENT_SIZE) &#123;</span><br><span class="line">      gradient_index++;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      gradient_index &#x3D; 0;</span><br><span class="line">    &#125;</span><br><span class="line">    master_array[index] &#x3D; cost;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    其中：GRADIENT_SIZE是以地图单元格个数表示的每个梯度周期的大小，而GRADIENT_FACTOR表示每一步成本地图值的递减量，如下图所示：</p>
+</li>
+</ul>
+<p>​        <img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/gradient_explanation.png" alt="../../_images/gradient_explanation.png"></p>
+<pre><code>        5. GradientLayer::onFootprintChanged()方法只是重置 need_recalculation_值。
+        5. GradientLayer::reset()方法是虚假的，在本示例插件中没有使用它。该方法保留在这里，是因为需要覆盖父类Layer中的纯虚函数reset()。
+</code></pre>
+<h2 id="2-导出并制作GradientLayer插件"><a href="#2-导出并制作GradientLayer插件" class="headerlink" title="2. 导出并制作GradientLayer插件"></a>2. 导出并制作GradientLayer插件</h2><p>nav2_gradient_costmap_plugin::GradientLayer插件类会被动态加载为nav2_costmap_2d::Layer基类，由LayeredCostmap调用。（C++多态性质）</p>
+<ol>
+<li><p>插件类应该被需要加载的类以插件类基类的形式进行注册，为此，我们使用一个特殊的宏PLUGINLIB_EXPORT_CLASS添加到组成插件库的任何源代码文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;pluginlib&#x2F;class_list_macros.hpp&quot;</span><br><span class="line">PLUGINLIB_EXPORT_CLASS(nav2_gradient_costmap_plugin::GradientLayer, nav2_costmap_2d::Layer)</span><br></pre></td></tr></table></figure>
+
+<p>通常这个宏会被放在cpp代码的末尾，当然也可以放在开头</p>
+</li>
+<li><p>编写插件信息描述文件，此处为gradient_plugins.xml，为xml文件，需要包含以下内容</p>
+<p>·path：插件所在库的路径和名称。</p>
+<p>·name：在plugin_types参数中引用的插件类型（有关详细信息，请参阅下一节）。可以是你想要的任何类型。</p>
+<p>·type：具有命名空间的插件类，该命名空间取自源代码。</p>
+<p>·basic_class_type：派生插件类的基本父类。</p>
+<p>·description：文本形式的插件描述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;library path&#x3D;&quot;nav2_gradient_costmap_plugin_core&quot;&gt;</span><br><span class="line">  &lt;class name&#x3D;&quot;nav2_gradient_costmap_plugin&#x2F;GradientLayer&quot; type&#x3D;&quot;nav2_gradient_costmap_plugin::GradientLayer&quot; base_class_type&#x3D;&quot;nav2_costmap_2d::Layer&quot;&gt;</span><br><span class="line">    &lt;description&gt;This is an example plugin which puts repeating costs gradients to costmap&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;&#x2F;class&gt;</span><br><span class="line">&lt;&#x2F;library&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>修改CMakeList.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;export&gt;</span><br><span class="line">  &lt;costmap_2d plugin&#x3D;&quot;$&#123;prefix&#125;&#x2F;gradient_layer.xml&quot; &#x2F;&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;&#x2F;export&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过pluginlib_export_plugin_description_file()这个cmake-function将描述文件包含到CMakeLists.txt中。这个函数会将插件描述文件安装到share目录中，并为插件描述XML设置ament索引以保证该类型的插件可被发现</p>
+</li>
+<li><p>修改package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;export&gt;</span><br><span class="line">  &lt;costmap_2d plugin&#x3D;&quot;$&#123;prefix&#125;&#x2F;gradient_layer.xml&quot; &#x2F;&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;&#x2F;export&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>最后编译</p>
+<p>最终的文件结构为</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/image-20211130160104486.png" alt="image-20211130160104486"></p>
+</li>
+</ol>
+<p>​        编译命令colcon build –packages-select nav2_gradient_costmap_plugin –symlink-install</p>
+<h2 id="3-在Costmap2D中启用插件"><a href="#3-在Costmap2D中启用插件" class="headerlink" title="3. 在Costmap2D中启用插件"></a>3. 在Costmap2D中启用插件</h2><ol>
+<li><p>将插件告知Costmap2D。</p>
+<p>应将该插件添加到 nav2_params.yaml文件的plugin_names和plugin_types列表中，可以选择放在local_costmap或global_costmap中，以便在运行时为控制器/规划器服务器启用该插件。plugin_names列表包含插件对象的名称，这些名称可以是您想要的任何名称。plugin_types包含plugin_names对象中列出的类型。这些类型应该对应于插件描述XML文件中指定的插件类的name字段。</p>
+</li>
+</ol>
+<p>​        <strong>对于Galactic或更高版本，plugin_names和plugin_types已替换为插件名称的单个plugins字符串        向量。这些类型现在是在 plugin:字段的plugin_name命名空间中定义的如plugin:Myplugin:plugin</strong></p>
+<p>​        <img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/image-20211130160737294.png" alt="image-20211130160737294">        可能会同时加载多个同一种类型的插件对象。为此， plugin_names列表应包含不同的插件名称，无论plugin_types是否保持相同的类型。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugin_names: [&quot;obstacle_layer&quot;, &quot;gradient_layer_1&quot;, &quot;gradient_layer_2&quot;] # For Eloquent and earlier</span><br><span class="line">plugin_types: [&quot;nav2_costmap_2d::ObstacleLayer&quot;, &quot;nav2_gradient_costmap_plugin&#x2F;GradientLayer&quot;, &quot;nav2_gradient_costmap_plugin&#x2F;GradientLayer&quot;] # For Eloquent and earlier</span><br><span class="line">plugins: [&quot;obstacle_layer&quot;, &quot;gradient_layer_1&quot;, &quot;gradient_layer_2&quot;] # For Foxy and later</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，会通过YAML文件中各个插件对象自己的参数树来处理，如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gradient_layer_1:</span><br><span class="line">  plugin: nav2_gradient_costmap_plugin&#x2F;GradientLayer # For Foxy and later</span><br><span class="line">  enabled: True</span><br><span class="line">  ...</span><br><span class="line">gradient_layer_2:</span><br><span class="line">  plugin: nav2_gradient_costmap_plugin&#x2F;GradientLayer # For Foxy and later</span><br><span class="line">  enabled: False</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-运行GradientLayer-plugin"><a href="#4-运行GradientLayer-plugin" class="headerlink" title="4. 运行GradientLayer plugin"></a>4. 运行GradientLayer plugin</h2><p>运行带有已启动Nav2的Turtlebot3的仿真</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch nav2_bringup tb3_simulation_launch.py</span><br></pre></td></tr></table></figure>
+
+<p>然后进入到RViz中并单击顶部的“2D Pose Estimate”按钮，并按照“<a href="https://link.zhihu.com/?target=https://navigation.ros.org/getting_started/index.html%23getting-started">开始使用Nav2</a>”教程所介绍的那样在地图上点击机器人的初始位置。机器人将会在地图上定位，且结果应该如下图所示。这样可以会看到梯度代价地图。还有两个可以注意的事情：代价地图的边界由GradientLayer::updateCosts()动态更新；全局路径由梯度弯曲</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/gradient_layer_run.png" alt="Image of gradient costmap used"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/12/01/Navigation2专题十：编写一个新的规划器插件/" data-toggle="tooltip" data-placement="top" title="Navigation2专题十：编写一个新的规划器插件">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/11/29/OpenSSF专题之序：OpenSSF/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题之序：OpenSSF">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/11/30/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%EF%BC%9A%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Costmap2D%E6%8F%92%E4%BB%B6/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题七：设置导航插件 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/11/11/Navigation2专题七：设置导航插件/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题七：设置导航插件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-11-11
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="规划器与控制器服务器（Planner-and-Controller-Servers）"><a href="#规划器与控制器服务器（Planner-and-Controller-Servers）" class="headerlink" title="规划器与控制器服务器（Planner and Controller Servers）"></a>规划器与控制器服务器（Planner and Controller Servers）</h1><ul>
+<li>Nav2中实现导航算法的三大插件服务器：规划器、控制器和恢复服务器，它们都是运行在ROS的action服务器。</li>
+<li>本文中的规划器服务器与控制器服务器是导航的核心，它们可以实现一个或多个算法插件，每个插件都拥有为特定的动作或者机器人状态量身定制的配置。</li>
+<li>当然除了这两个服务器，其他服务器如恢复器、平滑器等等由于都不是基于硬件或者环境，而是基于应用来提供一般性的服务建议。</li>
+<li>规划器服务器负责实现计算机器人路径的算法。比如，一个插件被配置为计算两个相关位置的最短距离，另一个插件则是计算可以覆盖机器人所在环境的全部路径。</li>
+<li>控制器服务器负责生成机器人在本地环境中完成任务所需要的适当的控制工作。这些任务包括但不限于：跟随一条有规划器服务器产生的路径，沿着这条路径躲避动态障碍物，甚至是去扩展坞充电。</li>
+<li>总而言之，规划器与控制器服务器就是一张由一个或多个插件构成的图集，其中每个插件都会适用于对应的环境、场景或任务。</li>
+</ul>
+<h1 id="如何选择算法插件"><a href="#如何选择算法插件" class="headerlink" title="如何选择算法插件"></a>如何选择算法插件</h1><h2 id="规划器服务器（Planner-Server）"><a href="#规划器服务器（Planner-Server）" class="headerlink" title="规划器服务器（Planner Server）"></a>规划器服务器（Planner Server）</h2><ul>
+<li><p>规划器服务器的算法插件使用由不同传感器捕获的环境信息来查找机器人的路径。一部分算法通过搜索环境网格空间来运行，另一部分则是在考虑路径可行性的同时去扩展机器人的可能状态。</p>
+<ul>
+<li><p>NavFn Planner使用Dijkstra或者A*方法的导航功能规划器</p>
+<p>不能保证在狭小空间中为非圆形的机器人规划可行路径，因为它使用机器人的圆形足迹（通过近似机器人的最大横截面半径）和每个代价地图网格单元的碰撞检测。此外，它不适合于ackermann和足型机器人，因为它们有转向约束。它最适用于可以向任何方向形式或者安全旋转的机器人，如圆形差速器和圆形全向机器人。</p>
+</li>
+<li><p>Smac 2D Planner使用4或8个连通的领域和更平滑的多分辨率查询来实现2D A*算法</p>
+<p>支持任意形状的ackermann和足型机器人。也可以用于需要小心地导航以避免在高速下翻到、大黄或者倾倒负载的高速机器人。</p>
+</li>
+<li><p>Theta Star Planner使用任一视线来创建非离散的定向的路径，以此实现Theta*算法</p>
+<p>它基于一个State Lattice planner。该插件扩展了机器人状态空间的同时，确保路径符合机器人的动力学约束。它提供了最小控制集，能以最小配置支持任何形状和尺寸的差速、全向和ackermann车辆。</p>
+<table>
+<thead>
+<tr>
+<th>Plugin Name</th>
+<th>Supported Robot Types</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NavFn Planner</td>
+<td>Circular Differential, Circular Omnidirectional</td>
+</tr>
+<tr>
+<td>Smac Planner 2D</td>
+<td></td>
+</tr>
+<tr>
+<td>Theta Star Planner</td>
+<td></td>
+</tr>
+<tr>
+<td>Smac Hybrid-A* Planner</td>
+<td>Non-circular or Circular Ackermann, Non-circular or Circular Legged</td>
+</tr>
+<tr>
+<td>Smac Lattice Planner</td>
+<td>Non-circular Differential, Non-circular Omnidirectional</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>配置示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">planner_server:</span><br><span class="line">  ros__parameters:</span><br><span class="line">    planner_plugins: [&#39;GridBased&#39;]</span><br><span class="line">    GridBased:</span><br><span class="line">      plugin: &#39;nav2_navfn_planner&#x2F;NavfnPlanner&#39;</span><br></pre></td></tr></table></figure>
+
+<p>planner_plugins参数为规划器插件名称列表，如GridBased，对于每个定义在planner_plugin列表中的插件，都需要在随后的plugin参数中指定对应加载的插件类型。</p>
+</li>
+</ul>
+<h2 id="控制器服务器"><a href="#控制器服务器" class="headerlink" title="控制器服务器"></a>控制器服务器</h2><ul>
+<li><p>默认的控制器插件为DWB controller。它利用可配置插件实现了一个修正后的动态窗口逼近算法（DWA）来计算机器人的控制指令。</p>
+<ul>
+<li><p>利用Trajectory Generator plugin生成可能轨迹的集合。</p>
+</li>
+<li><p>利用一个或多个Critic plugin评估之前的轨迹，每个plugin都将基于他们的配置方式给出不同的结果（分数）。</p>
+<p>这些评估结果的总和决定了一条轨迹的总分，得分最高的轨迹将决定输出的命令速度。</p>
+</li>
+</ul>
+</li>
+<li><p>不同控制器的使用范围</p>
+<ul>
+<li><p>DWB controller用于圆形或非圆形差速以及圆形或非圆形的全向机器人；如果给定了一个Trajectory Generation plugin，他能在考虑机器人最小曲率约束的条件下生成一个可能的轨迹集合，那么DWB也可以用于配置ackermann和足式机器人。</p>
+</li>
+<li><p>TEB controller是MPC时间最优的控制器。它使用Timed Elastic Band(TEB) approach算法，基于机器人执行指令的时间，与障碍物的距离以及机器人动力学约束的可行性来优化机器人的轨迹。它可用于差速、全向、ackermann和足式机器人。</p>
+</li>
+<li><p>RPP（Regulated Pure Pursuit controller）使用了一个纯追踪算法的变体并附加了规则启发式函数来管理碰撞和速度约束。这种变体是为了满足服务或工业机器人的需求而实施的，它适用于差速、ackermann和足式机器人。</p>
+<table>
+<thead>
+<tr>
+<th>Plugin Name</th>
+<th>Supported Robot Types</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DWB controller</td>
+<td>Differential, Omnidirectional</td>
+<td>Dynamic obstacle avoidance</td>
+</tr>
+<tr>
+<td>TEB Controller</td>
+<td>Differential, Omnidirectional, Ackermann, Legged</td>
+<td></td>
+</tr>
+<tr>
+<td>RPP controller</td>
+<td>Differential, Ackermann, Legged</td>
+<td>Exact path following</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>配置示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">planner_server:</span><br><span class="line">  ros__parameters:</span><br><span class="line">    controller_plugins: [&quot;FollowPath&quot;]</span><br><span class="line">    FollowPath:</span><br><span class="line">       plugin: &quot;dwb_core::DWBLocalPlanner&quot;</span><br></pre></td></tr></table></figure>
+
+<p>规划器服务器的示例配置如上所示。该<code>planner_plugins</code>参数接受映射的规划器插件名称列表。对于<code>planner_plugins</code>(<code>GridBased</code>在我们的示例中) 中定义的每个插件命名空间，我们在<code>plugin</code>参数中指定要加载的插件类型。然后必须根据要使用的算法在此命名空间中指定其他配置。详情请参阅<a target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/index.html">配置指南</a>。</p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/11/12/Navigation2专题八：相机校正/" data-toggle="tooltip" data-placement="top" title="Navigation2专题八：相机校正">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/11/11/Navigation2专题六：设置机器人的Footprint/" data-toggle="tooltip" data-placement="top" title="Navigation2专题六：设置机器人的Footprint">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/11/11/Navigation2%E4%B8%93%E9%A2%98%E4%B8%83%EF%BC%9A%E8%AE%BE%E7%BD%AE%E5%AF%BC%E8%88%AA%E6%8F%92%E4%BB%B6/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          使用ROS2在gazebo中孵化和控制机器人(C++版) - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/04/27/使用ROS2在gazebo中孵化和控制机器人-CPlusPlus版/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ros2, Gazebo, C++, Python, sdf, xml, cmake" title="ros2, Gazebo, C++, Python, sdf, xml, cmake">ros2, Gazebo, C++, Python, sdf, xml, cmake</a>
+                            
+                        </div>
+                        <h1>使用ROS2在gazebo中孵化和控制机器人(C++版)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-04-27
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="使用ROS2孵化world模型和机器人模型"><a href="#使用ROS2孵化world模型和机器人模型" class="headerlink" title="使用ROS2孵化world模型和机器人模型"></a>使用ROS2孵化world模型和机器人模型</h1><h2 id="创建spawner-孵化-功能包"><a href="#创建spawner-孵化-功能包" class="headerlink" title="创建spawner(孵化)功能包"></a>创建spawner(孵化)功能包</h2><ul>
+<li><p>打开一个新的terminal，新建workspace(以dev_ws为例)</p>
+<p><code>mkdir -p ~/dev_ws/src</code></p>
+<p><code>cd ~/dev_ws/src</code></p>
+</li>
+<li><p>创建名为cpp_warehouse_robot_spawner_pkg的功能包</p>
+<p><code>ros2 pkg create --build-type ament_cmake cpp_warehouse_robot_spawner_pkg</code></p>
+</li>
+</ul>
+<h2 id="package的初始设置"><a href="#package的初始设置" class="headerlink" title="package的初始设置"></a>package的初始设置</h2><ul>
+<li><p>查看功能包目录中的内容</p>
+<p><code>cd ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg</code></p>
+<p><code>dir</code></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/image-20210427194746059.png" alt="image-20210427194746059"></p>
+</li>
+<li><p>编辑package.xml文件，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;?xml-model href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot; schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line">&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line">  &lt;name&gt;cpp_warehouse_robot_spawner_pkg&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;description&gt;how to spawn a mobile robot in warehouse&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;maintainer email&#x3D;&quot;figoowen2003@126.com&quot;&gt;ubuntu-ros&lt;&#x2F;maintainer&gt;</span><br><span class="line">  &lt;license&gt;Apache License 2.0&lt;&#x2F;license&gt;</span><br><span class="line"></span><br><span class="line">  &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">  &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;export&gt;</span><br><span class="line">    &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;&#x2F;export&gt;</span><br><span class="line">&lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>编辑CmakeLists.txt文件，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.5)</span><br><span class="line">project(cpp_warehouse_robot_spawner_pkg)</span><br><span class="line"></span><br><span class="line"># Default to C99</span><br><span class="line">if(NOT CMAKE_C_STANDARD)</span><br><span class="line">  set(CMAKE_C_STANDARD 99)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># Default to C++17</span><br><span class="line">if(NOT CMAKE_CXX_STANDARD)</span><br><span class="line">  set(CMAKE_CXX_STANDARD 17)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line"># uncomment the following section in order to fill in</span><br><span class="line"># further dependencies manually.</span><br><span class="line"># find_package(&lt;dependency&gt; REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(gazebo_msgs REQUIRED)</span><br><span class="line">find_package(ament_index_cpp REQUIRED)</span><br><span class="line"></span><br><span class="line">add_executable(client src&#x2F;spawner_demo.cpp)</span><br><span class="line">ament_target_dependencies(client rclcpp gazebo_msgs ament_index_cpp)</span><br><span class="line"></span><br><span class="line">install(TARGETS client DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line">if(BUILD_TESTING)</span><br><span class="line">  find_package(ament_lint_auto REQUIRED)</span><br><span class="line">  # the following line skips the linter which checks for copyrights</span><br><span class="line">  # uncomment the line when a copyright and license is not present in all source files</span><br><span class="line">  #set(ament_cmake_copyright_FOUND TRUE)</span><br><span class="line">  # the following line skips cpplint (only works in a git repo)</span><br><span class="line">  # uncomment the line when this package is not in a git repo</span><br><span class="line">  #set(ament_cmake_cpplint_FOUND TRUE)</span><br><span class="line">  ament_lint_auto_find_test_dependencies()</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># Install launch files.</span><br><span class="line">install(DIRECTORY</span><br><span class="line">launch</span><br><span class="line">models</span><br><span class="line">worlds</span><br><span class="line">DESTINATION share&#x2F;$&#123;PROJECT_NAME&#125;&#x2F;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure></li>
+<li><p>从~/.gazebo/models/路径下拷贝机器人模型和仓库模型</p>
+<p><code>cd ~/.gazebo/models</code></p>
+<p><code>cp -r mobile_warehouse_robot ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/models</code></p>
+<p><code>cp -r small_warehouse ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/models</code></p>
+<p>同时拷贝下载的meshes文件</p>
+<p><code>cp -r hokuyo ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/models</code></p>
+<p><code>cp -r warehouse_robot ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/models</code></p>
+<p>检查以下所有的model都拷贝成功</p>
+<p><code>cd ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/models</code></p>
+<p><code>dir</code></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/image-20210427195901167.png" alt="image-20210427195901167"></p>
+</li>
+<li><p>创建后缀名为world的sdf文件</p>
+<p><code>mkdir ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/worlds</code></p>
+<p><code>cd ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/worlds</code></p>
+<p><code>gedit warehouse.world</code><br>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">&lt;sdf version&#x3D;&#39;1.4&#39;&gt;</span><br><span class="line">  &lt;world name&#x3D;&#39;default&#39;&gt;</span><br><span class="line">    &lt;light name&#x3D;&#39;sun&#39; type&#x3D;&#39;directional&#39;&gt;</span><br><span class="line">      &lt;cast_shadows&gt;1&lt;&#x2F;cast_shadows&gt;</span><br><span class="line">      &lt;pose&gt;0 0 10 0 -0 0&lt;&#x2F;pose&gt;</span><br><span class="line">      &lt;diffuse&gt;0.8 0.8 0.8 1&lt;&#x2F;diffuse&gt;</span><br><span class="line">      &lt;specular&gt;0.2 0.2 0.2 1&lt;&#x2F;specular&gt;</span><br><span class="line">      &lt;attenuation&gt;</span><br><span class="line">        &lt;range&gt;1000&lt;&#x2F;range&gt;</span><br><span class="line">        &lt;constant&gt;0.9&lt;&#x2F;constant&gt;</span><br><span class="line">        &lt;linear&gt;0.01&lt;&#x2F;linear&gt;</span><br><span class="line">        &lt;quadratic&gt;0.001&lt;&#x2F;quadratic&gt;</span><br><span class="line">      &lt;&#x2F;attenuation&gt;</span><br><span class="line">      &lt;direction&gt;0.5 0.1 -0.9&lt;&#x2F;direction&gt;</span><br><span class="line">    &lt;&#x2F;light&gt;</span><br><span class="line">        &lt;model name&#x3D;&#39;ground_plane&#39;&gt;</span><br><span class="line">      &lt;static&gt;1&lt;&#x2F;static&gt;</span><br><span class="line">      &lt;link name&#x3D;&#39;link&#39;&gt;</span><br><span class="line">        &lt;collision name&#x3D;&#39;collision&#39;&gt;</span><br><span class="line">          &lt;geometry&gt;</span><br><span class="line">            &lt;plane&gt;</span><br><span class="line">              &lt;normal&gt;0 0 1&lt;&#x2F;normal&gt;</span><br><span class="line">              &lt;size&gt;100 100&lt;&#x2F;size&gt;</span><br><span class="line">            &lt;&#x2F;plane&gt;</span><br><span class="line">          &lt;&#x2F;geometry&gt;</span><br><span class="line">          &lt;surface&gt;</span><br><span class="line">            &lt;friction&gt;</span><br><span class="line">              &lt;ode&gt;</span><br><span class="line">                &lt;mu&gt;100&lt;&#x2F;mu&gt;</span><br><span class="line">                &lt;mu2&gt;50&lt;&#x2F;mu2&gt;</span><br><span class="line">              &lt;&#x2F;ode&gt;</span><br><span class="line">            &lt;&#x2F;friction&gt;</span><br><span class="line">            &lt;bounce&#x2F;&gt;</span><br><span class="line">            &lt;contact&gt;</span><br><span class="line">              &lt;ode&#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;contact&gt;</span><br><span class="line">          &lt;&#x2F;surface&gt;</span><br><span class="line">          &lt;max_contacts&gt;10&lt;&#x2F;max_contacts&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;visual name&#x3D;&#39;visual&#39;&gt;</span><br><span class="line">          &lt;cast_shadows&gt;0&lt;&#x2F;cast_shadows&gt;</span><br><span class="line">          &lt;geometry&gt;</span><br><span class="line">            &lt;plane&gt;</span><br><span class="line">              &lt;normal&gt;0 0 1&lt;&#x2F;normal&gt;</span><br><span class="line">              &lt;size&gt;100 100&lt;&#x2F;size&gt;</span><br><span class="line">            &lt;&#x2F;plane&gt;</span><br><span class="line">          &lt;&#x2F;geometry&gt;</span><br><span class="line">          &lt;material&gt;</span><br><span class="line">            &lt;script&gt;</span><br><span class="line">              &lt;uri&gt;file:&#x2F;&#x2F;media&#x2F;materials&#x2F;scripts&#x2F;gazebo.material&lt;&#x2F;uri&gt;</span><br><span class="line">              &lt;name&gt;Gazebo&#x2F;Grey&lt;&#x2F;name&gt;</span><br><span class="line">            &lt;&#x2F;script&gt;</span><br><span class="line">          &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;velocity_decay&gt;</span><br><span class="line">          &lt;linear&gt;0&lt;&#x2F;linear&gt;</span><br><span class="line">          &lt;angular&gt;0&lt;&#x2F;angular&gt;</span><br><span class="line">        &lt;&#x2F;velocity_decay&gt;</span><br><span class="line">        &lt;self_collide&gt;0&lt;&#x2F;self_collide&gt;</span><br><span class="line">        &lt;kinematic&gt;0&lt;&#x2F;kinematic&gt;</span><br><span class="line">        &lt;gravity&gt;1&lt;&#x2F;gravity&gt;</span><br><span class="line">      &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;&#x2F;model&gt;</span><br><span class="line">    &lt;scene&gt;</span><br><span class="line">      &lt;ambient&gt;0.4 0.4 0.4 1&lt;&#x2F;ambient&gt;</span><br><span class="line">      &lt;background&gt;0.7 0.7 0.7 1&lt;&#x2F;background&gt;</span><br><span class="line">      &lt;shadows&gt;0&lt;&#x2F;shadows&gt;</span><br><span class="line">    &lt;&#x2F;scene&gt;</span><br><span class="line">    &lt;physics type&#x3D;&#39;ode&#39;&gt;</span><br><span class="line">      &lt;max_step_size&gt;0.01&lt;&#x2F;max_step_size&gt;</span><br><span class="line">      &lt;real_time_factor&gt;1&lt;&#x2F;real_time_factor&gt;</span><br><span class="line">      &lt;real_time_update_rate&gt;0&lt;&#x2F;real_time_update_rate&gt;</span><br><span class="line">      &lt;gravity&gt;0 0 -9.8&lt;&#x2F;gravity&gt;</span><br><span class="line">    &lt;&#x2F;physics&gt;</span><br><span class="line">    &lt;state world_name&#x3D;&#39;default&#39;&gt;</span><br><span class="line">      &lt;sim_time&gt;0 0&lt;&#x2F;sim_time&gt;</span><br><span class="line">      &lt;real_time&gt;0 44986&lt;&#x2F;real_time&gt;</span><br><span class="line">      &lt;wall_time&gt;1377677575 940727583&lt;&#x2F;wall_time&gt;</span><br><span class="line">    &lt;&#x2F;state&gt;</span><br><span class="line">    &lt;gui fullscreen&#x3D;&#39;0&#39;&gt;</span><br><span class="line">      &lt;camera name&#x3D;&#39;user_camera&#39;&gt;</span><br><span class="line">        &lt;pose&gt;2.6 -1.69 12.2 0 1.56 3.14&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;view_controller&gt;orbit&lt;&#x2F;view_controller&gt;</span><br><span class="line">      &lt;&#x2F;camera&gt;</span><br><span class="line">    &lt;&#x2F;gui&gt;</span><br><span class="line">    &lt;!-- A simple warehouse --&gt;</span><br><span class="line">    &lt;include&gt;</span><br><span class="line">      &lt;uri&gt;model:&#x2F;&#x2F;small_warehouse&lt;&#x2F;uri&gt;</span><br><span class="line">      &lt;pose&gt;2.4 -2.1 0 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">    &lt;&#x2F;include&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!-- mobile_warehouse_robot </span><br><span class="line">      &lt;include&gt;</span><br><span class="line">        &lt;pose&gt;0 0 0.33 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;uri&gt;model:&#x2F;&#x2F;mobile_warehouse_robot&lt;&#x2F;uri&gt;</span><br><span class="line">      &lt;&#x2F;include&gt;   --&gt;</span><br><span class="line">  &lt;&#x2F;world&gt;</span><br><span class="line">&lt;&#x2F;sdf&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="创建一个世界孵化器-spawner-的节点（Node）"><a href="#创建一个世界孵化器-spawner-的节点（Node）" class="headerlink" title="创建一个世界孵化器(spawner)的节点（Node）"></a>创建一个世界孵化器(spawner)的节点（Node）</h2><p><code>cd ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/src/</code></p>
+<p>新建名为spawn_demo.cpp的文件</p>
+<p><code>gedit spawn_demo.cpp</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">&#x2F;&#x2F; #include &lt;rclcpp&#x2F;executors.hpp&gt;</span><br><span class="line">#include &lt;gazebo_msgs&#x2F;srv&#x2F;spawn_entity.hpp&gt;</span><br><span class="line">#include &lt;ament_index_cpp&#x2F;get_package_share_directory.hpp&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;filesystem&gt;</span><br><span class="line">#include &lt;fstream&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;sstream&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">namespace fs &#x3D; std::filesystem;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">    &#x2F;&#x2F; Start node, forward command line arguments to ROS</span><br><span class="line">    rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Create spawn node</span><br><span class="line">    &#x2F;&#x2F; rclcpp::Node node &#x3D; rclcpp::Node(&quot;entity_spawner&quot;);</span><br><span class="line">    auto node &#x3D; rclcpp::Node::make_shared(&quot;entity_spawner&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Show progress in the terminal window</span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;Creating Service client to connect to &#39;&#x2F;spawn_entity&#39;&quot;);</span><br><span class="line">    &#x2F;&#x2F; Create SpawnEntity</span><br><span class="line">    &#x2F;&#x2F; rclcpp::Client&lt;gazebo_msgs::srv::SpawnEntity&gt;::SharedPtr client &#x3D; node-&gt;create_client&lt;gazebo_msgs::srv::SpawnEntity&gt;(&quot;&#x2F;spawn_entity&quot;);</span><br><span class="line">    auto client &#x3D; node-&gt;create_client&lt;gazebo_msgs::srv::SpawnEntity&gt;(&quot;&#x2F;spawn_entity&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Get the spawn_entity service</span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;Connecting to &#39;&#x2F;spawn_entity&#39; service...&quot;);</span><br><span class="line">    while (!client-&gt;wait_for_service(1s)) &#123;</span><br><span class="line">        if (!rclcpp::ok()) &#123;</span><br><span class="line">            RCLCPP_INFO(node-&gt;get_logger(), &quot;spawn client was interrupted while \</span><br><span class="line">                waiting for the service. Exiting.&quot;);</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        RCLCPP_INFO(node-&gt;get_logger(), &quot;Service not available, waiting again...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Get the file path for the robot model</span><br><span class="line">    &#x2F;&#x2F; may throw PackageNotFoundError exception</span><br><span class="line">    string package_share_directory &#x3D; ament_index_cpp::get_package_share_directory(&quot;warehouse_robot_spawner_pkg&quot;);</span><br><span class="line">    fs::path dir(package_share_directory);</span><br><span class="line">    fs::path sdfFilePath &#x3D; dir &#x2F; fs::path(&quot;models&quot;) &#x2F; fs::path(&quot;mobile_warehouse_robot&quot;) </span><br><span class="line">        &#x2F; fs::path(&quot;model.sdf&quot;);</span><br><span class="line">    cout &lt;&lt; &quot;robt_sdf &#x3D; &quot; &lt;&lt; sdfFilePath &lt;&lt; endl;</span><br><span class="line">    &#x2F;&#x2F; Get the content of robot sdf file</span><br><span class="line">    ifstream sdfFile(sdfFilePath);</span><br><span class="line">    string line;</span><br><span class="line">    stringstream buffer;</span><br><span class="line">    if (sdfFile.is_open()) &#123;       </span><br><span class="line">        buffer &lt;&lt; sdfFile.rdbuf();</span><br><span class="line">        &#x2F;&#x2F; cout &lt;&lt; &quot;buffer &#x3D; &quot; &lt;&lt; buffer.str() &lt;&lt; endl;          </span><br><span class="line">        sdfFile.close();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        cout &lt;&lt; &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; open sdf failed &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; &lt;&lt; endl;</span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Set data for request, argvs come from gazebo_world.launch.py</span><br><span class="line">    auto request &#x3D; std::make_shared&lt;gazebo_msgs::srv::SpawnEntity::Request&gt;();</span><br><span class="line">    request-&gt;name &#x3D; argv[1];</span><br><span class="line">    cout &lt;&lt; argv[1] &lt;&lt; endl;</span><br><span class="line">    request-&gt;xml &#x3D; string(buffer.str());</span><br><span class="line">    request-&gt;robot_namespace &#x3D; string(argv[2]); &#x2F;&#x2F; different from python </span><br><span class="line">    cout &lt;&lt; &quot;argc &#x3D; &quot; &lt;&lt; argc &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[0] &#x3D; &quot; &lt;&lt; argv[0] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[1] &#x3D; &quot; &lt;&lt; argv[1] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[2] &#x3D; &quot; &lt;&lt; argv[2] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[3] &#x3D; &quot; &lt;&lt; argv[3] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[4] &#x3D; &quot; &lt;&lt; argv[4] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[5] &#x3D; &quot; &lt;&lt; argv[5] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[6] &#x3D; &quot; &lt;&lt; argv[6] &lt;&lt; endl;</span><br><span class="line">    request-&gt;initial_pose.position.x &#x3D; atof(argv[3]);</span><br><span class="line">    request-&gt;initial_pose.position.y &#x3D; atof(argv[4]);</span><br><span class="line">    request-&gt;initial_pose.position.z &#x3D; atof(argv[5]) ;</span><br><span class="line"></span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;Sending service request to &#39;&#x2F;spawn_entity&#39;&quot;);</span><br><span class="line">    auto result &#x3D; client-&gt;async_send_request(request);</span><br><span class="line">    &#x2F;&#x2F; Wait for the result.</span><br><span class="line">    if (rclcpp::spin_until_future_complete(node, result) &#x3D;&#x3D;</span><br><span class="line">        rclcpp::FutureReturnCode::SUCCESS)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;response: OK&quot; &lt;&lt; endl;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        RCLCPP_ERROR(node-&gt;get_logger(), &quot;service call failed :(&quot;);</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; auto future_result &#x3D; client-&gt;async_send_request(request);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; &#x2F;&#x2F; Wait for the result.</span><br><span class="line">    &#x2F;&#x2F; if (rclcpp::spin_until_future_complete(node, future_result) &#x3D;&#x3D;</span><br><span class="line">    &#x2F;&#x2F;     rclcpp::executor::FutureReturnCode::SUCCESS)</span><br><span class="line">    &#x2F;&#x2F; &#123;</span><br><span class="line">    &#x2F;&#x2F;     printf(&quot;Result of add_two_ints: %zd\n&quot;, future_result.get()-&gt;sum);</span><br><span class="line">    &#x2F;&#x2F; &#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F;     printf(&quot;add_two_ints_client_async was interrupted. Exiting.\n&quot;);</span><br><span class="line">    &#x2F;&#x2F; &#125;    </span><br><span class="line"></span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;Done! Shutting down node.&quot;);</span><br><span class="line">    rclcpp::shutdown();</span><br><span class="line">    return 0;                 </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="创建launch文件"><a href="#创建launch文件" class="headerlink" title="创建launch文件"></a>创建launch文件</h2><p><code>mkdir ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/launch/</code></p>
+<p><code>cd ~/dev_ws/src/cpp_warehouse_robot_spawner_pkg/launch/</code></p>
+<p>新建名为gazebo_world.launch.py的文件，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"># Copyright 2019 Open Source Robotics Foundation, Inc.</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#     http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License for the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">Demo for spawn_entity.</span><br><span class="line">Launches Gazebo and spawns a model</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"># A bunch of software packages that are needed to launch ROS2</span><br><span class="line">import os</span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch.actions import IncludeLaunchDescription</span><br><span class="line">from launch.launch_description_sources import PythonLaunchDescriptionSource</span><br><span class="line">from launch.substitutions import ThisLaunchFileDir,LaunchConfiguration</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line">from launch.actions import ExecuteProcess</span><br><span class="line">from ament_index_python.packages import get_package_share_directory</span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    use_sim_time &#x3D; LaunchConfiguration(&#39;use_sim_time&#39;, default&#x3D;&#39;True&#39;)</span><br><span class="line">    world_file_name &#x3D; &#39;warehouse.world&#39;</span><br><span class="line">    pkg_dir &#x3D; get_package_share_directory(&#39;cpp_warehouse_robot_spawner_pkg&#39;)</span><br><span class="line"></span><br><span class="line">    os.environ[&quot;GAZEBO_MODEL_PATH&quot;] &#x3D; os.path.join(pkg_dir, &#39;models&#39;)</span><br><span class="line"></span><br><span class="line">    world &#x3D; os.path.join(pkg_dir, &#39;worlds&#39;, world_file_name)</span><br><span class="line">    launch_file_dir &#x3D; os.path.join(pkg_dir, &#39;launch&#39;)</span><br><span class="line"></span><br><span class="line">    gazebo &#x3D; ExecuteProcess(</span><br><span class="line">            cmd&#x3D;[&#39;gazebo&#39;, &#39;--verbose&#39;, world, &#39;-s&#39;, &#39;libgazebo_ros_init.so&#39;, </span><br><span class="line">            &#39;-s&#39;, &#39;libgazebo_ros_factory.so&#39;],</span><br><span class="line">            output&#x3D;&#39;screen&#39;)</span><br><span class="line"></span><br><span class="line">    #GAZEBO_MODEL_PATH has to be correctly set for Gazebo to be able to find the model</span><br><span class="line">    #spawn_entity &#x3D; Node(package&#x3D;&#39;gazebo_ros&#39;, node_executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">    #                    arguments&#x3D;[&#39;-entity&#39;, &#39;demo&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;],</span><br><span class="line">    #                    output&#x3D;&#39;screen&#39;)</span><br><span class="line">    spawn_entity &#x3D; Node(package&#x3D;&#39;cpp_warehouse_robot_spawner_pkg&#39;, executable&#x3D;&#39;client&#39;,</span><br><span class="line">                        arguments&#x3D;[&#39;WarehouseBot&#39;, &#39;demo&#39;, &#39;-1.5&#39;, &#39;-4.0&#39;, &#39;0.0&#39;],</span><br><span class="line">                        output&#x3D;&#39;screen&#39;)</span><br><span class="line"></span><br><span class="line">    return LaunchDescription([</span><br><span class="line">        gazebo,</span><br><span class="line">        spawn_entity,</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译功能包"><a href="#编译功能包" class="headerlink" title="编译功能包"></a>编译功能包</h2><p><code>cd ~/dev_ws/</code></p>
+<p>安装setuptools</p>
+<p><code>sudo pip3 install setuptools</code></p>
+<p>编译</p>
+<p><code>colcon build --packages-select cpp_warehouse_robot_spawner_pkg</code></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p><code>cd ~/dev_ws</code></p>
+<p><code>ros2 launch cpp_warehouse_robot_spawner_pkg gazebo_world.launch.py</code></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/image-20210423103726213.png" alt="image-20210423103726213"></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/Peek-2021-04-23-10-38.gif" alt="Peek 2021-04-23 10-38.gif"></p>
+<p>查看当前的topic</p>
+<p><code>ros2 topic list -t</code></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/16-ros2-topic-listJPG.jpg" alt="16-ros2-topic-listJPG"></p>
+<h1 id="使用ROS2创建机器人控制器"><a href="#使用ROS2创建机器人控制器" class="headerlink" title="使用ROS2创建机器人控制器"></a>使用ROS2创建机器人控制器</h1><h2 id="创建运动和控制的功能包"><a href="#创建运动和控制的功能包" class="headerlink" title="创建运动和控制的功能包"></a>创建运动和控制的功能包</h2><p><code>cd ~/dev_ws/src</code></p>
+<p><code>ros2 pkg create --build-type ament_cmake cpp_warehouse_robot_controller_pkg</code></p>
+<h2 id="功能包的基本配置"><a href="#功能包的基本配置" class="headerlink" title="功能包的基本配置"></a>功能包的基本配置</h2><p><code>cd ~/dev_ws/src/cpp_warehouse_robot_controller_pkg</code></p>
+<p><code>gedit package.xml</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;?xml-model href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot; schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line">&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line">  &lt;name&gt;cpp_warehouse_robot_controller_pkg&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;description&gt;a Warehouse robot controller&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;maintainer email&#x3D;&quot;figoowen2003@126.com&quot;&gt;ubuntu-ros&lt;&#x2F;maintainer&gt;</span><br><span class="line">  &lt;license&gt;Apache License 2.0&lt;&#x2F;license&gt;</span><br><span class="line"></span><br><span class="line">  &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;build_depend&gt;geometry_msgs&lt;&#x2F;build_depend&gt;</span><br><span class="line">  &lt;build_depend&gt;rclcpp&lt;&#x2F;build_depend&gt;</span><br><span class="line">  &lt;build_depend&gt;nav_msgs&lt;&#x2F;build_depend&gt;</span><br><span class="line">  &lt;build_depend&gt;std_msgs&lt;&#x2F;build_depend&gt;</span><br><span class="line">  &lt;build_depend&gt;sensor_msgs&lt;&#x2F;build_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;exec_depend&gt;geometry_msgs&lt;&#x2F;exec_depend&gt;</span><br><span class="line">  &lt;exec_depend&gt;rclcpp&lt;&#x2F;exec_depend&gt;</span><br><span class="line">  &lt;exec_depend&gt;nav_msgs&lt;&#x2F;exec_depend&gt;</span><br><span class="line">  &lt;exec_depend&gt;std_msgs&lt;&#x2F;exec_depend&gt;</span><br><span class="line">  &lt;exec_depend&gt;sensor_msgs&lt;&#x2F;exec_depend&gt; </span><br><span class="line"></span><br><span class="line">  &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">  &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;export&gt;</span><br><span class="line">    &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;&#x2F;export&gt;</span><br><span class="line">&lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>gedit CmakeLists.txt</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.5)</span><br><span class="line">project(cpp_warehouse_robot_controller_pkg)</span><br><span class="line"></span><br><span class="line"># Default to C99</span><br><span class="line">if(NOT CMAKE_C_STANDARD)</span><br><span class="line">  set(CMAKE_C_STANDARD 99)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># Default to C++14</span><br><span class="line">if(NOT CMAKE_CXX_STANDARD)</span><br><span class="line">  set(CMAKE_CXX_STANDARD 14)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line"># uncomment the following section in order to fill in</span><br><span class="line"># further dependencies manually.</span><br><span class="line"># find_package(&lt;dependency&gt; REQUIRED)</span><br><span class="line">find_package(geometry_msgs REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(nav_msgs REQUIRED)</span><br><span class="line">find_package(std_msgs REQUIRED)</span><br><span class="line">find_package(sensor_msgs)</span><br><span class="line"></span><br><span class="line">set(target &quot;robot_estimator&quot;)</span><br><span class="line"></span><br><span class="line">add_executable($&#123;target&#125; src&#x2F;$&#123;target&#125;.cpp)</span><br><span class="line">ament_target_dependencies($&#123;target&#125;</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;geometry_msgs&quot;</span><br><span class="line">  &quot;nav_msgs&quot;</span><br><span class="line">  &quot;std_msgs&quot;)</span><br><span class="line"></span><br><span class="line">add_executable(robot_controller src&#x2F;robot_controller.cpp)</span><br><span class="line">ament_target_dependencies(robot_controller</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;geometry_msgs&quot;</span><br><span class="line">  &quot;sensor_msgs&quot;</span><br><span class="line">  &quot;std_msgs&quot;)</span><br><span class="line"></span><br><span class="line">if(BUILD_TESTING)</span><br><span class="line">  find_package(ament_lint_auto REQUIRED)</span><br><span class="line">  # the following line skips the linter which checks for copyrights</span><br><span class="line">  # uncomment the line when a copyright and license is not present in all source files</span><br><span class="line">  #set(ament_cmake_copyright_FOUND TRUE)</span><br><span class="line">  # the following line skips cpplint (only works in a git repo)</span><br><span class="line">  # uncomment the line when this package is not in a git repo</span><br><span class="line">  #set(ament_cmake_cpplint_FOUND TRUE)</span><br><span class="line">  ament_lint_auto_find_test_dependencies()</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">install(TARGETS $&#123;target&#125; robot_controller</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line"># Install launch files.</span><br><span class="line">install(DIRECTORY</span><br><span class="line">launch</span><br><span class="line">DESTINATION share&#x2F;$&#123;PROJECT_NAME&#125;&#x2F;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建名为Estimator的节点（node）"><a href="#创建名为Estimator的节点（node）" class="headerlink" title="创建名为Estimator的节点（node）"></a>创建名为Estimator的节点（node）</h2><p><code>cd ~/dev_ws/src/cpp_warehouse_robot_controller_pkg/src/</code></p>
+<p><code>gedit robot_estimator.cpp</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;twist.hpp&gt;</span><br><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;pose.hpp&gt;</span><br><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">#include &lt;std_msgs&#x2F;msg&#x2F;string.hpp&gt;</span><br><span class="line">#include &lt;std_msgs&#x2F;msg&#x2F;float64_multi_array.hpp&gt;</span><br><span class="line">#include &lt;nav_msgs&#x2F;msg&#x2F;odometry.hpp&gt;</span><br><span class="line"></span><br><span class="line">#include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">#include&lt;tuple&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using std::placeholders::_1;</span><br><span class="line"></span><br><span class="line">class RobotEstimator: public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    RobotEstimator() : Node(&quot;Estimator&quot;) &#123;</span><br><span class="line">        auto default_qos &#x3D; rclcpp::QoS(rclcpp::SystemDefaultsQoS());</span><br><span class="line">        &#x2F;&#x2F; Subscribe to messages of type nav_msgs&#x2F;Odometry(positon and orientation of robot)</span><br><span class="line">        odom_sub_ &#x3D; this-&gt;create_subscription&lt;nav_msgs::msg::Odometry&gt;(</span><br><span class="line">            &quot;&#x2F;demo&#x2F;odom&quot;, default_qos,</span><br><span class="line">            std::bind(&amp;RobotEstimator::OnOdomMsg, this, _1));</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; This node subscribes to messages of tpye geometry_msgs&#x2F;Twist.msg</span><br><span class="line">        &#x2F;&#x2F; We are listening to the velocity commands here</span><br><span class="line">        &#x2F;&#x2F; The maximum number of queued messages is 10</span><br><span class="line">        velocity_sub_ &#x3D; this-&gt;create_subscription&lt;geometry_msgs::msg::Twist&gt;(</span><br><span class="line">        &quot;demo&#x2F;cmd_vel&quot;, default_qos,</span><br><span class="line">        std::bind(&amp;RobotEstimator::OnVelocityMsg, this, _1));           </span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; This node Pulbishes the estimated position (x, y, yaw),</span><br><span class="line">        &#x2F;&#x2F; the type of messages is std_msg&#x2F;Float64MultiArray</span><br><span class="line">        est_state_pub_ &#x3D; this-&gt;create_publisher&lt;std_msgs::msg::Float64MultiArray&gt;(&quot;&#x2F;demo&#x2F;state_est&quot;, default_qos);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    void OnOdomMsg(const nav_msgs::msg::Odometry::SharedPtr msg) &#123;</span><br><span class="line">        tuple&lt;float, float, float&gt; result &#x3D; GetEulerFromQuaternion(msg-&gt;pose.pose.orientation);</span><br><span class="line">        float roll &#x3D; get&lt;0&gt;(result);</span><br><span class="line">        float pitch &#x3D; get&lt;1&gt;(result);</span><br><span class="line">        float yaw &#x3D; get&lt;2&gt;(result);</span><br><span class="line"></span><br><span class="line">        PublishEstimatedState(make_tuple(roll, pitch, yaw));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void PublishEstimatedState(const tuple&lt;float, float, float&gt; state) &#123;</span><br><span class="line">        std_msgs::msg::Float64MultiArray msg;</span><br><span class="line">        msg.data.push_back(get&lt;0&gt;(state));</span><br><span class="line">        msg.data.push_back(get&lt;1&gt;(state));</span><br><span class="line">        msg.data.push_back(get&lt;2&gt;(state));</span><br><span class="line"></span><br><span class="line">        est_state_pub_-&gt;publish(msg);      </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tuple&lt;float, float, float&gt; GetEulerFromQuaternion(const geometry_msgs::msg::Quaternion &amp;orientation) &#123;</span><br><span class="line">        double t0 &#x3D; +2.0 * (orientation.w * orientation.x + orientation.y * orientation.z);</span><br><span class="line">        double t1 &#x3D; +1.0 - 2.0 * (orientation.x * orientation.x + orientation.y * orientation.y);</span><br><span class="line">        double roll_x &#x3D; atan2(t0, t1);</span><br><span class="line">    </span><br><span class="line">        double t2 &#x3D; +2.0 * (orientation.w * orientation.y - orientation.z * orientation.x);</span><br><span class="line">        t2 &#x3D; (t2 &gt; 1.0) ? 1.0 : t2;</span><br><span class="line">        t2 &#x3D; (t2 &lt; -1.0) ? -1.0 : t2;</span><br><span class="line">        double pitch_y &#x3D; asin(t2);</span><br><span class="line">    </span><br><span class="line">        double t3 &#x3D; +2.0 * (orientation.w * orientation.z + orientation.x * orientation.y);</span><br><span class="line">        double t4 &#x3D; +1.0 - 2.0 * (orientation.y * orientation.y + orientation.z * orientation.z);</span><br><span class="line">        double yaw_z &#x3D; atan2(t3, t4);</span><br><span class="line">    </span><br><span class="line">        return make_tuple(roll_x, pitch_y, yaw_z); &#x2F;&#x2F; in radians       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void OnVelocityMsg(const geometry_msgs::msg::Twist::SharedPtr msg) &#123;</span><br><span class="line">        &#x2F;*</span><br><span class="line">            Listen to the velocity commands (linear forward velocity </span><br><span class="line">            in the x direction in the robot&#39;s reference frame and </span><br><span class="line">            angular velocity (yaw rate) around the robot&#39;s z-axis.</span><br><span class="line">            [v,yaw_rate]</span><br><span class="line">            [meters&#x2F;second, radians&#x2F;second]            </span><br><span class="line">        *&#x2F;</span><br><span class="line">        &#x2F;&#x2F; Forward velocity in the robot&#39;s reference frame</span><br><span class="line">        auto v &#x3D; msg-&gt;linear.x;</span><br><span class="line">    </span><br><span class="line">        &#x2F;&#x2F; Angular velocity around the robot&#39;s z axis</span><br><span class="line">        auto yaw_rate &#x3D; msg-&gt;angular.z;       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr _msg)</span><br><span class="line">    &#x2F;&#x2F; &#123;</span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F; Find closest hit</span><br><span class="line">    &#x2F;&#x2F;     float min_range &#x3D; _msg-&gt;range_max + 1;</span><br><span class="line">    &#x2F;&#x2F;     int idx &#x3D; -1;</span><br><span class="line">    &#x2F;&#x2F;     for (auto i &#x3D; 0u; i &lt; _msg-&gt;ranges.size(); ++i) &#123;</span><br><span class="line">    &#x2F;&#x2F;     auto range &#x3D; _msg-&gt;ranges[i];</span><br><span class="line">    &#x2F;&#x2F;     if (range &gt; _msg-&gt;range_min &amp;&amp; range &lt; _msg-&gt;range_max &amp;&amp; range &lt; min_range) &#123;</span><br><span class="line">    &#x2F;&#x2F;         min_range &#x3D; range;</span><br><span class="line">    &#x2F;&#x2F;         idx &#x3D; i;</span><br><span class="line">    &#x2F;&#x2F;     &#125;</span><br><span class="line">    &#x2F;&#x2F;     &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F; Calculate desired yaw change</span><br><span class="line">    &#x2F;&#x2F;     double turn &#x3D; _msg-&gt;angle_min + _msg-&gt;angle_increment * idx;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F; Populate command message, all weights have been calculated by trial and error</span><br><span class="line">    &#x2F;&#x2F;     auto cmd_msg &#x3D; std::make_unique&lt;geometry_msgs::msg::Twist&gt;();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F; Bad readings, stop</span><br><span class="line">    &#x2F;&#x2F;     if (idx &lt; 0) &#123;</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;linear.x &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;angular.z &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F;     &#125; else if (min_range &lt;&#x3D; min_dist_) &#123;</span><br><span class="line">    &#x2F;&#x2F;     &#x2F;&#x2F; Too close, just rotate</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;linear.x &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;angular.z &#x3D; turn * angular_k_;</span><br><span class="line">    &#x2F;&#x2F;     &#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;linear.x &#x3D; linear_k_ &#x2F; abs(turn);</span><br><span class="line">    &#x2F;&#x2F;     cmd_msg-&gt;angular.z &#x3D; turn * angular_k_;</span><br><span class="line">    &#x2F;&#x2F;     &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;     cmd_pub_-&gt;publish(std::move(cmd_msg));</span><br><span class="line">    &#x2F;&#x2F; &#125;    </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; odom messages subscriber</span><br><span class="line">    rclcpp::Subscription&lt;nav_msgs::msg::Odometry&gt;::SharedPtr odom_sub_;</span><br><span class="line">    &#x2F;&#x2F; twist messages subscriber</span><br><span class="line">    rclcpp::Subscription&lt;geometry_msgs::msg::Twist&gt;::SharedPtr velocity_sub_;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; estimate state publisher</span><br><span class="line">    rclcpp::Publisher&lt;std_msgs::msg::Float64MultiArray&gt;::SharedPtr est_state_pub_;   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; Forward command line arguments to ROS</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Create a node</span><br><span class="line">  auto node &#x3D; std::make_shared&lt;RobotEstimator&gt;();</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Run node until it&#39;s exited</span><br><span class="line">  rclcpp::spin(node);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Clean up</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建名为Controller的节点"><a href="#创建名为Controller的节点" class="headerlink" title="创建名为Controller的节点"></a>创建名为Controller的节点</h2><p><code>gedit robot_controller.cpp</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;twist.hpp&gt;</span><br><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;pose.hpp&gt;</span><br><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">#include &lt;sensor_msgs&#x2F;msg&#x2F;laser_scan.hpp&gt;</span><br><span class="line">#include &lt;std_msgs&#x2F;msg&#x2F;string.hpp&gt;</span><br><span class="line">#include &lt;std_msgs&#x2F;msg&#x2F;float64_multi_array.hpp&gt;</span><br><span class="line"></span><br><span class="line">#include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">#include&lt;string&gt;</span><br><span class="line">#include&lt;vector&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using namespace std::placeholders;</span><br><span class="line"></span><br><span class="line">class RobotController : public rclcpp::Node &#123;</span><br><span class="line">public:</span><br><span class="line">    RobotController() : Node(&quot;Controller&quot;) &#123;</span><br><span class="line">        auto default_qos &#x3D; rclcpp::QoS(rclcpp::SystemDefaultsQoS());</span><br><span class="line">        &#x2F;&#x2F; This node subscribes to messages of type Float64MultiArray</span><br><span class="line">        &#x2F;&#x2F; over a topic named: &#x2F;demo&#x2F;state_est</span><br><span class="line">        &#x2F;&#x2F; The message represents the current estimated state:</span><br><span class="line">        &#x2F;&#x2F;      [x, y, yaw]</span><br><span class="line">        est_state_sub_ &#x3D; this-&gt;create_subscription&lt;std_msgs::msg::Float64MultiArray&gt;(</span><br><span class="line">            &quot;&#x2F;demo&#x2F;state_est&quot;, default_qos,</span><br><span class="line">            std::bind(&amp;RobotController::OnStateEstimatedMsg, this, _1));</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Subscribe to sensor messages</span><br><span class="line">        laser_sub_ &#x3D; this-&gt;create_subscription&lt;sensor_msgs::msg::LaserScan&gt;(</span><br><span class="line">            &quot;laser_scan&quot;, default_qos,</span><br><span class="line">            std::bind(&amp;RobotController::OnSensorMsg, this, _1));</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; This node publishes the desired linear and angular velocity of the </span><br><span class="line">        &#x2F;&#x2F; robot(in the robot chassis coordinate frame) to the &#x2F;demo&#x2F;cmd_vel topic</span><br><span class="line">        &#x2F;&#x2F; Using the diff_drive plugin enables the robot model to read this</span><br><span class="line">        &#x2F;&#x2F; &#x2F;demo&#x2F;cmd_vel topic and excute the motion accordingly</span><br><span class="line">        cmd_pub_ &#x3D; this-&gt;create_publisher&lt;geometry_msgs::msg::Twist&gt;(</span><br><span class="line">            &quot;&#x2F;demo&#x2F;cmd_vel&quot;, default_qos);        </span><br><span class="line">    &#125;</span><br><span class="line">private:</span><br><span class="line">    void OnStateEstimatedMsg(const std_msgs::msg::Float64MultiArray::SharedPtr msg) &#123;</span><br><span class="line">        &#x2F;&#x2F; Extract the position and orientation data</span><br><span class="line">        &#x2F;&#x2F; This callback is called each time a new messaege is received on </span><br><span class="line">        &#x2F;&#x2F; &quot;&#x2F;demo&#x2F;state_est&quot; topic</span><br><span class="line">        vector&lt;double&gt; currState(msg-&gt;data.begin(), msg-&gt;data.end());</span><br><span class="line">        currentX_ &#x3D; msg-&gt;data[0];</span><br><span class="line">        currentY_ &#x3D; msg-&gt;data[1];</span><br><span class="line">        currentYaw_ &#x3D; msg-&gt;data[2];</span><br><span class="line">    </span><br><span class="line">        &#x2F;&#x2F; Command the robot to keep following the wall      </span><br><span class="line">        FollowWall();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void OnSensorMsg(const sensor_msgs::msg::LaserScan::SharedPtr msg) &#123;</span><br><span class="line">        &#x2F;&#x2F; This method gets called every time a LaserScan message is received on</span><br><span class="line">        &#x2F;&#x2F; the &quot;&#x2F;demo&#x2F;laser&#x2F;out&quot; topic</span><br><span class="line">        &#x2F;&#x2F; Read the laser scan data that indicates distances</span><br><span class="line">        &#x2F;&#x2F; to obstacles in meters and extract 5 distinct laser readings to work with.</span><br><span class="line">        &#x2F;&#x2F; Each reading is separated by 45 degrees.</span><br><span class="line">        &#x2F;&#x2F; Assumes 181 laser readings, separated by 1 degree.</span><br><span class="line">        &#x2F;&#x2F; (e.g. -90 to 90 degrees.....0 to 180 degrees)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; number of laser beams &#x3D; str(len(msg.ranges))</span><br><span class="line">        left_dist &#x3D; msg-&gt;ranges[180];</span><br><span class="line">        leftfront_dist &#x3D; msg-&gt;ranges[135];</span><br><span class="line">        front_dist &#x3D; msg-&gt;ranges[90];</span><br><span class="line">        rightfront_dist &#x3D; msg-&gt;ranges[45];</span><br><span class="line">        right_dist &#x3D; msg-&gt;ranges[0];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void FollowWall() &#123; </span><br><span class="line">    &#x2F;&#x2F; This method causes the robot to follow the boundary of a wall.</span><br><span class="line">    &#x2F;&#x2F; Create a geometry_msgs&#x2F;Twist message</span><br><span class="line">    auto cmdMsg &#x3D; std::make_unique&lt;geometry_msgs::msg::Twist&gt;();</span><br><span class="line"></span><br><span class="line">    cmdMsg-&gt;linear.x &#x3D; 0.0;</span><br><span class="line">    cmdMsg-&gt;linear.y &#x3D; 0.0;</span><br><span class="line">    cmdMsg-&gt;linear.z &#x3D; 0.0;</span><br><span class="line">    cmdMsg-&gt;angular.x &#x3D; 0.0;</span><br><span class="line">    cmdMsg-&gt;angular.y &#x3D; 0.0;</span><br><span class="line">    cmdMsg-&gt;angular.z &#x3D; 0.0;       </span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F; Logic for following the wall</span><br><span class="line">    &#x2F;&#x2F; &gt;d means no wall detected by that laser beam</span><br><span class="line">    &#x2F;&#x2F; &lt;d means an wall was detected by that laser beam</span><br><span class="line">    double d &#x3D; dist_thresh_wf;</span><br><span class="line">    </span><br><span class="line">    if (leftfront_dist &gt; d &amp;&amp; front_dist &gt; d &amp;&amp; rightfront_dist &gt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;search for wall&quot;;</span><br><span class="line">        cmdMsg-&gt;linear.x &#x3D; forward_speed;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; (-1) * turning_speed_wf_slow;  &#x2F;&#x2F;turn right to wall</span><br><span class="line">    &#125; else if (leftfront_dist &gt; d &amp;&amp; front_dist &lt; d &amp;&amp; rightfront_dist &gt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; turning_speed_wf_fast;</span><br><span class="line">    &#125; else if (leftfront_dist &gt; d &amp;&amp; front_dist &gt; d &amp;&amp; rightfront_dist &lt; d) &#123;</span><br><span class="line">        if (rightfront_dist &lt; dist_too_close_to_wall) &#123;</span><br><span class="line">            &#x2F;&#x2F; Getting too close to the wall</span><br><span class="line">            wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">            cmdMsg-&gt;linear.x &#x3D; forward_speed;</span><br><span class="line">            cmdMsg-&gt;angular.z &#x3D; turning_speed_wf_fast;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; Go straight ahead</span><br><span class="line">            wall_following_state &#x3D; &quot;follow wall&quot;;</span><br><span class="line">            cmdMsg-&gt;linear.x &#x3D; forward_speed;</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125; else if (leftfront_dist &lt; d &amp;&amp; front_dist &gt; d &amp;&amp; rightfront_dist &gt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;search for wall&quot;;</span><br><span class="line">        cmdMsg-&gt;linear.x &#x3D; forward_speed;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; (-1) * turning_speed_wf_slow; &#x2F;&#x2F; turn right to find wall</span><br><span class="line">    &#125; else if (leftfront_dist &gt; d &amp;&amp; front_dist &lt; d &amp;&amp; rightfront_dist &lt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; turning_speed_wf_fast;</span><br><span class="line">    &#125; else if (leftfront_dist &lt; d &amp;&amp; front_dist &lt; d &amp;&amp; rightfront_dist &gt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; turning_speed_wf_fast;</span><br><span class="line">    &#125; else if (leftfront_dist &lt; d &amp;&amp; front_dist &lt; d &amp;&amp; rightfront_dist &lt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; turning_speed_wf_fast;</span><br><span class="line">    &#125; else if (leftfront_dist &lt; d &amp;&amp; front_dist &gt; d &amp;&amp; rightfront_dist &lt; d) &#123;</span><br><span class="line">        wall_following_state &#x3D; &quot;search for wall&quot;;</span><br><span class="line">        cmdMsg-&gt;linear.x &#x3D; forward_speed;</span><br><span class="line">        cmdMsg-&gt;angular.z &#x3D; (-1) * turning_speed_wf_slow; &#x2F;&#x2F; turn right to find wall</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; do nothing</span><br><span class="line">    &#125;  </span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F; Send velocity command to the robot</span><br><span class="line">    cmd_pub_-&gt;publish(std::move(cmdMsg));    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    rclcpp::Subscription&lt;std_msgs::msg::Float64MultiArray&gt;::SharedPtr est_state_sub_;</span><br><span class="line">    rclcpp::Subscription&lt;sensor_msgs::msg::LaserScan&gt;::SharedPtr laser_sub_;</span><br><span class="line">    rclcpp::Publisher&lt;geometry_msgs::msg::Twist&gt;::SharedPtr cmd_pub_;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Initialize the LaserScan sensor readings to some large value</span><br><span class="line">    &#x2F;&#x2F; Values are in meters.</span><br><span class="line">    double left_dist &#x3D; 999999.9; &#x2F;&#x2F; Left</span><br><span class="line">    double leftfront_dist &#x3D; 999999.9; &#x2F;&#x2F; Left-front</span><br><span class="line">    double front_dist &#x3D; 999999.9; &#x2F;&#x2F; Front</span><br><span class="line">    double rightfront_dist &#x3D; 999999.9; &#x2F;&#x2F; Right-front</span><br><span class="line">    double right_dist &#x3D; 999999.9; &#x2F;&#x2F; Right</span><br><span class="line"> </span><br><span class="line">    &#x2F;* ################### ROBOT CONTROL PARAMETERS ################## *&#x2F;</span><br><span class="line">    &#x2F;&#x2F; Maximum forward speed of the robot in meters per second</span><br><span class="line">    &#x2F;&#x2F; Any faster than this and the robot risks falling over.</span><br><span class="line">    double forward_speed &#x3D; 0.025;    </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Current position and orientation of the robot in the global reference frame</span><br><span class="line">    double currentX_&#123;0.0&#125;;</span><br><span class="line">    double currentY_&#123;0.0&#125;;</span><br><span class="line">    double currentYaw_&#123;0.0&#125;;</span><br><span class="line"></span><br><span class="line">    &#x2F;* ############# WALL FOLLOWING PARAMETERS ####################### *&#x2F;     </span><br><span class="line">    &#x2F;&#x2F; Finite states for the wall following mode</span><br><span class="line">    &#x2F;&#x2F;  &quot;turn left&quot;: Robot turns towards the left</span><br><span class="line">    &#x2F;&#x2F;  &quot;search for wall&quot;: Robot tries to locate the wall        </span><br><span class="line">    &#x2F;&#x2F;  &quot;follow wall&quot;: Robot moves parallel to the wall</span><br><span class="line">    string wall_following_state &#x3D; &quot;turn left&quot;;</span><br><span class="line">         </span><br><span class="line">    &#x2F;&#x2F; Set turning speeds (to the left) in rad&#x2F;s </span><br><span class="line">    &#x2F;&#x2F; These values were determined by trial and error.</span><br><span class="line">    double turning_speed_wf_fast &#x3D; 3.0;  &#x2F;&#x2F; Fast turn</span><br><span class="line">    double turning_speed_wf_slow &#x3D; 0.05; &#x2F;&#x2F; Slow turn</span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F; Wall following distance threshold.</span><br><span class="line">    &#x2F;&#x2F; We want to try to keep within this distance from the wall.</span><br><span class="line">    double dist_thresh_wf &#x3D; 0.50; &#x2F;&#x2F; in meters  </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; We don&#39;t want to get too close to the wall though.</span><br><span class="line">    double dist_too_close_to_wall &#x3D; 0.19; &#x2F;&#x2F; in meters    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; Forward command line arguments to ROS</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Create a node</span><br><span class="line">  auto node &#x3D; std::make_shared&lt;RobotController&gt;();</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Run node until it&#39;s exited</span><br><span class="line">  rclcpp::spin(node);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Clean up</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建launch文件-1"><a href="#创建launch文件-1" class="headerlink" title="创建launch文件"></a>创建launch文件</h2><p><code>mkdir ~/dev_ws/src/cpp_warehouse_robot_controller_pkg/launch/</code></p>
+<p><code>cd ~/dev_ws/src/cpp_warehouse_robot_controller_pkg/launch/</code></p>
+<p>新建名为controller_estimator.launch.py的文件</p>
+<p><code>gedit robot_ctr_est.launch.py</code></p>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def generate_launch_description():</span><br><span class="line"> </span><br><span class="line">  return LaunchDescription([</span><br><span class="line">    Node(package&#x3D;&#39;cpp_warehouse_robot_controller_pkg&#39;, executable&#x3D;&#39;robot_controller&#39;,</span><br><span class="line">      output&#x3D;&#39;screen&#39;),</span><br><span class="line">    Node(package&#x3D;&#39;cpp_warehouse_robot_controller_pkg&#39;, executable&#x3D;&#39;robot_estimator&#39;,</span><br><span class="line">      output&#x3D;&#39;screen&#39;),</span><br><span class="line">  ])</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译功能包-1"><a href="#编译功能包-1" class="headerlink" title="编译功能包"></a>编译功能包</h2><p><code>cd ~/dev_ws/</code></p>
+<p><code>colcon build --packages-select cpp_warehouse_robot_controller_pkg</code></p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>新开一个terminal，依次输入以下命令，启动world孵化器</p>
+<p><code>cd ~/dev_ws/</code></p>
+<p><code>ros2 launch cpp_warehouse_robot_spawner_pkg gazebo_world.launch.py</code></p>
+<p>再打开一个terminal，启动控制器</p>
+<p><code>cd ~/dev_ws/</code></p>
+<p><code>ros2 launch cpp_warehouse_robot_controller_pkg robot_ctr_est.launch.py</code></p>
+<p>实际运行效果如下</p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/Peek-2021-04-24-10-38.gif" alt="Peek 2021-04-24 10-38.gif"></p>
+<p>查看topic</p>
+<p><code>ros2 topic list -t</code></p>
+<p><img src="/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/18-topic-listJPG.jpg" alt="18-topic-listJPG"></p>
+<h1 id="手动控制机器人（Python版）"><a href="#手动控制机器人（Python版）" class="headerlink" title="手动控制机器人（Python版）"></a>手动控制机器人（Python版）</h1><ul>
+<li><p>安装turtlebot3功能包（目前是foxy版）</p>
+<p><code>sudo apt install ros-foxy-turtlebot3*</code></p>
+<p>详细信息，参考链接<a target="_blank" rel="noopener" href="https://navigation.ros.org/getting_started/index.html">https://navigation.ros.org/getting_started/index.html</a></p>
+</li>
+<li><p>新开一个terminal，启动spawner</p>
+<p><code>ros2 launch warehouse_robot_spawner_pkg gazebo_world.launch.py</code></p>
+</li>
+<li><p>再开一个terminal，输入remap操作，将键盘命令从发往/cmd_vel变更为发往/demo/cmd_vel</p>
+<p><code>export TURTLEBOT3_MODEL=burger</code></p>
+<p><code>ros2 run turtlebot3_teleop teleop_keyboard --ros-args --remap /cmd_vel:=/demo/cmd_vel</code></p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/05/04/安装docker并在其中启动ros2机器人/" data-toggle="tooltip" data-placement="top" title="安装docker并在其中启动ros2机器人">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/04/21/如何使用Gazebo和ROS2进行移动机器人仿真/" data-toggle="tooltip" data-placement="top" title="如何使用Gazebo和ROS2进行移动机器人仿真">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ros2, Gazebo, C++, Python, sdf, xml, cmake" title="ros2, Gazebo, C++, Python, sdf, xml, cmake">ros2, Gazebo, C++, Python, sdf, xml, cmake</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/04/27/%E4%BD%BF%E7%94%A8ROS2%E5%9C%A8gazebo%E4%B8%AD%E5%AD%B5%E5%8C%96%E5%92%8C%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%99%A8%E4%BA%BA-CPlusPlus%E7%89%88/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

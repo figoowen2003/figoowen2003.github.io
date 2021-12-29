@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          自定义ROS2 msg和srv文件 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/09/13/自定义ROS2-msg和srv文件/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>自定义ROS2 msg和srv文件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-09-13
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>使用预定义的消息和服务是一种很好的实践，但有些场景下也需要用户去定义自己的消息和服务类型。本文将介绍创建自定义消息和服务的基本方法。</p>
+<h1 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h1><h2 id="1-新建功能包cpp-tutorial-interfaces"><a href="#1-新建功能包cpp-tutorial-interfaces" class="headerlink" title="1. 新建功能包cpp_tutorial_interfaces"></a>1. 新建功能包cpp_tutorial_interfaces</h2><p>我们将在这个功能包中定义所需要的.msg和.srv文件，目前的做法都是将自定义消息和服务类型放到独立的功能包中，然后在同一个工作空间下用另一个功能包去使用他们。</p>
+<p>在robot_sim/src目录下输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake cpp_tutorial_interfaces</span><br></pre></td></tr></table></figure>
+
+<p>在当前的ROS2版本中（rolling），只有C++的功能包可以自定义消息和服务，也就是说在建包的时候需要选择ament_cmake方式，但是python的功能包可以导入由C++功能包创建的自定义消息和服务。</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E4%B8%8Esrv%E6%96%87%E4%BB%B6/image-20210911174159435.png" alt="image-20210911174159435"></p>
+<p>在cpp_tutorial_interfaces目录下新建msg和srv目录。</p>
+<h2 id="2-自定义消息和服务"><a href="#2-自定义消息和服务" class="headerlink" title="2. 自定义消息和服务"></a>2. 自定义消息和服务</h2><p>在cpp_tutorial_interfaces/msg目录下新建文件Num.msg，在该文件中写入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int64 num</span><br></pre></td></tr></table></figure>
+
+<p>在cpp_tutorial_interfaces/srv目录下新建文件AddThreeInts.srv，在该文件中写入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int64 a</span><br><span class="line">int64 b</span><br><span class="line">int64 c</span><br><span class="line">---</span><br><span class="line">int64 sum</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-修改CMakeList"><a href="#3-修改CMakeList" class="headerlink" title="3. 修改CMakeList"></a>3. 修改CMakeList</h2><p>在CMakeList.txt中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">find_package(rosidl_default_generators REQUIRED)</span><br><span class="line"></span><br><span class="line">rosidl_generate_interfaces($&#123;PROJECT_NAME&#125;</span><br><span class="line">  &quot;msg&#x2F;Num.msg&quot;</span><br><span class="line">  &quot;srv&#x2F;AddThreeInts.srv&quot;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-修改package-xml"><a href="#4-修改package-xml" class="headerlink" title="4. 修改package.xml"></a>4. 修改package.xml</h2><p>在xml文件中写入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;build_depend&gt;rosidl_default_generators&lt;&#x2F;build_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;rosidl_default_runtime&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;member_of_group&gt;rosidl_interface_packages&lt;&#x2F;member_of_group&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-编译"><a href="#5-编译" class="headerlink" title="5. 编译"></a>5. 编译</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select cpp_tutorial_interfaces</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-验证"><a href="#6-验证" class="headerlink" title="6. 验证"></a>6. 验证</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+
+<p>使用ros2 interface show命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show cpp_tutorial_interfaces&#x2F;msg&#x2F;Num</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/image-20210911174951658.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show cpp_tutorial_interfaces&#x2F;srv&#x2F;AddThreeInts</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/image-20210911175053222.png" alt="image-20210911175053222"></p>
+<h2 id="7-测试Num-msg"><a href="#7-测试Num-msg" class="headerlink" title="7. 测试Num.msg"></a>7. 测试Num.msg</h2><p>新建功能包cpp_custom_msgs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake cpp_custom_msgs</span><br></pre></td></tr></table></figure>
+
+<p>发布者minimal_publisher.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;chrono&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;cpp_tutorial_interfaces&#x2F;msg&#x2F;num.hpp&quot;     &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">using namespace std::chrono_literals;</span><br><span class="line"></span><br><span class="line">class MinimalPublisher : public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  MinimalPublisher()</span><br><span class="line">  : Node(&quot;minimal_publisher&quot;), count_(0)</span><br><span class="line">  &#123;</span><br><span class="line">    publisher_ &#x3D; this-&gt;create_publisher&lt;cpp_tutorial_interfaces::msg::Num&gt;(&quot;topic&quot;, 10);    &#x2F;&#x2F; CHANGE</span><br><span class="line">    timer_ &#x3D; this-&gt;create_wall_timer(</span><br><span class="line">      500ms, std::bind(&amp;MinimalPublisher::timer_callback, this));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  void timer_callback()</span><br><span class="line">  &#123;</span><br><span class="line">    auto message &#x3D; cpp_tutorial_interfaces::msg::Num();                               &#x2F;&#x2F; CHANGE</span><br><span class="line">    message.num &#x3D; this-&gt;count_++;                                        &#x2F;&#x2F; CHANGE</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Publishing: &#39;%ld&#39;&quot;, message.num);    &#x2F;&#x2F; CHANGE</span><br><span class="line">    publisher_-&gt;publish(message);</span><br><span class="line">  &#125;</span><br><span class="line">  rclcpp::TimerBase::SharedPtr timer_;</span><br><span class="line">  rclcpp::Publisher&lt;cpp_tutorial_interfaces::msg::Num&gt;::SharedPtr publisher_;         &#x2F;&#x2F; CHANGE</span><br><span class="line">  size_t count_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line">  rclcpp::spin(std::make_shared&lt;MinimalPublisher&gt;());</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接收者minimal_subscriber.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;cpp_tutorial_interfaces&#x2F;msg&#x2F;num.hpp&quot;     &#x2F;&#x2F; CHANGE</span><br><span class="line">using std::placeholders::_1;</span><br><span class="line"></span><br><span class="line">class MinimalSubscriber : public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  MinimalSubscriber()</span><br><span class="line">  : Node(&quot;minimal_subscriber&quot;)</span><br><span class="line">  &#123;</span><br><span class="line">    subscription_ &#x3D; this-&gt;create_subscription&lt;cpp_tutorial_interfaces::msg::Num&gt;(          &#x2F;&#x2F; CHANGE</span><br><span class="line">      &quot;topic&quot;, 10, std::bind(&amp;MinimalSubscriber::topic_callback, this, _1));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  void topic_callback(const cpp_tutorial_interfaces::msg::Num::SharedPtr msg) const       &#x2F;&#x2F; CHANGE</span><br><span class="line">  &#123;</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;I heard: &#39;%ld&#39;&quot;, msg-&gt;num);              &#x2F;&#x2F; CHANGE</span><br><span class="line">  &#125;</span><br><span class="line">  rclcpp::Subscription&lt;cpp_tutorial_interfaces::msg::Num&gt;::SharedPtr subscription_;       &#x2F;&#x2F; CHANGE</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line">  rclcpp::spin(std::make_shared&lt;MinimalSubscriber&gt;());</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CMakeList</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.8)</span><br><span class="line">project(cpp_custom_msgs)</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(cpp_tutorial_interfaces REQUIRED)                         # CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(talker src&#x2F;minimal_publisher.cpp)</span><br><span class="line">ament_target_dependencies(talker rclcpp cpp_tutorial_interfaces)         # CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(listener src&#x2F;minimal_subscriber.cpp)</span><br><span class="line">ament_target_dependencies(listener rclcpp cpp_tutorial_interfaces)     # CHANGE</span><br><span class="line"></span><br><span class="line">install(TARGETS</span><br><span class="line">  talker</span><br><span class="line">  listener</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<p>package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.8)</span><br><span class="line">project(cpp_custom_msgs)</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(cpp_tutorial_interfaces REQUIRED)                         # CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(talker src&#x2F;minimal_publisher.cpp)</span><br><span class="line">ament_target_dependencies(talker rclcpp cpp_tutorial_interfaces)         # CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(listener src&#x2F;minimal_subscriber.cpp)</span><br><span class="line">ament_target_dependencies(listener rclcpp cpp_tutorial_interfaces)     # CHANGE</span><br><span class="line"></span><br><span class="line">install(TARGETS</span><br><span class="line">  talker</span><br><span class="line">  listener</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select cpp_custom_msgs</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 run cpp_custom_msgs talker</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/image-20210911175822990.png" alt="image-20210911175822990"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 run cpp_custom_msgs listener</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/image-20210911175856453.png" alt="image-20210911175856453"></p>
+<h2 id="8-测试AddThreeInts-srv"><a href="#8-测试AddThreeInts-srv" class="headerlink" title="8. 测试AddThreeInts.srv"></a>8. 测试AddThreeInts.srv</h2><p>新建功能包cpp_custom_srv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake cpp_custom_srv</span><br></pre></td></tr></table></figure>
+
+<p>服务端add_three_ints_server.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;cpp_tutorial_interfaces&#x2F;srv&#x2F;add_three_ints.hpp&quot;     &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">void add(const std::shared_ptr&lt;cpp_tutorial_interfaces::srv::AddThreeInts::Request&gt; request,     &#x2F;&#x2F; CHANGE</span><br><span class="line">          std::shared_ptr&lt;cpp_tutorial_interfaces::srv::AddThreeInts::Response&gt;       response)  &#x2F;&#x2F; CHANGE</span><br><span class="line">&#123;</span><br><span class="line">  response-&gt;sum &#x3D; request-&gt;a + request-&gt;b + request-&gt;c;                                       &#x2F;&#x2F; CHANGE</span><br><span class="line">  RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Incoming request\na: %ld&quot; &quot; b: %ld&quot; &quot; c: %ld&quot;,   &#x2F;&#x2F; CHANGE</span><br><span class="line">                request-&gt;a, request-&gt;b, request-&gt;c);                                          &#x2F;&#x2F; CHANGE</span><br><span class="line">  RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;sending back response: [%ld]&quot;, (long int)response-&gt;sum);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">  std::shared_ptr&lt;rclcpp::Node&gt; node &#x3D; rclcpp::Node::make_shared(&quot;add_three_ints_server&quot;);  &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">  rclcpp::Service&lt;cpp_tutorial_interfaces::srv::AddThreeInts&gt;::SharedPtr service &#x3D;                 &#x2F;&#x2F; CHANGE</span><br><span class="line">    node-&gt;create_service&lt;cpp_tutorial_interfaces::srv::AddThreeInts&gt;(&quot;add_three_ints&quot;,  &amp;add);     &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">  RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Ready to add three ints.&quot;);      &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">  rclcpp::spin(node);</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端add_three_ints_client.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;cpp_tutorial_interfaces&#x2F;srv&#x2F;add_three_ints.hpp&quot;        &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">#include &lt;chrono&gt;</span><br><span class="line">#include &lt;cstdlib&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line"></span><br><span class="line">using namespace std::chrono_literals;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">  if (argc !&#x3D; 4) &#123; &#x2F;&#x2F; CHANGE</span><br><span class="line">      RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;usage: add_three_ints_client X Y Z&quot;);      &#x2F;&#x2F; CHANGE</span><br><span class="line">      return 1;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  std::shared_ptr&lt;rclcpp::Node&gt; node &#x3D; rclcpp::Node::make_shared(&quot;add_three_ints_client&quot;); &#x2F;&#x2F; CHANGE</span><br><span class="line">  rclcpp::Client&lt;cpp_tutorial_interfaces::srv::AddThreeInts&gt;::SharedPtr client &#x3D;                        &#x2F;&#x2F; CHANGE</span><br><span class="line">    node-&gt;create_client&lt;cpp_tutorial_interfaces::srv::AddThreeInts&gt;(&quot;add_three_ints&quot;);                  &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">  auto request &#x3D; std::make_shared&lt;cpp_tutorial_interfaces::srv::AddThreeInts::Request&gt;();               &#x2F;&#x2F; CHANGE</span><br><span class="line">  request-&gt;a &#x3D; atoll(argv[1]);</span><br><span class="line">  request-&gt;b &#x3D; atoll(argv[2]);</span><br><span class="line">  request-&gt;c &#x3D; atoll(argv[3]);               &#x2F;&#x2F; CHANGE</span><br><span class="line"></span><br><span class="line">  while (!client-&gt;wait_for_service(1s)) &#123;</span><br><span class="line">    if (!rclcpp::ok()) &#123;</span><br><span class="line">      RCLCPP_ERROR(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Interrupted while waiting for the service. Exiting.&quot;);</span><br><span class="line">      return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;service not available, waiting again...&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这一段的rclcpp::executor::FutureReturnCode只支持foxy版本</span><br><span class="line">&#x2F;&#x2F;   auto result &#x3D; client-&gt;async_send_request(request);</span><br><span class="line">&#x2F;&#x2F;   &#x2F;&#x2F; Wait for the result.</span><br><span class="line">&#x2F;&#x2F;   if (rclcpp::spin_until_future_complete(node, result) &#x3D;&#x3D;</span><br><span class="line">&#x2F;&#x2F;     rclcpp::executor::FutureReturnCode::SUCCESS)</span><br><span class="line">&#x2F;&#x2F;   &#123;</span><br><span class="line">&#x2F;&#x2F;     RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Sum: %ld&quot;, result.get()-&gt;sum);</span><br><span class="line">&#x2F;&#x2F;   &#125; else &#123;</span><br><span class="line">&#x2F;&#x2F;     RCLCPP_ERROR(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Failed to call service add_three_ints&quot;);    &#x2F;&#x2F; CHANGE</span><br><span class="line">&#x2F;&#x2F;   &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;   rclcpp::shutdown();</span><br><span class="line"></span><br><span class="line">  auto result &#x3D; client-&gt;async_send_request(request);</span><br><span class="line">  &#x2F;&#x2F; Wait for the result.</span><br><span class="line">  if (rclcpp::spin_until_future_complete(node, result) &#x3D;&#x3D;</span><br><span class="line">    rclcpp::FutureReturnCode::SUCCESS)</span><br><span class="line">  &#123;</span><br><span class="line">    RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Sum: %ld&quot;, result.get()-&gt;sum);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    RCLCPP_ERROR(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Failed to call service add_three_ints&quot;);    &#x2F;&#x2F; CHANGE</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CMakeList</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.8)</span><br><span class="line">project(cpp_custom_srv)</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(cpp_tutorial_interfaces REQUIRED)        # CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(server src&#x2F;add_three_ints_server.cpp)</span><br><span class="line">ament_target_dependencies(server</span><br><span class="line">  rclcpp cpp_tutorial_interfaces)                      #CHANGE</span><br><span class="line"></span><br><span class="line">add_executable(client src&#x2F;add_three_ints_client.cpp)</span><br><span class="line">ament_target_dependencies(client</span><br><span class="line">  rclcpp cpp_tutorial_interfaces)                      #CHANGE</span><br><span class="line"></span><br><span class="line">install(TARGETS</span><br><span class="line">  server</span><br><span class="line">  client</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<p>package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;?xml-model href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot; schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line">&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line">  &lt;name&gt;cpp_custom_srv&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;description&gt;custom srv cs&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;maintainer email&#x3D;&quot;figoowen2003@126.com&quot;&gt;ubuntu-ros2&lt;&#x2F;maintainer&gt;</span><br><span class="line">  &lt;license&gt;Apache 2.0&lt;&#x2F;license&gt;</span><br><span class="line"></span><br><span class="line">  &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;depend&gt;cpp_tutorial_interfaces&lt;&#x2F;depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">  &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;export&gt;</span><br><span class="line">    &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;&#x2F;export&gt;</span><br><span class="line">&lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select cpp_custom_srv</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 run cpp_custom_srv server</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/image-20210911180415407.png" alt="image-20210911180415407"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 run cpp_custom_srv client</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/README.png" alt="image-20210911180516835"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/09/13/自定义ROS2消息-二/" data-toggle="tooltip" data-placement="top" title="自定义ROS2消息(二)">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/09/08/设计Joint-State-Publisher/" data-toggle="tooltip" data-placement="top" title="设计Joint State Publisher">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/09/13/%E8%87%AA%E5%AE%9A%E4%B9%89ROS2-msg%E5%92%8Csrv%E6%96%87%E4%BB%B6/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

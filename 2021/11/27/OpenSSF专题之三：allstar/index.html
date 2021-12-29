@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          OpenSSF专题之三：allstar - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/11/27/OpenSSF专题之三：allstar/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>OpenSSF专题之三：allstar</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-11-27
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>Allstar是一个安装在组织（organization）或者仓库（repositories）上的Github App。它的目的是能够持续监控和检测任何有风险或者不符合安全最佳实践的Github设置或者仓库文件。</p>
+<p>如果Allstar发现仓库不合规，它将采取诸如创建issue或者恢复安全设置的措施。</p>
+<ul>
+<li>Allstar的具体策略是高度可配置的，以满足不同项目社区和组织的需求</li>
+<li>指定和贡献新的政策也很容易</li>
+</ul>
+<h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><p>在组织或者个人的github仓库上快速安装Allstar app，连接为<a target="_blank" rel="noopener" href="https://github.com/apps/allstar-app%EF%BC%8C%E7%BD%91%E9%A1%B5%E5%BC%8F%E5%AE%89%E8%A3%85%E3%80%82%E5%AE%89%E8%A3%85Allstar%E6%97%B6%EF%BC%8C%E7%94%A8%E6%88%B7%E9%9C%80%E8%A6%81%E5%AE%A1%E6%A0%B8app%E8%AF%B7%E6%B1%82%E7%9A%84%E6%9D%83%E9%99%90%E3%80%82Allstar">https://github.com/apps/allstar-app，网页式安装。安装Allstar时，用户需要审核app请求的权限。Allstar</a> app要求对大多数的设置和文件内容具有度权限，以检测安全合规性。它还会申请对issue的写权限以创建issue，对checks的写权限以允许阻塞的动作。（具体权限如<a target="_blank" rel="noopener" href="https://github.com/ossf/allstar/blob/main/operator.md%EF%BC%89">https://github.com/ossf/allstar/blob/main/operator.md）</a></p>
+<h2 id="快速配置"><a href="#快速配置" class="headerlink" title="快速配置"></a>快速配置</h2><p>前提：已经在我的账号/组织上安装了Allstar</p>
+<p>默认的，你的账号/组织上的Allstar不会采取任何动作。需要进行使能配置</p>
+<ul>
+<li><p>快速使能Allstar</p>
+<ol>
+<li><p>创建一个名为.allstar的仓库。</p>
+</li>
+<li><p>在上述仓库中创建一个名为allstar.yaml的配置文件，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optOutStrategy: true</span><br></pre></td></tr></table></figure></li>
+<li><p>创建四个文件<code>branch_protection.yaml</code>， <code>binary_artifacts.yaml</code>，<code>outside.yaml</code>，和<code>security.yaml</code>，并且都写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optOutStrategy: true</span><br><span class="line">action: issue</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>这样，我们就在所有仓库中使能了Allstar及其所有的策略policies（默认配置）.issue动作将在每一个违背了安全策略的仓库中创建github issue。</p>
+<p>如果仅仅希望使能一部分的仓库，那么在allstar.yaml文件中这样配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optInRepos:</span><br><span class="line">  - repo-one</span><br><span class="line">  - repo-two</span><br></pre></td></tr></table></figure>
+
+<p>以上配置是organization级别的</p>
+<p><strong>仓库级别的配置如下：</strong></p>
+<ol>
+<li><p>创建目录.allstar/</p>
+</li>
+<li><p>在上述目录中新建文件allstar.yaml，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optIn: true</span><br></pre></td></tr></table></figure></li>
+<li><p>创建四个文件<code>branch_protection.yaml</code>， <code>binary_artifacts.yaml</code>，<code>outside.yaml</code>，和<code>security.yaml</code>，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optIn: true</span><br><span class="line">action: issue</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h2 id="Allstar配置策略strategy"><a href="#Allstar配置策略strategy" class="headerlink" title="Allstar配置策略strategy"></a>Allstar配置策略strategy</h2><ul>
+<li>opt-in 只有在配置文件中显示列出的 仓库才可以使能Allstar</li>
+<li>opt-out 所有的仓库都可以使能Allstar，并且仓库需要显著地添加opt-out。</li>
+</ul>
+<h2 id="当前支持的策略policies"><a href="#当前支持的策略policies" class="headerlink" title="当前支持的策略policies"></a>当前支持的策略policies</h2><p>与 Allstar app使能配置类似，所有策略要么使用组织级的.allstar仓库中的yaml文件，要么使用仓库级别.allstar目录下的yaml文件来配置以让其使能。与应用程序一样，默认情况下是opt-in，默认<code>log</code>操作也不会产生可见的结果。启用所有策略的一种简单方法是为每个策略创建一个包含以下内容的 yaml 文件：<a target="_blank" rel="noopener" href="https://github.com/ossf/allstar/tree/main/pkg/policies">https://github.com/ossf/allstar/tree/main/pkg/policies</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optConfig:</span><br><span class="line">  optOutStrategy: true</span><br><span class="line">action: issue</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支保护"><a href="#分支保护" class="headerlink" title="分支保护"></a>分支保护</h3><p>此策略的配置文件名为<code>branch_protection.yaml</code>，<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/ossf/allstar@v0.0.0-20210728182754-005854d69ba7/pkg/policies/branch#OrgConfig">配置定义在此处</a>。</p>
+<p>分支保护策略 根据指定的配置检查 GitHub 的<a target="_blank" rel="noopener" href="https://docs.github.com/en/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches">分支保护设置</a>是否正确<a target="_blank" rel="noopener" href="https://docs.github.com/en/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches">设置</a>。问题文本将描述哪个设置不正确。有关 更正设置，请参阅<a target="_blank" rel="noopener" href="https://docs.github.com/en/github/administering-a-repository/defining-the-mergeability-of-pull-requests/about-protected-branches">GitHub 的文档</a>。</p>
+<h3 id="二进制工件"><a href="#二进制工件" class="headerlink" title="二进制工件"></a>二进制工件</h3><p>此策略的配置文件名为<code>binary_artifacts.yaml</code>，<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/ossf/allstar@v0.0.0-20210728182754-005854d69ba7/pkg/policies/binary#OrgConfig">配置定义在此处</a>。</p>
+<p>此策略包含<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/#scorecard-checks">来自记分卡</a>的<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/#scorecard-checks">检查</a>。从存储库中删除二进制工件以实现合规性。由于记分卡结果可能很冗长，您可能需要运行<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard">记分卡本身</a>才能查看所有详细信息。</p>
+<h3 id="外部合作者"><a href="#外部合作者" class="headerlink" title="外部合作者"></a>外部合作者</h3><p>此策略的配置文件名为<code>outside.yaml</code>，<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/ossf/allstar@v0.0.0-20210728182754-005854d69ba7/pkg/policies/outside#OrgConfig">配置定义在此处</a>。</p>
+<p>此策略检查是否有任何<a target="_blank" rel="noopener" href="https://docs.github.com/en/organizations/managing-access-to-your-organizations-repositories/adding-outside-collaborators-to-repositories-in-your-organization">外部协作者</a> 对存储库具有管理员（默认）或推送（可选）访问权限。只有组织成员才能拥有此访问权限，否则不受信任的成员可以更改管理员级别设置并提交恶意代码。</p>
+<h3 id="安全文件"><a href="#安全文件" class="headerlink" title="安全文件"></a>安全文件</h3><p>此策略的配置文件名为<code>security.yaml</code>，<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/ossf/allstar@v0.0.0-20210728182754-005854d69ba7/pkg/policies/security#OrgConfig">配置定义在此处</a>。</p>
+<p>此策略检查存储库中是否有安全策略文件 <code>SECURITY.md</code>并且它不为空。创建的问题将包含一个指向<a target="_blank" rel="noopener" href="https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository">GitHub 选项卡</a>的链接 ，可帮助您向存储库提交安全策略。</p>
+<h2 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h2><p>每个策略policy都可以配置一个 Allstar 的操作，当检测到存储库不合规时。</p>
+<ul>
+<li><code>log</code>：这是默认操作，实际上对所有操作都会发生。记录所有策略运行结果和详细信息。日志目前仅对应用程序运营商可见，公开这些的计划正在讨论中。</li>
+<li><code>issue</code>：此操作会导致 GitHub 问题。每个策略只创建一个问题，文本描述了策略违规的详细信息。如果问题已经打开，则会每 24 小时用一条评论对其进行 ping 测试（当前用户不可配置）。一旦违规得到解决，Allstar 将在 5-10 分钟内自动关闭该问题。</li>
+<li><code>fix</code>：此操作是特定于政策的。该策略将对 GitHub 设置进行更改以更正策略违规。并非所有政策都能支持这一点（见下文）。</li>
+</ul>
+<p>已提议但尚未实施的行动。将来会添加定义。</p>
+<ul>
+<li><code>block</code>：Allstar 可以设置<a target="_blank" rel="noopener" href="https://docs.github.com/en/github/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks">GitHub 状态检查</a> 并在检查失败时阻止存储库中的任何 PR 被合并。</li>
+<li><code>email</code>：Allstar 会向存储库管理员发送电子邮件。</li>
+<li><code>rpc</code>：Allstar 会向某些特定于组织的系统发送 rpc。</li>
+</ul>
+<h1 id="创建自己的Allstar实例app"><a href="#创建自己的Allstar实例app" class="headerlink" title="创建自己的Allstar实例app"></a>创建自己的Allstar实例app</h1><p><a target="_blank" rel="noopener" href="https://github.com/ossf/allstar/blob/main/operator.md">https://github.com/ossf/allstar/blob/main/operator.md</a></p>
+<ul>
+<li><p>首先是创建一个github app 参考<a target="_blank" rel="noopener" href="https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app">https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app</a></p>
+<ul>
+<li><p><strong>Name/Description/Homepage URL</strong> Something specific to your instance.</p>
+</li>
+<li><p><strong>Callback URL</strong> Leave blank, Allstar does not auth as a user.</p>
+</li>
+<li><p><strong>Request user authorization (OAuth) during installation</strong> uncheck.</p>
+</li>
+<li><p><strong>Webhooks/Subscribe to events</strong> Uncheck and leave blank. Allstar does not listen for webhooks at this time.</p>
+</li>
+<li><p><strong>Permissions</strong> Follow this example: </p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/OpenSSF%E4%B8%93%E9%A2%98%E4%B9%8B%E4%B8%89%EF%BC%9Aallstar/121067612-1bbc5200-c780-11eb-9bd3-214dfe808bf7.png" alt="image"></p>
+</li>
+</ul>
+</li>
+<li><p>获取ID和key 参考<a target="_blank" rel="noopener" href="https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps">https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps</a></p>
+<p>还要记下新应用程序的“常规”或“关于”部分中的应用程序 ID。</p>
+<p>通过<a target="_blank" rel="noopener" href="https://gocloud.dev/howto/runtimevar/">Go CDK 运行时配置</a>将私钥内容上传到支持的服务</p>
+<p>编辑<code>pkg/config/operator/operator.go</code>并设置 AppID 和 KeySecret 链接。您可能需要<code>pkg/ghclients/ghclients.go</code>为您的秘密服务编辑和添加新的导入行，例如：<code>_ &quot;gocloud.dev/runtimevar/gcpsecretmanager&quot;</code>。</p>
+</li>
+<li><p>运行Allstar</p>
+</li>
+<li><p><code>cmd/allstar/</code>（<a target="_blank" rel="noopener" href="https://github.com/ossf/allstar/tree/main/cmd/allstar%EF%BC%89%E5%9C%A8%E4%BB%BB%E4%BD%95%E7%8E%AF%E5%A2%83%E4%B8%AD%E6%9E%84%E5%BB%BA%E5%92%8C%E8%BF%90%E8%A1%8C%E3%80%82%E4%B8%8D%E9%9C%80%E8%A6%81">https://github.com/ossf/allstar/tree/main/cmd/allstar）在任何环境中构建和运行。不需要</a> cli 配置。Allstar 当前不侦听 webhooks，因此不需要传入网络配置。仅向 GitHub 发出呼叫。最好只运行一个实例，以避免在强制措施中出现潜在的竞争条件，例如：同时 ping 一个问题两次。</p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/11/29/OpenSSF专题之四：criticality-score/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题之四：criticality_score">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/11/26/OpenSSF专题之二：package-anlysis/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题之二：package-anlysis">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/11/27/OpenSSF%E4%B8%93%E9%A2%98%E4%B9%8B%E4%B8%89%EF%BC%9Aallstar/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

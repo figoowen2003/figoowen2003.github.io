@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ROS2开发插件 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/09/17/ROS2开发插件/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>ROS2开发插件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-09-17
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ol>
+<li><p><strong>pluginlib简介</strong></p>
+<p>pluginlib是用于从ROS功能包中加载和卸载插件的C++库。</p>
+<p>插件是从可以从运行时库（如共享库，动态链接库）加载的类。</p>
+</li>
+<li><p><strong>功能简介</strong></p>
+<p>使用pluginlib，我们就不必显示地将应用程序链接到包含所需类的库上，取而代之，pluginlib可以在任何时候打开一个包含需要导出的类的库，而无需提前感知到这个库或者包含所需类的头文件。</p>
+</li>
+</ol>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-rolling-pluginlib</span><br></pre></td></tr></table></figure>
+
+<p>安装pluginlib库</p>
+<h1 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h1><p>我们将创建两个功能包，一个用于定义基类，另一个提供插件。基类定义了一个通用的多边形，插件定义指定的形状。</p>
+<h2 id="1-创建基类的功能包"><a href="#1-创建基类的功能包" class="headerlink" title="1. 创建基类的功能包"></a>1. 创建基类的功能包</h2><p>我们的工作空间为robot_sim，在src下创建功能包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake polygon_base --dependencies pluginlib --node-name area_node</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/image-20210917163357898.png" alt="image-20210917163357898"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/image-20210917163456708.png" alt="image-20210917163456708"></p>
+<p>在include/polygon_base目录下新建文件regular_polygon.hpp，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#ifndef POLYGON_BASE_REGULAR_POLYGON_HPP</span><br><span class="line">#define POLYGON_BASE_REGULAR_POLYGON_HPP</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 抽象基类，用于定义通用的多边形</span><br><span class="line">namespace polygon_base</span><br><span class="line">&#123;</span><br><span class="line">  class RegularPolygon</span><br><span class="line">  &#123;</span><br><span class="line">    public:</span><br><span class="line">      virtual void initialize(double side_length) &#x3D; 0;</span><br><span class="line">      virtual double area() &#x3D; 0;</span><br><span class="line">      virtual ~RegularPolygon()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    protected:</span><br><span class="line">      RegularPolygon()&#123;&#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;  &#x2F;&#x2F; namespace polygon_base</span><br><span class="line"></span><br><span class="line">#endif  &#x2F;&#x2F; POLYGON_BASE_REGULAR_POLYGON_HPP</span><br></pre></td></tr></table></figure>
+
+<p>当我们使用pluginlib时，我们的类需要一个不带参数的构造函数，因此，如果需要初始化任何参数，应该使用initialize函数来完成。</p>
+<p>为了让这个头文件生效，接下来我们修改CMakeList。</p>
+<p>在ament_target_dependencies后添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">install(</span><br><span class="line">  DIRECTORY include&#x2F;</span><br><span class="line">  DESTINATION include</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>在ament_package之前添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ament_export_include_directories(</span><br><span class="line">  include</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-创建插件的功能包"><a href="#2-创建插件的功能包" class="headerlink" title="2. 创建插件的功能包"></a>2. 创建插件的功能包</h2><p>同样，在robot_sim/src下面输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake polygon_plugins --dependencies polygon_base pluginlib --library-name polygon_plugins</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/image-20210917172640164.png" alt="image-20210917172640164"></p>
+<p>接下来，我们将编写抽象基类的两个非虚的实现：</p>
+<h3 id="2-1-插件的实现"><a href="#2-1-插件的实现" class="headerlink" title="2.1 插件的实现"></a>2.1 插件的实现</h3><p>在src下已经存在polygon_plugins.cpp，用以下内容覆盖原有内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;polygon_base&#x2F;regular_polygon.hpp&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line"></span><br><span class="line">namespace polygon_plugins</span><br><span class="line">&#123;</span><br><span class="line">  class Square : public polygon_base::RegularPolygon</span><br><span class="line">  &#123;</span><br><span class="line">    public:</span><br><span class="line">      void initialize(double side_length) override</span><br><span class="line">      &#123;</span><br><span class="line">        side_length_ &#x3D; side_length;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      double area() override</span><br><span class="line">      &#123;</span><br><span class="line">        return side_length_ * side_length_;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    protected:</span><br><span class="line">      double side_length_;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  class Triangle : public polygon_base::RegularPolygon</span><br><span class="line">  &#123;</span><br><span class="line">    public:</span><br><span class="line">      void initialize(double side_length) override</span><br><span class="line">      &#123;</span><br><span class="line">        side_length_ &#x3D; side_length;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      double area() override</span><br><span class="line">      &#123;</span><br><span class="line">        return 0.5 * side_length_ * getHeight();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      double getHeight()</span><br><span class="line">      &#123;</span><br><span class="line">        return sqrt((side_length_ * side_length_) - ((side_length_ &#x2F; 2) * (side_length_ &#x2F; 2)));</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    protected:</span><br><span class="line">      double side_length_;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#include &lt;pluginlib&#x2F;class_list_macros.hpp&gt;</span><br><span class="line"></span><br><span class="line">PLUGINLIB_EXPORT_CLASS(polygon_plugins::Square, polygon_base::RegularPolygon)</span><br><span class="line">PLUGINLIB_EXPORT_CLASS(polygon_plugins::Triangle, polygon_base::RegularPolygon)</span><br></pre></td></tr></table></figure>
+
+<p>pluginlib的作用体现在最后三行，通过使用PLUGINLIB_EXPORT_CLASS宏，来完成将类注册为实际插件的过程：</p>
+<p>如：</p>
+<p>polygon_plugins::Square 插件类的完全限定类型</p>
+<p>polygon_base::RegularPolygon 基类的完全限定类型</p>
+<h3 id="2-2-用来声明插件的XML"><a href="#2-2-用来声明插件的XML" class="headerlink" title="2.2 用来声明插件的XML"></a>2.2 用来声明插件的XML</h3><p>pluginlib的宏调用确保了一旦插件所在的库被加载，插件的实例就会被创建。然后，插件的加载器仍然需要一种方法去查找这个库，并且知道去引用库的哪些内容。</p>
+<p>因此，我们需要创建一个XML文件，让所有关于插件的必要信息能适用于ROS的工具链</p>
+<p>这个xml文件被成为插件描述文件，它存储着关于插件的全部重要信息，如插件所在的库，插件名称，插件类型等等。</p>
+<p>新建文件robot/src/polygon_plugins/plugins.xml，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;library path&#x3D;&quot;polygon_plugins&quot;&gt;</span><br><span class="line">  &lt;class type&#x3D;&quot;polygon_plugins::Square&quot; base_class_type&#x3D;&quot;polygon_base::RegularPolygon&quot;&gt;</span><br><span class="line">    &lt;description&gt;This is a square plugin.&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;&#x2F;class&gt;</span><br><span class="line">  &lt;class type&#x3D;&quot;polygon_plugins::Triangle&quot; base_class_type&#x3D;&quot;polygon_base::RegularPolygon&quot;&gt;</span><br><span class="line">    &lt;description&gt;This is a triangle plugin.&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;&#x2F;class&gt;</span><br><span class="line">&lt;&#x2F;library&gt;</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ol>
+<li>library标签提供了包含所要加载插件的库的相对路径。在ROS2中，相对路径就是库的名字。在ROS1中，则需要包含前缀lib，有时候还可能是lib/lib，如lib/libpolygon_plugins</li>
+<li>class标签用于声明从库中导出的插件<ul>
+<li>type参数：插件的完整类型，包括命名空间</li>
+<li>base_class参数：插件基类的完整类型，包括命名空间</li>
+<li>description参数：插件功能描述</li>
+<li>name参数：过去是一个name属性，现在已经不做要求</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-3-修改CMakeList"><a href="#2-3-修改CMakeList" class="headerlink" title="2.3 修改CMakeList"></a>2.3 修改CMakeList</h3><p>在find_package(pluginlib REQUIRED)之后添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">add_library(polygon_plugins src&#x2F;polygon_plugins.cpp)</span><br><span class="line">target_include_directories(polygon_plugins PUBLIC</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&gt;)</span><br><span class="line">ament_target_dependencies(</span><br><span class="line">  polygon_plugins</span><br><span class="line">  polygon_base</span><br><span class="line">  pluginlib</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># plugin description file</span><br><span class="line">pluginlib_export_plugin_description_file(polygon_base plugins.xml)</span><br><span class="line"></span><br><span class="line">install(</span><br><span class="line">  TARGETS polygon_plugins</span><br><span class="line">  EXPORT export_$&#123;PROJECT_NAME&#125;</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>z在ament_package之前，添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ament_export_libraries(</span><br><span class="line">  polygon_plugins</span><br><span class="line">)</span><br><span class="line">ament_export_targets(</span><br><span class="line">  export_$&#123;PROJECT_NAME&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-插件的使用"><a href="#3-插件的使用" class="headerlink" title="3. 插件的使用"></a>3. 插件的使用</h2><p>修改robot_sim/sr/polygon_base/src/area_node.cpp，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;pluginlib&#x2F;class_loader.hpp&gt;</span><br><span class="line">#include &lt;polygon_base&#x2F;regular_polygon.hpp&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; To avoid unused parameter warnings</span><br><span class="line">  (void) argc;</span><br><span class="line">  (void) argv;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; ClassLoader是以基类为模板的模板类，其构造函数的第一个参数为基类所属的报名，第二个参数是基类的完整类名</span><br><span class="line">  pluginlib::ClassLoader&lt;polygon_base::RegularPolygon&gt; poly_loader(&quot;polygon_base&quot;, &quot;polygon_base::RegularPolygon&quot;);</span><br><span class="line"></span><br><span class="line">  try</span><br><span class="line">  &#123;</span><br><span class="line">    &#x2F;&#x2F; ClassLoader提供的createSharedInstance函数创建插件的实例</span><br><span class="line">    std::shared_ptr&lt;polygon_base::RegularPolygon&gt; triangle &#x3D; poly_loader.createSharedInstance(&quot;polygon_plugins::Triangle&quot;);</span><br><span class="line">    triangle-&gt;initialize(10.0);</span><br><span class="line"></span><br><span class="line">    std::shared_ptr&lt;polygon_base::RegularPolygon&gt; square &#x3D; poly_loader.createSharedInstance(&quot;polygon_plugins::Square&quot;);</span><br><span class="line">    square-&gt;initialize(10.0);</span><br><span class="line"></span><br><span class="line">    printf(&quot;Triangle area: %.2f\n&quot;, triangle-&gt;area());</span><br><span class="line">    printf(&quot;Square area: %.2f\n&quot;, square-&gt;area());</span><br><span class="line">  &#125;</span><br><span class="line">  catch(pluginlib::PluginlibException&amp; ex)</span><br><span class="line">  &#123;</span><br><span class="line">    printf(&quot;The plugin failed to load for some reason. Error: %s\n&quot;, ex.what());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：基类所在的功能包并不依赖于插件polygon_plugins类。这两个插件将动态地加载到基类功能包中。此处我们对插件名称采用了硬编码方式，也可以使用参数来动态进行。</p>
+<h2 id="4-编译运行"><a href="#4-编译运行" class="headerlink" title="4. 编译运行"></a>4. 编译运行</h2><p>在robot_sim下编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select polygon_base polygon_plugins</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/image-20210918164709982.png" alt="image-20210918164709982"></p>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run polygon_base area_node</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/image-20210918164828748.png" alt="image-20210918164828748"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/10/27/Navigation2专题一：概念/" data-toggle="tooltip" data-placement="top" title="Navigation2专题一：概念">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/09/13/ROS2消息基本知识/" data-toggle="tooltip" data-placement="top" title="ROS2消息基本知识">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/09/17/ROS2%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

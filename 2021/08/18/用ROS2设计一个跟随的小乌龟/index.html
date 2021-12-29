@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          用ROS2设计一个跟随的小乌龟 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/08/18/用ROS2设计一个跟随的小乌龟/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ROS2, TF2, C++" title="ROS2, TF2, C++">ROS2, TF2, C++</a>
+                            
+                        </div>
+                        <h1>用ROS2设计一个跟随的小乌龟</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-08-18
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
+<li>孵化两只小乌龟，分别为turtle1和turtle2</li>
+<li>利用键盘控制小乌龟turtle1的运动</li>
+<li>当小乌龟turtle1运动时，小乌龟turtle2会跟随turtle1运动</li>
+</ol>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
+<li>小乌龟turtle1和turtle2都需要发布其自身相对与世界坐标系world的坐标信息</li>
+<li>订阅1中的坐标信息，将坐标信息转换成turtle1相对于turtle2的坐标系信息</li>
+<li>计算出turtle2跟随turtle1所需要的速度信息</li>
+<li>发布turtle2的速度信息，控制turtle2的运动</li>
+</ol>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li>新建功能包，添加依赖关系</li>
+<li>根据ROS2中小乌龟的功能包，利用launch文件孵化第一只小乌龟turtle1</li>
+<li>编写service client代码，孵化第二只小乌龟turtle2</li>
+<li>编写发布者代码，发布两只小乌龟相对于世界坐标系的坐标信息</li>
+<li>编写控制代码，需要实现两个功能，首先是订阅两只乌龟的坐标信息，然后生成turtle2相对于turtle1的的速度信息并发布</li>
+<li>命令行启动键盘控制功能包，注意需要修改发布的topic的名称，使其与turtle1的速度topic名称一致</li>
+</ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
+<li><p>了解如何创建第二只乌龟，且不受键盘控制</p>
+<p>创建乌龟需要使用service，话题是spawn</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim_node</span><br></pre></td></tr></table></figure>
+
+<p>启动一个乌龟的节点，然后查看其使用的服务和话题</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818162411172.png" alt="image-20210818162411172"></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 service list -t</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818162539391.png" alt="image-20210818162539391"></p>
+<p>名为/spawn的service话题就是用来生成小乌龟的</p>
+<ol start="2">
+<li><p>分析如何获取两只乌龟的坐标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list -t</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818163210267.png" alt="image-20210818163210267"></p>
+</li>
+</ol>
+<p>​      乌龟坐标信息对应的话题/turtle1/pose，类型为turtlesim/msg/Pose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show turtlesim&#x2F;msg</span><br></pre></td></tr></table></figure>
+
+<p>​        <img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818164043771.png" alt="image-20210818164043771"></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="创建功能包"><a href="#创建功能包" class="headerlink" title="创建功能包"></a>创建功能包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake cpp_a_follow_turtle_pkg --dependencies rclcpp tf2 tf2_ros tf2_geometry_msgs std_msgs geometry_msgs turtlesim</span><br></pre></td></tr></table></figure>
+
+<p>得到以下目录结构</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818171408962.png" alt="image-20210818171408962"></p>
+<p>包括CMakeLists.txt，incluede，package.xml，src</p>
+<p>其中package.xml内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;?xml-model href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot; schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line">&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line">  &lt;name&gt;cpp_a_follow_turtle_pkg&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;description&gt;a follow turtle&lt;&#x2F;description&gt;</span><br><span class="line">  &lt;maintainer email&#x3D;&quot;figoowen2003@126.com&quot;&gt;ubuntu-ros&lt;&#x2F;maintainer&gt;</span><br><span class="line">  &lt;license&gt;Apache 2.0&lt;&#x2F;license&gt;</span><br><span class="line"></span><br><span class="line">  &lt;depend&gt;tf2&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;tf2_ros&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;tf2_geometry_msgs&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;rclcpp&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;std_msgs&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;geometry_msgs&lt;&#x2F;depend&gt;</span><br><span class="line">  &lt;depend&gt;turtlesim&lt;&#x2F;depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">  &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line"></span><br><span class="line">  &lt;export&gt;</span><br><span class="line">    &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;&#x2F;export&gt;</span><br><span class="line">&lt;&#x2F;package&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>生成的CMakeList.txt内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.5)</span><br><span class="line">project(cpp_following_turtle_pkg)</span><br><span class="line"></span><br><span class="line"># Default to C99</span><br><span class="line">if(NOT CMAKE_C_STANDARD)</span><br><span class="line">  set(CMAKE_C_STANDARD 99)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># Default to C++14</span><br><span class="line">if(NOT CMAKE_CXX_STANDARD)</span><br><span class="line">  set(CMAKE_CXX_STANDARD 14)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(tf2 REQUIRED)</span><br><span class="line">find_package(tf2_ros REQUIRED)</span><br><span class="line">find_package(tf2_geometry_msgs REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(std_msgs REQUIRED)</span><br><span class="line">find_package(geometry_msgs REQUIRED)</span><br><span class="line">find_package(turtlesim REQUIRED)</span><br><span class="line"></span><br><span class="line">if(BUILD_TESTING)</span><br><span class="line">  find_package(ament_lint_auto REQUIRED)</span><br><span class="line">  # the following line skips the linter which checks for copyrights</span><br><span class="line">  # uncomment the line when a copyright and license is not present in all source files</span><br><span class="line">  #set(ament_cmake_copyright_FOUND TRUE)</span><br><span class="line">  # the following line skips cpplint (only works in a git repo)</span><br><span class="line">  # uncomment the line when this package is not in a git repo</span><br><span class="line">  #set(ament_cmake_cpplint_FOUND TRUE)</span><br><span class="line">  ament_lint_auto_find_test_dependencies()</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成两只乌龟"><a href="#生成两只乌龟" class="headerlink" title="生成两只乌龟"></a>生成两只乌龟</h2><p>创建一个名为new_turtle_spawner.cpp的文件，拷贝以下代码到文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *  spawn a new turtle</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">#include &lt;turtlesim&#x2F;srv&#x2F;spawn.hpp&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    &#x2F;&#x2F; init, start node, forward command line arguments to ROS</span><br><span class="line">    rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create spawn node</span><br><span class="line">    auto node &#x3D; rclcpp::Node::make_shared(&quot;turtle_spawner&quot;);</span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;create turtle spawner&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create spawn service client</span><br><span class="line">    auto spawnerClient &#x3D; node-&gt;create_client&lt;turtlesim::srv::Spawn&gt;(&quot;&#x2F;spawn&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; init a new turtle info</span><br><span class="line">    auto request &#x3D; std::make_shared&lt;turtlesim::srv::Spawn::Request&gt;();</span><br><span class="line">    request-&gt;name &#x3D; &quot;turtle2&quot;;</span><br><span class="line">    request-&gt;x &#x3D; 1.5;</span><br><span class="line">    request-&gt;y &#x3D; 2.0;</span><br><span class="line">    request-&gt;theta &#x3D; 3.333;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; make sure service has been connected</span><br><span class="line">    while (!spawnerClient-&gt;wait_for_service(1s)) &#123;</span><br><span class="line">        if (!rclcpp::ok()) &#123;</span><br><span class="line">            RCLCPP_ERROR(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;Interrupted while waiting for the service&quot;);</span><br><span class="line">            return -1;</span><br><span class="line">        &#125;</span><br><span class="line">        RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;service not available, waiting again...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; call the spawn service</span><br><span class="line">    auto result &#x3D; spawnerClient-&gt;async_send_request(request);</span><br><span class="line">    &#x2F;&#x2F;wait for result</span><br><span class="line">    if (rclcpp::spin_until_future_complete(node, result) &#x3D;&#x3D; rclcpp::FutureReturnCode::SUCCESS) &#123;</span><br><span class="line">        auto r &#x3D; result.get();</span><br><span class="line">        RCLCPP_INFO(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;result got, %s created sucessfully!&quot;, r-&gt;name.c_str());</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        RCLCPP_ERROR(rclcpp::get_logger(&quot;rclcpp&quot;), &quot;fail to get result, turtle created failed!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; spin function</span><br><span class="line">    rclcpp::spin(node);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; shutdown</span><br><span class="line">    rclcpp::shutdown();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建名为launch的文件夹，在文件夹下创建名为follow_turtle.launch.py的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python3</span><br><span class="line"></span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line">from launch.substitutions import LaunchConfiguration</span><br><span class="line">from launch.actions import DeclareLaunchArgument</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    turtle1 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;turtlesim&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtlesim_node&#39;,</span><br><span class="line">        name &#x3D; &#39;turtle1&#39;,</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtle2 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtle_spawner&#39;,</span><br><span class="line">        name &#x3D; &#39;turtle2&#39;,</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )    </span><br><span class="line"></span><br><span class="line">    return LaunchDescription([       </span><br><span class="line">        turtle1,</span><br><span class="line">        turtle2,</span><br><span class="line">    ])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在CMakeList.txt中添加如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">add_executable(turtle_spawner src&#x2F;new_turtle_spawner.cpp)</span><br><span class="line">ament_target_dependencies(turtle_spawner rclcpp turtlesim)</span><br><span class="line"></span><br><span class="line">install(TARGETS turtle_spawner</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line"># Install launch files.</span><br><span class="line">install(DIRECTORY</span><br><span class="line">launch</span><br><span class="line">DESTINATION share&#x2F;$&#123;PROJECT_NAME&#125;&#x2F;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select cpp_a_follow_turtle_pkg</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch cpp_a_follow_turtle_pkg follow_turtle.launch.py</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818174721902.png" alt="image-20210818174721902"></p>
+<h2 id="发布两只乌龟的坐标信息"><a href="#发布两只乌龟的坐标信息" class="headerlink" title="发布两只乌龟的坐标信息"></a>发布两只乌龟的坐标信息</h2><p>新建文件turtles_pose_pub.cpp，拷贝以下代码到文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * subscribe the pose of the two turtles,then broadcast</span><br><span class="line"> * their coordinates to the world base</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">#include &lt;turtlesim&#x2F;msg&#x2F;pose.hpp&gt;</span><br><span class="line">#include &lt;tf2_ros&#x2F;transform_broadcaster.h&gt;</span><br><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;transform_stamped.hpp&gt;</span><br><span class="line">#include &lt;tf2&#x2F;LinearMath&#x2F;Quaternion.h&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using std::placeholders::_1;</span><br><span class="line"></span><br><span class="line">rclcpp::Node::SharedPtr node;</span><br><span class="line">string turtleName;</span><br><span class="line"></span><br><span class="line">void CallBack(const turtlesim::msg::Pose::SharedPtr msg) &#123;</span><br><span class="line">    &#x2F;&#x2F; create broadcastor for TF</span><br><span class="line">    static auto tfBr &#x3D; std::make_shared&lt;tf2_ros::TransformBroadcaster&gt;(node);</span><br><span class="line">    geometry_msgs::msg::TransformStamped tfStamped;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; get turtle pose and change it to transformStamped info</span><br><span class="line">    tfStamped.header.stamp &#x3D; rclcpp::Time();</span><br><span class="line">    tfStamped.header.frame_id &#x3D; &quot;world&quot;;   &#x2F;&#x2F; father frame</span><br><span class="line">    &#x2F;&#x2F; tfStamped.child_frame_id &#x3D; &quot;turtle1&quot;;  &#x2F;&#x2F; child frame</span><br><span class="line">    tfStamped.child_frame_id &#x3D; turtleName;</span><br><span class="line">    &#x2F;&#x2F; x,y,z info</span><br><span class="line">    tfStamped.transform.translation.x &#x3D; msg-&gt;x;</span><br><span class="line">    tfStamped.transform.translation.y &#x3D; msg-&gt;y;</span><br><span class="line">    tfStamped.transform.translation.z &#x3D; 0.0;</span><br><span class="line">    &#x2F;&#x2F; use euler angle to get quaternion</span><br><span class="line">    tf2::Quaternion qtn;</span><br><span class="line">    qtn.setRPY(0.0, 0.0, msg-&gt;theta);</span><br><span class="line">    tfStamped.transform.rotation.x &#x3D; qtn.x();</span><br><span class="line">    tfStamped.transform.rotation.y &#x3D; qtn.y();</span><br><span class="line">    tfStamped.transform.rotation.z &#x3D; qtn.z();</span><br><span class="line">    tfStamped.transform.rotation.w &#x3D; qtn.w();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; publish tf</span><br><span class="line">    tfBr-&gt;sendTransform(tfStamped);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    &#x2F;&#x2F; init node, deliver args to node</span><br><span class="line">    rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create node</span><br><span class="line">    node &#x3D; rclcpp::Node::make_shared(&quot;turtle_pub&quot;);</span><br><span class="line">    cout &lt;&lt; &quot;argc &#x3D; &quot; &lt;&lt; argc &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[0] &#x3D; &quot; &lt;&lt; argv[0] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[1] &#x3D; &quot; &lt;&lt; argv[1] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[2] &#x3D; &quot; &lt;&lt; argv[2] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[3] &#x3D; &quot; &lt;&lt; argv[3] &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;argv[4] &#x3D; &quot; &lt;&lt; argv[4] &lt;&lt; endl;</span><br><span class="line">    &#x2F;&#x2F; parse the args from main</span><br><span class="line">    if (argc !&#x3D; 5) &#123;</span><br><span class="line">        RCLCPP_INFO(node-&gt;get_logger(), &quot;args not corrected!&quot;);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        turtleName &#x3D; argv[1];</span><br><span class="line">        RCLCPP_INFO(node-&gt;get_logger(), &quot;got turtle name: %s&quot;, turtleName.c_str());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create subscribe to turtle pose</span><br><span class="line">    auto pose_sub &#x3D; node-&gt;create_subscription&lt;turtlesim::msg::Pose&gt;(turtleName + &quot;&#x2F;pose&quot;, 100,</span><br><span class="line">        std::bind(&amp;CallBack, _1));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; ros2 spin function</span><br><span class="line">    rclcpp::spin(node);</span><br><span class="line"></span><br><span class="line">    rclcpp::shutdown();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在launch文件中增加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">turtle_pub1 &#x3D; Node(</span><br><span class="line">    package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">    executable &#x3D; &#39;turtle_pub&#39;,</span><br><span class="line">    name &#x3D; &#39;tf_caster1&#39;,</span><br><span class="line">    arguments &#x3D; [&#39;turtle1&#39;],</span><br><span class="line">    output &#x3D; &#39;screen&#39;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">turtle_pub2 &#x3D; Node(</span><br><span class="line">    package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">    executable &#x3D; &#39;turtle_pub&#39;,</span><br><span class="line">    name &#x3D; &#39;tf_caster2&#39;,</span><br><span class="line">    arguments &#x3D; [&#39;turtle2&#39;],</span><br><span class="line">    output &#x3D; &#39;screen&#39;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">return LaunchDescription([</span><br><span class="line">    # DeclareLaunchArgument(</span><br><span class="line">    #     &#39;turtle_name&#39;,</span><br><span class="line">    #     default_value&#x3D;turtle_name,</span><br><span class="line">    #     description&#x3D;&#39;input turtle name&#39;),        </span><br><span class="line">    turtle1,</span><br><span class="line">    turtle2,</span><br><span class="line">    turtle_pub1,</span><br><span class="line">    turtle_pub2,</span><br><span class="line">])    </span><br></pre></td></tr></table></figure>
+
+<p>在CMakeList.txt中添加如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add_executable(turtle_pub src&#x2F;turtles_pose_pub.cpp)</span><br><span class="line">ament_target_dependencies(turtle_pub rclcpp turtlesim tf2_ros geometry_msgs)</span><br><span class="line"></span><br><span class="line">install(TARGETS turtle_pub</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，打开rviz查看</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/image-20210818175501543.png" alt="image-20210818175501543"></p>
+<p>可以看到turtle1，turtle2和世界坐标系world的相对关系已经发布出来了</p>
+<h2 id="完成乌龟跟随的控制器"><a href="#完成乌龟跟随的控制器" class="headerlink" title="完成乌龟跟随的控制器"></a>完成乌龟跟随的控制器</h2><p>新建文件turtle2_controller.cpp，添加以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * subsribe the broadcasting info from turtle1 and turtle2, search the nearest </span><br><span class="line"> * tf info, then change the pose of turtle1 relative to turtle2,</span><br><span class="line"> * calculate the linear and angular speed </span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br><span class="line">#include &lt;tf2_ros&#x2F;transform_listener.h&gt;</span><br><span class="line">#include &lt;tf2_ros&#x2F;buffer.h&gt;</span><br><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;twist.hpp&gt;</span><br><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;transform_stamped.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    &#x2F;&#x2F; init ros node</span><br><span class="line">    rclcpp::init(argc, argv);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create node</span><br><span class="line">    auto node &#x3D; rclcpp::Node::make_shared(&quot;turtle2_controller&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create tf subsciber object, traditional pointer, need delete</span><br><span class="line">    &#x2F;&#x2F; tf2_ros::Buffer *buffer;</span><br><span class="line">    &#x2F;&#x2F; buffer &#x3D; new tf2_ros::Buffer(node-&gt;get_clock());</span><br><span class="line">    &#x2F;&#x2F; tf2_ros::TransformListener tfListener(*buffer);</span><br><span class="line">    &#x2F;&#x2F; use smart pointer, safe</span><br><span class="line">    &#x2F;&#x2F; shared_ptr&lt;tf2_ros::Buffer&gt; buffer(new tf2_ros::Buffer(node-&gt;get_clock()));</span><br><span class="line">    shared_ptr&lt;tf2_ros::Buffer&gt; buffer &#x3D; make_shared&lt;tf2_ros::Buffer&gt;(node-&gt;get_clock());</span><br><span class="line">    tf2_ros::TransformListener tfListener(*buffer);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; create speed publiser</span><br><span class="line">    auto velPub &#x3D; node-&gt;create_publisher&lt;geometry_msgs::msg::Twist&gt;(&quot;&#x2F;turtle2&#x2F;cmd_vel&quot;, 1000);</span><br><span class="line">    RCLCPP_INFO(node-&gt;get_logger(), &quot;vel pub created!&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; loop for speed pub</span><br><span class="line">    rclcpp::Rate rate(10);</span><br><span class="line">    while (rclcpp::ok()) &#123;</span><br><span class="line">        &#x2F;&#x2F; get the coordinate of turtle1 related to turtle2</span><br><span class="line">        try &#123;</span><br><span class="line">            geometry_msgs::msg::TransformStamped transStamped &#x3D; buffer-&gt;lookupTransform(&quot;turtle2&quot;, &quot;turtle1&quot;, tf2::TimePointZero);</span><br><span class="line">            RCLCPP_INFO(node-&gt;get_logger(), &quot;son1 related to son2: father %s, child %s offset(%.2f, %.2f, %.2f)&quot;,</span><br><span class="line">                transStamped.header.frame_id.c_str(),</span><br><span class="line">                transStamped.child_frame_id.c_str(),</span><br><span class="line">                transStamped.transform.translation.x,</span><br><span class="line">                transStamped.transform.translation.y,</span><br><span class="line">                transStamped.transform.translation.z    </span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; compose twist info</span><br><span class="line">            geometry_msgs::msg::Twist twist;</span><br><span class="line">            twist.linear.x &#x3D; 0.5 * sqrt(pow(transStamped.transform.translation.x, 2) + pow(transStamped.transform.translation.y, 2));</span><br><span class="line">            twist.angular.z &#x3D; 4 * atan2(transStamped.transform.translation.y, transStamped.transform.translation.x);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; pub the twist info timely</span><br><span class="line">            velPub-&gt;publish(twist);</span><br><span class="line">        &#125; catch (tf2::TransformException &amp;e) &#123;</span><br><span class="line">            RCLCPP_WARN(node-&gt;get_logger(), &quot;warning %s&quot;, e.what());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        rate.sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; spin</span><br><span class="line">    rclcpp::spin(node); &#x2F;&#x2F; if put spin into while loop, will throw exception</span><br><span class="line"></span><br><span class="line">    rclcpp::shutdown();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; delete buffer;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整版launch文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python3</span><br><span class="line"></span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line">from launch.substitutions import LaunchConfiguration</span><br><span class="line">from launch.actions import DeclareLaunchArgument</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    turtle1 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;turtlesim&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtlesim_node&#39;,</span><br><span class="line">        name &#x3D; &#39;turtle1&#39;,</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtle2 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtle_spawner&#39;,</span><br><span class="line">        name &#x3D; &#39;turtle2&#39;,</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtle_pub1 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtle_pub&#39;,</span><br><span class="line">        name &#x3D; &#39;tf_caster1&#39;,</span><br><span class="line">        arguments &#x3D; [&#39;turtle1&#39;],</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtle_pub2 &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtle_pub&#39;,</span><br><span class="line">        name &#x3D; &#39;tf_caster2&#39;,</span><br><span class="line">        arguments &#x3D; [&#39;turtle2&#39;],</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtle2_controller &#x3D; Node(</span><br><span class="line">        package &#x3D; &#39;cpp_a_follow_turtle_pkg&#39;,</span><br><span class="line">        executable &#x3D; &#39;turtle2_controller&#39;,</span><br><span class="line">        name &#x3D; &#39;turtle2_controller&#39;,</span><br><span class="line">        output &#x3D; &#39;screen&#39;,</span><br><span class="line">    )      </span><br><span class="line"></span><br><span class="line">    return LaunchDescription([     </span><br><span class="line">        turtle1,</span><br><span class="line">        turtle2,</span><br><span class="line">        turtle_pub1,</span><br><span class="line">        turtle_pub2,</span><br><span class="line">        turtle2_controller,</span><br><span class="line">    ])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>完整版的CMakeList.txt如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.5)</span><br><span class="line">project(cpp_a_follow_turtle_pkg)</span><br><span class="line"></span><br><span class="line"># Default to C99</span><br><span class="line">if(NOT CMAKE_C_STANDARD)</span><br><span class="line">  set(CMAKE_C_STANDARD 99)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># Default to C++17</span><br><span class="line">if(NOT CMAKE_CXX_STANDARD)</span><br><span class="line">  set(CMAKE_CXX_STANDARD 17)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(tf2 REQUIRED)</span><br><span class="line">find_package(tf2_ros REQUIRED)</span><br><span class="line">find_package(tf2_geometry_msgs REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(std_msgs REQUIRED)</span><br><span class="line">find_package(geometry_msgs REQUIRED)</span><br><span class="line">find_package(turtlesim REQUIRED)</span><br><span class="line"></span><br><span class="line">add_executable(turtle_spawner src&#x2F;new_turtle_spawner.cpp)</span><br><span class="line">add_executable(turtle_pub src&#x2F;turtles_pose_pub.cpp)</span><br><span class="line">add_executable(turtle2_controller src&#x2F;turtle2_controller.cpp)</span><br><span class="line">ament_target_dependencies(turtle_spawner rclcpp turtlesim)</span><br><span class="line">ament_target_dependencies(turtle_pub rclcpp turtlesim tf2_ros geometry_msgs)</span><br><span class="line">ament_target_dependencies(turtle2_controller rclcpp tf2_ros geometry_msgs)</span><br><span class="line"></span><br><span class="line"># uncomment the following section in order to fill in</span><br><span class="line"># further dependencies manually.</span><br><span class="line"># find_package(&lt;dependency&gt; REQUIRED)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">install(TARGETS turtle_spawner</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line">install(TARGETS turtle_pub</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line">install(TARGETS turtle2_controller</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line"># Install launch files.</span><br><span class="line">install(DIRECTORY</span><br><span class="line">launch</span><br><span class="line">DESTINATION share&#x2F;$&#123;PROJECT_NAME&#125;&#x2F;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if(BUILD_TESTING)</span><br><span class="line">  find_package(ament_lint_auto REQUIRED)</span><br><span class="line">  # the following line skips the linter which checks for copyrights</span><br><span class="line">  # uncomment the line when a copyright and license is not present in all source files</span><br><span class="line">  #set(ament_cmake_copyright_FOUND TRUE)</span><br><span class="line">  # the following line skips cpplint (only works in a git repo)</span><br><span class="line">  # uncomment the line when this package is not in a git repo</span><br><span class="line">  #set(ament_cmake_cpplint_FOUND TRUE)</span><br><span class="line">  ament_lint_auto_find_test_dependencies()</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+
+<p>编译运行</p>
+<p>![image-20210818175501543](/home/ubuntu-ros2/myBlog/source/_posts/用ROS2设计一个跟随的小乌龟/Peek 2021-08-18 18-09.gif)</p>
+<h2 id="启动键盘控制"><a href="#启动键盘控制" class="headerlink" title="启动键盘控制"></a>启动键盘控制</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:&#x3D;&#x2F;turtle1&#x2F;cmd_vel</span><br></pre></td></tr></table></figure>
+
+<p>此处是调用ROS2自带的功能包，需要将原本的话题cmd_vel修改为/turtle1/cmd_vel</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/08/19/ROS2中parameter的设置/" data-toggle="tooltip" data-placement="top" title="ROS2中parameter的设置">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/08/18/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ROS2, TF2, C++" title="ROS2, TF2, C++">ROS2, TF2, C++</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/08/18/%E7%94%A8ROS2%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%B7%9F%E9%9A%8F%E7%9A%84%E5%B0%8F%E4%B9%8C%E9%BE%9F/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

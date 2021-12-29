@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Gazebo中运行的组件 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/06/30/Gazebo中的环境变量/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#gazebo,sdf,xml" title="gazebo,sdf,xml">gazebo,sdf,xml</a>
+                            
+                        </div>
+                        <h1>Gazebo中运行的组件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-06-30
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="World文件"><a href="#World文件" class="headerlink" title="World文件"></a>World文件</h1><p>世界文件包含了仿真中的所有元素，如机器人，灯光，传感器和静态对象。该文件以SDF格式来表示，通常用.world作为扩展名。</p>
+<p>Gazebo服务器（gzserver）读取这个文件并生成一个世界。Gazebo中已经集成了大量的world模型，可以参考源码<a target="_blank" rel="noopener" href="https://github.com/osrf/gazebo/tree/master/worlds%E3%80%82">https://github.com/osrf/gazebo/tree/master/worlds。</a></p>
+<h1 id="Model文件"><a href="#Model文件" class="headerlink" title="Model文件"></a>Model文件</h1><p>model文件也使用SDF格式，文件内只有一个<model>…</model>标签。model文件的目的是促进模型的复用，并简化world文件（一个world文件中可以包含多个<model>…</model>标签）。一旦创建了一个model文件，它就可以按照如下的语法插入到world文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;include&gt;</span><br><span class="line">  &lt;uri&gt;model:&#x2F;&#x2F;model_file_name&lt;&#x2F;uri&gt;</span><br><span class="line">&lt;&#x2F;include&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在线模型数据库中提供了许多的model文件，在连接互联网的条件下，可以从数据库中插入任何模型，模型的内容将在Gazebo运行时自动下载。</p>
+<p>以下是一个典型的model文件（详细信息可参考<a target="_blank" rel="noopener" href="http://gazebosim.org/tutorials?tut=build_model%EF%BC%89%EF%BC%9A">http://gazebosim.org/tutorials?tut=build_model）：</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&#39;1.0&#39;?&gt;</span><br><span class="line">&lt;sdf version&#x3D;&quot;1.4&quot;&gt;</span><br><span class="line">  &lt;model name&#x3D;&quot;my_model&quot;&gt;</span><br><span class="line">    &lt;pose&gt;0 0 0.5 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">    &lt;static&gt;true&lt;&#x2F;static&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;link&quot;&gt;</span><br><span class="line">      &lt;inertial&gt;</span><br><span class="line">        &lt;mass&gt;1.0&lt;&#x2F;mass&gt;</span><br><span class="line">        &lt;inertia&gt; &lt;!-- inertias are tricky to compute --&gt;</span><br><span class="line">          &lt;!-- http:&#x2F;&#x2F;gazebosim.org&#x2F;tutorials?tut&#x3D;inertia&amp;cat&#x3D;build_robot --&gt;</span><br><span class="line">          &lt;ixx&gt;0.083&lt;&#x2F;ixx&gt;       &lt;!-- for a box: ixx &#x3D; 0.083 * mass * (y*y + z*z) --&gt;</span><br><span class="line">          &lt;ixy&gt;0.0&lt;&#x2F;ixy&gt;         &lt;!-- for a box: ixy &#x3D; 0 --&gt;</span><br><span class="line">          &lt;ixz&gt;0.0&lt;&#x2F;ixz&gt;         &lt;!-- for a box: ixz &#x3D; 0 --&gt;</span><br><span class="line">          &lt;iyy&gt;0.083&lt;&#x2F;iyy&gt;       &lt;!-- for a box: iyy &#x3D; 0.083 * mass * (x*x + z*z) --&gt;</span><br><span class="line">          &lt;iyz&gt;0.0&lt;&#x2F;iyz&gt;         &lt;!-- for a box: iyz &#x3D; 0 --&gt;</span><br><span class="line">          &lt;izz&gt;0.083&lt;&#x2F;izz&gt;       &lt;!-- for a box: izz &#x3D; 0.083 * mass * (x*x + y*y) --&gt;</span><br><span class="line">        &lt;&#x2F;inertia&gt;</span><br><span class="line">      &lt;&#x2F;inertial&gt;</span><br><span class="line">      &lt;collision name&#x3D;&quot;collision&quot;&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">          &lt;box&gt;</span><br><span class="line">            &lt;size&gt;1 1 1&lt;&#x2F;size&gt;</span><br><span class="line">          &lt;&#x2F;box&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">      &lt;&#x2F;collision&gt;</span><br><span class="line">      &lt;visual name&#x3D;&quot;visual&quot;&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">          &lt;box&gt;</span><br><span class="line">            &lt;size&gt;1 1 1&lt;&#x2F;size&gt;</span><br><span class="line">          &lt;&#x2F;box&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">      &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">  &lt;&#x2F;model&gt;</span><br><span class="line">&lt;&#x2F;sdf&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h1><p>Gazebo使用许多环境变量来定位文件，并在服务器和客户端之间建立通信。大多数情况下都可以使用默认值来编译，无须设置任何变量。</p>
+<p>常用的环境变量如下：</p>
+<ul>
+<li>GAZEBO_MODEL_PATH：Gazebo查找所有model目录集</li>
+<li>GAZEBO_RESOURCE_PATH：Gazebo查找其他资源如world和media的目录集</li>
+<li>GAZEBO_MASTER_URI：Gazebo master的uri，用来指定启动服务器的IP和端口，并告诉客户端连接到哪里</li>
+<li>GAZEBO_PLUGIN_PATH：Gazebo运行时查找插件动态库的目录集</li>
+<li>GAZEBO_MODEL_DATABASE_URI：在线模型数据库的uri，Gazebo将从这里下载models</li>
+</ul>
+<h1 id="Gazebo-Server"><a href="#Gazebo-Server" class="headerlink" title="Gazebo Server"></a>Gazebo Server</h1><p>gzserver解析命令行中给出的world文件，然后调用物理和传感器引擎模拟出这个世界</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzserver worlds&#x2F;empty_sky.world</span><br></pre></td></tr></table></figure>
+
+<p>gzserver后面的world文件名字可以是：相对于当前目录；绝对路径；相对于GAZEBO_RESOURCE_PATH表达的路径；worlds/<world_name>表示一个已经安装到Gazebo的路径；</world_name></p>
+<h1 id="Graphical-Client"><a href="#Graphical-Client" class="headerlink" title="Graphical Client"></a>Graphical Client</h1><p>图形客户端连接到正在运行的gzserver并将所有元素可视化，使用方法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzclient</span><br></pre></td></tr></table></figure>
+
+<p>Gazebo也可将server与client组合到一起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo worlds&#x2F;empty_sky.world</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><p>插件是一个与Gazebo交互的方便的机制。插件可以在命令行中加载，也可以放到sdf文件中</p>
+<p>Gazebo首先加载命令行中指定的插件，然后加载sdf文件中指定的插件。有些插件是由gzserver加载的，如影响物理属性的插件，其他插件这是由gzclient加载的。</p>
+<p>命令行方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzserver -s &lt;plugin_filename&gt;</span><br></pre></td></tr></table></figure>
+
+<p>-s表示它是一个系统插件，<plugin_filename>是可以在GAZEBO_PLUGIN_PATH中找到的动态库的名称，如：</plugin_filename></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzclient --gui-client-plugin libTimerGUIPlugin.so</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h2 id="指定Gazebo搜索model文件的路径"><a href="#指定Gazebo搜索model文件的路径" class="headerlink" title="指定Gazebo搜索model文件的路径"></a>指定Gazebo搜索model文件的路径</h2><h3 id="在编译时指定"><a href="#在编译时指定" class="headerlink" title="在编译时指定"></a>在编译时指定</h3><ul>
+<li><p>在package.xml文件添加如下标签    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;export&gt;</span><br><span class="line">   &lt;gazebo_ros gazebo_model_path&#x3D;&quot;$&#123;prefix&#125;&#x2F;models&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;export&gt;</span><br></pre></td></tr></table></figure>
+
+<p>一个实际的例子：</p>
+<p><img src="/2021/06/30/Gazebo%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/image-20210630202009224-1625066244017.png" alt="image-20210630202848264"></p>
+<p>${prefix}表示的是当前的package所在的目录urdf_tutorial，本工程中mesh文件夹位于urdf_tutorial/model路径下，因此如上图所示，gazebo_model_path被设置为${prefix}/model    </p>
+</li>
+<li><p>另一种方法是在launch文件中添加环境变量</p>
+<p><img src="/2021/06/30/Gazebo%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/image-20210630231141972.png" alt="image-20210630231141972"></p>
+<p>这里的含义是Gazebo运行加载世界时，要搜寻的model文件在/home/ubuntu-ros/demo_ws/install/urdf_tutorial/share/urdf_tutorial路径下，这里的install目录由colcon编译生成。</p>
+</li>
+</ul>
+<p>以上两种方法对应的world文件写法如下</p>
+<p><img src="/2021/06/30/Gazebo%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/image-20210630231622634.png" alt="image-20210630231622634"></p>
+<h3 id="运行时指定"><a href="#运行时指定" class="headerlink" title="运行时指定"></a>运行时指定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export GAZEBO_MODEL_PATH&#x3D;&#x2F;home&#x2F;demo_ws&#x2F;src&#x2F;urdf_tutorial&#x2F;model</span><br></pre></td></tr></table></figure>
+
+<p>如此是将环境变量添加到.bashrc文件</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/07/02/urdf-Gazebo实现机器人控制/" data-toggle="tooltip" data-placement="top" title="urdf+Gazebo实现机器人控制">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/06/28/URDF集成到Gazebo/" data-toggle="tooltip" data-placement="top" title="URDF集成到Gazebo">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#gazebo,sdf,xml" title="gazebo,sdf,xml">gazebo,sdf,xml</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/06/30/Gazebo%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

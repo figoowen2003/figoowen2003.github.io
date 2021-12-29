@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          基于带nvc的Ubuntu20.04配置ros2和Gazebo - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/05/12/基于带nvc的Ubuntu20-04配置ros2和Gazebo/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#docker, Ubuntu, ros2, Gazebo" title="docker, Ubuntu, ros2, Gazebo">docker, Ubuntu, ros2, Gazebo</a>
+                            
+                        </div>
+                        <h1>基于带nvc的Ubuntu20.04配置ros2和Gazebo</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-05-12
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
+<li><p>下载docker-ubuntu-vnc-desktop</p>
+<ul>
+<li><p>该docker镜像装载了一个裁剪得非常多的Ubuntu 20.04，同时配置了vnc的server，因此支持通过浏览器或者vnc viewer工具访问系统的可视化界面</p>
+</li>
+<li><p>该docker镜像的源码地址和使用方法参考<a target="_blank" rel="noopener" href="https://github.com/fcwu/docker-ubuntu-vnc-desktop#vnc-viewer%EF%BC%8C%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A">https://github.com/fcwu/docker-ubuntu-vnc-desktop#vnc-viewer，具体步骤如下：</a></p>
+<p>新开一个terminal窗口，输入</p>
+<p><code>sudo docker run -p 6080:80 -v /dev/shm:/dev/shm dorowu/ubuntu-desktop-lxde-vnc</code></p>
+<p>如果本地系统中已经存在该镜像，那么会直接运行该镜像；如果本地不存在该镜像，那么会先执行下载，待下载完成之后，启动该镜像</p>
+<p>也可以直接输入以下命令，拉取该镜像，然后执行上一条命令</p>
+<p><code>sudo docker pull dorowu/ubuntu-desktop-lxde-vnc </code></p>
+</li>
+<li><p>在浏览器输入<a target="_blank" rel="noopener" href="http://127.0.0.1:6080/">http://127.0.0.1:6080</a></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/68747470733a2f2f7261772e6769746875622e636f6d2f666377752f646f636b65722d7562756e74752d766e632d6465736b746f702f6d61737465722f73637265656e73686f74732f6c7864652e706e673f7631" alt="img"></p>
+</li>
+<li><p>更多操作</p>
+<ul>
+<li><p>指定启动的可视化界面的分辨率</p>
+<p><code>sudo docker run -p 6080:80 -e RESOLUTION=1920x1080 -v /dev/shm:/dev/shm dorowu/ubuntu-desktop-lxde-vnc</code></p>
+</li>
+<li><p>默认的desktop用户（默认是root），如果需要指定其他用户和密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 6080:80 -e USER&#x3D;doro -e PASSWORD&#x3D;password -v &#x2F;dev&#x2F;shm:&#x2F;dev&#x2F;shm dorowu&#x2F;ubuntu-desktop-lxde-vnc</span><br></pre></td></tr></table></figure></li>
+<li><p>停止容器的运行</p>
+<p><code>sodo docker ps -l</code> 查看当前运行的docker</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513145135898.png" alt="image-20210513145135898"></p>
+<p><code>sudo docker stop 1942ecad9413</code></p>
+<p>再次查看容器列表</p>
+</li>
+<li><p>重新启动已经exit的容器</p>
+<p><code>sudo docker restart 1942ecad9413</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>该容器中的基本工具</p>
+<ul>
+<li><p>命令行窗口LXTerminal</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513150552117.png" alt="image-20210513150552117"></p>
+</li>
+<li><p>浏览器</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513151453376.png" alt="image-20210513151453376"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="安装ROS2"><a href="#安装ROS2" class="headerlink" title="安装ROS2"></a>安装ROS2</h1><h2 id="安装foxy版本"><a href="#安装foxy版本" class="headerlink" title="安装foxy版本"></a>安装foxy版本</h2><ul>
+<li><p>官网链接：<a target="_blank" rel="noopener" href="https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#%EF%BC%8C%E4%BB%A5%E4%B8%8B%E9%83%BD%E6%98%AF%E9%80%9A%E8%BF%87%E7%BD%91%E9%A1%B5%E7%95%8C%E9%9D%A2%E5%9C%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AA%97%E5%8F%A3LXTerminal%E4%B8%AD%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C">https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Binary.html#，以下都是通过网页界面在命令行窗口LXTerminal中进行操作</a></p>
+</li>
+<li><p>配置ros2 apt的仓库</p>
+<p><code>apt update &amp;&amp; sudo apt install curl gnupg2 lsb-release</code></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [arch&#x3D;$(dpkg --print-architecture) signed-by&#x3D;&#x2F;usr&#x2F;share&#x2F;keyrings&#x2F;ros-archive-keyring.gpg] http:&#x2F;&#x2F;packages.ros.org&#x2F;ros2&#x2F;ubuntu $(lsb_release -cs) main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;ros2.list &gt; &#x2F;dev&#x2F;null</span><br></pre></td></tr></table></figure></li>
+<li><p>下载ros2的deb包，下载链接<a target="_blank" rel="noopener" href="https://github.com/ros2/ros2/releases">https://github.com/ros2/ros2/releases</a></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513152458995.png" alt="image-20210513152458995"></p>
+<p>解压下载好的压缩包</p>
+<p><code>mkdir -p /home/ubuntu/ros2_foxy</code></p>
+<p><code>cd /home/ubuntu/ros2_foxy</code></p>
+<p><code>tar xf /root/Downloads/ros2-foxy-20201211-linux-focal-amd64.tar.bz2</code></p>
+</li>
+<li><p>安装并初始化rosdep工具</p>
+<p><code>apt update</code></p>
+<p><code>apt install -y python3-rosdep</code></p>
+<p><code>rosdep init</code></p>
+<p><code>rosdep update</code>    执行rosdep update的时候，应当挂梯子，不然很难通过，正常情况下，执行这一步最好不要在root权限下，但是实际执行也没有问题，只报了一个warning</p>
+</li>
+<li><p>安全缺少的依赖</p>
+<p><code>rosdep install --from-paths /home/ubuntu/ros2_foxy/ros2-linux/share --ignore-src --rosdistro foxy -y --skip-keys &quot;console_bridge fastcdr fastrtps osrf_testing_tools_cpp poco_vendor rmw_connext_cpp rosidl_typesupport_connext_c rosidl_typesupport_connext_cpp rti-connext-dds-5.3.1 tinyxml_vendor tinyxml2_vendor urdfdom urdfdom_headers&quot;</code></p>
+</li>
+<li><p>安装python3的库</p>
+<p><code>apt install -y libpython3-dev python3-pip</code></p>
+<p><code>pip3 install -U argcomplete</code></p>
+</li>
+<li><p>设置环境变量并测试用例</p>
+<p>启动发布者</p>
+<p><code>source /opt/ros/foxy/setup.bash</code></p>
+<p><code>ros2 run demo_nodes_cpp talker</code></p>
+<p>启动监听者</p>
+<p><code>source /opt/ros/foxy/setup.bash</code></p>
+<p><code>ros2 run demo_nodes_py listener</code></p>
+</li>
+</ul>
+<h2 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h2><ul>
+<li><p>在执行完上述安装步骤之后，我们发现colcon并没有被装上（如果装好了，请忽略坑点），于是我们参考<a target="_blank" rel="noopener" href="https://colcon.readthedocs.io/en/released/user/installation.html%E8%BF%9B%E8%A1%8Ccolcon%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85">https://colcon.readthedocs.io/en/released/user/installation.html进行colcon编译系统的安装</a></p>
+<ul>
+<li><p>选择ros2的仓库</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513163321022.png" alt="image-20210513163321022"></p>
+</li>
+<li><p>执行以下命令配置好colcon的apt仓库</p>
+<p><code>sh -c &#39;echo &quot;deb [arch=amd64,arm64] http://repo.ros2.org/ubuntu/main </code>lsb_release -cs<code> main&quot; &gt; /etc/apt/sources.list.d/ros2-latest.list&#39;</code> </p>
+<p><code>curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -</code> 这一步也需要挂梯子才能快速完成</p>
+</li>
+<li><p>安装deb包</p>
+<p><code>apt update</code></p>
+<p><code>apt install python3-colcon-common-extensions</code></p>
+<p>执行第二步时，并不能通过，网上搜了一堆的方法，发现与此相同的报错信息和解决方法</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513164609018.png" alt="image-20210513164609018"></p>
+<p>python3-catkin-pkg-modules_0.4.23-1_all.deb这个包无法装上，原因是</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513164839282.png" alt="image-20210513164839282"></p>
+<p>无法overwrite已经存在的其他版本的pkg</p>
+<p>因此，我们需要强制执行覆盖overwrite操作</p>
+<p>首先，下载deb包<a target="_blank" rel="noopener" href="https://www.dulando.info/ros/ubuntu/pool/main/p/python3-catkin-pkg-modules/%EF%BC%8C%E8%BF%99%E9%87%8C%E6%A0%B9%E6%8D%AE%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF%E9%80%89%E6%8B%A9%E4%BA%860.4.23-1_all%E7%89%88%E6%9C%AC">https://www.dulando.info/ros/ubuntu/pool/main/p/python3-catkin-pkg-modules/，这里根据报错信息选择了0.4.23-1_all版本</a></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513170038609.png" alt="image-20210513170038609"></p>
+<p>接下来，进入到该deb包所在的目录</p>
+<p><code>cd /root/Downloads</code></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513170249673.png" alt="image-20210513170249673"></p>
+<p>最后执行dpkg安装命令</p>
+<p><code>dpkg -i --force-overwrite python3-catkin-pkg-modules_0.4.23-1_all.deb</code></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513170858171.png" alt="image-20210513170858171"></p>
+<p>再次安装python3-colcon-common-extensions，就能通过了，这样系统中便可以使用colcon这个编译系统</p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513170955883.png" alt="image-20210513170955883"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="安装Gazebo"><a href="#安装Gazebo" class="headerlink" title="安装Gazebo"></a>安装Gazebo</h1><h2 id="one-liner安装方式"><a href="#one-liner安装方式" class="headerlink" title="one-liner安装方式"></a>one-liner安装方式</h2><ul>
+<li><p>安装</p>
+<p>新开命令行窗口LXTerminal</p>
+<p><code>curl -sSL http://get.gazebosim.org | sh</code></p>
+</li>
+<li><p>运行</p>
+<p><code>gazebo</code></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513171626179.png" alt="image-20210513171626179"></p>
+</li>
+</ul>
+<h2 id="坑点-1"><a href="#坑点-1" class="headerlink" title="坑点"></a>坑点</h2><ul>
+<li>one-liner安装方式推荐在梯子下执行，不然可能无法解析网页</li>
+</ul>
+<h1 id="运行robot-sim项目"><a href="#运行robot-sim项目" class="headerlink" title="运行robot_sim项目"></a>运行robot_sim项目</h1><h2 id="按照官方教程安装gazebo-ros-pkgs"><a href="#按照官方教程安装gazebo-ros-pkgs" class="headerlink" title="按照官方教程安装gazebo_ros_pkgs"></a>按照官方教程安装gazebo_ros_pkgs</h2><ul>
+<li><p>链接<a target="_blank" rel="noopener" href="http://gazebosim.org/tutorials?tut=ros2_installing&amp;cat=connect_ros">http://gazebosim.org/tutorials?tut=ros2_installing&amp;cat=connect_ros</a></p>
+</li>
+<li><p>deb包安装</p>
+<p><code>sudo apt install ros-foxy-gazebo-ros-pkgs</code></p>
+</li>
+</ul>
+<h2 id="克隆并编译运行robot-sim项目"><a href="#克隆并编译运行robot-sim项目" class="headerlink" title="克隆并编译运行robot_sim项目"></a>克隆并编译运行robot_sim项目</h2><ul>
+<li><p>编译（新开命令行窗口LXTerminal）</p>
+<p><code>source /opt/ros/foxy/setup.bash</code></p>
+<p><code>cd /home/ubuntu/workspace/robot_sim</code>    (此处代码放在/home/ubuntu/workspace/下)</p>
+<p><code>colcon builid --packages-select warehouse_robot_spawner_pkg</code></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513173429589.png" alt="image-20210513173429589"></p>
+</li>
+<li><p>运行</p>
+<p><code>source /home/ubuntu/workspace/robot_sim/install/setup.bash</code></p>
+<p><code>ros2 launch warehouse_robot_spawner_pkg gazebo_world.launch.py</code></p>
+<p><img src="/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/image-20210513173729346.png" alt="image-20210513173729346"></p>
+</li>
+</ul>
+<h2 id="坑点-2"><a href="#坑点-2" class="headerlink" title="坑点"></a>坑点</h2><ul>
+<li><p>“No module named gazebo_msgs.msg”</p>
+<p>报出这个错误，一方面可能是没有安装gazebo_ros_pkgs，另一方面，在运行前设置环境变量一定是<code>source /opt/ros/foxy/setup.bash</code>，不能是<code>source /home/ubuntu/ros2_foxy/ros2-linux/setup.bash</code>，因为按照后者，gazebo_ros_pkgs的环境就不会被配置</p>
+</li>
+<li><p>启动demo时需要很长时间，这是正常的，第一次启动会卡在world文件的加载过程中，之后就正常了，我们理解是需要下载model。</p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/05/19/与ROS相关的一些工具/" data-toggle="tooltip" data-placement="top" title="与ROS相关的一些工具">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/05/04/安装docker并在其中启动ros2机器人/" data-toggle="tooltip" data-placement="top" title="安装docker并在其中启动ros2机器人">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#docker, Ubuntu, ros2, Gazebo" title="docker, Ubuntu, ros2, Gazebo">docker, Ubuntu, ros2, Gazebo</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/05/12/%E5%9F%BA%E4%BA%8E%E5%B8%A6nvc%E7%9A%84Ubuntu20-04%E9%85%8D%E7%BD%AEros2%E5%92%8CGazebo/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

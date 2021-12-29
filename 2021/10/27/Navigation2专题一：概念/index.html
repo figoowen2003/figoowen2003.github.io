@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题一：概念 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/10/27/Navigation2专题一：概念/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ROS2, NAV2" title="ROS2, NAV2">ROS2, NAV2</a>
+                            
+                        </div>
+                        <h1>Navigation2专题一：概念</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-10-27
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Navigation概念"><a href="#Navigation概念" class="headerlink" title="Navigation概念"></a>Navigation概念</h1><h2 id="ROS2"><a href="#ROS2" class="headerlink" title="ROS2"></a>ROS2</h2><p>ROS2是Nav2中使用的核心中间件，详情可以参考<a target="_blank" rel="noopener" href="https://docs.ros.org/en/rolling/%E3%80%82">https://docs.ros.org/en/rolling/。</a></p>
+<h2 id="Action-Server"><a href="#Action-Server" class="headerlink" title="Action Server"></a>Action Server</h2><ul>
+<li>action server是控制长周期任务例如导航的一种常用方法。它是这样的服务器，客户端请求完成某个任务，但该任务需要很长时间。</li>
+<li>action server和client允许我们在另一个进程或线程中调用长时间运行的任务，并在将来返回一个结果，当然此时也允许阻塞直到动作完成。action server也会为client端提供反馈，反馈可以是定义在ROS的.action文件中的任意结果并伴随这request和result。以导航为例，request可以是一个位置信息，feedback可以是已经导航的时间或者距离目标点的距离，result是一个bool值表示是否成功到达目标点。</li>
+<li>feedback和result可以通过向client注册回调函数的方式去同步完成收集工作，也可以通过从未来共享结果的方式异步的实现。两种方式都需要spin client的节点去处理回调组。</li>
+<li>action server在此通过一个名为NavigateToPose的action消息与最高级别的BT navigator交互；他们也被用于BT navigator与后续较小的action server通信，以完成规划的计算，控制和恢复，他们都有各自的.action类型与server交互，并定义在nav2_msgs中。</li>
+</ul>
+<h2 id="Lifecycle-Nodes-and-Bond"><a href="#Lifecycle-Nodes-and-Bond" class="headerlink" title="Lifecycle Nodes and Bond"></a>Lifecycle Nodes and Bond</h2><ul>
+<li>生命周期节点（也称为管理节点）是ROS2独有的。他们是这样一类节点，包含了用来启动和关闭ROS2 servers的状态机转换功能。这有助于ROS系统在启动和关闭阶段的决策行为。它还能帮助用户以合理的方式去组织他们的程序，用于商业目的和调试。</li>
+<li>具体的生命周期过程为：<ul>
+<li>一个节点启动时，它处于未被配置的状态，只能处理节点的构造行为（不包括任何ROS网络设置和参数读取）。</li>
+<li>通过launch系统或者提供生命周期管理之后，节点根据配置被转换为非激活状态。</li>
+<li>之后，可以通过激活阶段来转换到激活状态</li>
+<li>在配置阶段，通过触发on_configure()方法，去设置所有的参数，ROS网络接口和所有动态分配的内存以保证内存安全。</li>
+<li>在激活阶段，通过触发on_activate()方法，将激活ROS网络接口并设置程序中的任何状态以开始处理信息。</li>
+<li>为了关闭节点，我们将依次切换到停用、清理、关闭状态，并且以最终状态结束。在以上各个状态下，网络接口将被停用，停止处理消息，释放内存，干净的退出。</li>
+</ul>
+</li>
+<li>生命周期节点框架被广泛用于整个项目中（navigation），所有的servers都使用它。如果可能，所有的ROS系统最好也去使用生命周期节点。</li>
+<li>nav2_util LifecycleNode是LifecycleNodes的包装器。它隐藏了生命周期节点的大部分复杂度。同时，它也包括了一个生命周期管理器的绑定连接，用于确保一个服务器server发生转换后，它也能维持活动的状态。如果一个server崩溃了，它会让声明周期管理器知晓并关闭系统以防止严重错误的发生。</li>
+</ul>
+<h2 id="Behavior-Tree"><a href="#Behavior-Tree" class="headerlink" title="Behavior Tree"></a>Behavior Tree</h2><ul>
+<li>行为树用树形结构去描述待完成的任务，它为定义多步骤或者多状态的应用程序创建了一个更具扩展性和更容易被理解的框架。</li>
+<li>有限状态机（FSM）相反可能有几十个或更多的状态以及数百种转换。比如一个踢足球的机器人，如果将足球比赛的逻辑嵌入到一个FSM中将极具挑战性，还容易出错，有太多的状态和规则。此外模式选择如从左侧、右侧或中间射门将非常不清楚。</li>
+<li>BT和FSM相反，它将为许多行为创建和重用基本原语，如“踢”、“走”、“追球”等。</li>
+<li>在Nav2项目中，我们使用BehaviorTree CPP V3 作为BT库。我们在BT Navigator中创建了节点插件。节点插件被加载到BT中，并且当树的XML文件被解析时，注册的名称也会和插件关联。此时我们就可以通过BT进行导航了。</li>
+<li>我们使用这个库的原因之一就是它能够嵌套子树。这意味着一个Nav2的行为树能白加载到另一个更高级别的BT上，只须我们将当前的行为树看做节点插件。以足球比赛为例，使用Nav2行为树建立一个“追球”节点，而将对足球的检测作为更大任务的一部分。</li>
+<li>此外，我们提供了一个名为NavigateToPoseAction的插件，这样就可以通过常用的action接口操作从客户端调用Nav2。</li>
+</ul>
+<h2 id="Navigation-Servers"><a href="#Navigation-Servers" class="headerlink" title="Navigation Servers"></a>Navigation Servers</h2><ul>
+<li>规划器和控制器是啊一个导航任务的核心。恢复器则是为了让机器人摆脱不良状态或者处理各种形式的问题，以提升整个系统的容错能力。</li>
+<li>规划器、控制器和恢复器是Nav2中的三个action server。作用一是利用一个算法插件的地图完成不同的任务；作用二是根据被算法插件使用的环境描述信息去计算他们的输出。</li>
+<li>规划和控制服务器将在运行时配置自己的名称（别名）和算法的类型。名称是值当前任务的别名，算法类型就是值算法插件库的注册名称。比如一个使用名为FollowPath的DWB控制器，name所有的参数都将被放在命名空间FollowPath.<param>下。</li>
+<li>执行过程：规划器和控制器将与任务相关的接口暴露出来。当一棵行为树勾选与任务相应的BT节点时，该行为树将调用action server去处理这个任务。action server中的回调将根据名称（如FollowPath）调用被选中的算法。这样将允许一个用户把使用的算法抽象为一个算法类。如，你有n个插件控制器去跟踪路径、与充电器对接、躲避动态障碍物或者与工具交互。在同一个server中拥有以上所有的插件让用户可以使用单个环境表示对象，通常这个环境表示对象的复制成本很高。</li>
+<li>对于恢复服务器，每个恢复器都有自己的名字，然后每个插件也会公开各自特定的action server。这样做是因为各种不同的恢复操作无法共享同一个简单的操作接口。恢复服务器也包含一个对本地代价地图的订阅者，用于实时从控制器接收更新，以完成任务的计算。我们这样做避免了局部代价地图拥有多个实例，因为高昂的复制成本。</li>
+<li>由于BT节点是用掉action的简单插件，因此可以创建新的BT节点来调用具有其他动作类型的动作服务器。如果可能的话，建议始终使用所提供的服务器。如果插件或者action接口需要，则应该创建一个适应于当前框架的新服务器。这个新服务器应该使用新类型和插件接口，类似于已经提供的服务器。</li>
+</ul>
+<h3 id="规划器"><a href="#规划器" class="headerlink" title="规划器"></a>规划器</h3><ul>
+<li>规划器的任务是计算一条路径以完成目标函数的功能。路径也成为路线，它取决于所选的命名方法和算法。两个典型的例子，一个是计算一条前往目标点的路径，另一个是规划覆盖所有空闲区域的路径。规划器将访问全局环境表示和缓存在其中的传感器数据。规划器将被设计为：<ul>
+<li>计算最短路径</li>
+<li>计算完整覆盖路径</li>
+<li>计算稀疏或预定义的路径</li>
+</ul>
+</li>
+<li>Nav2中的规划器是计算从当前位置到木笔刀位置的有效且最佳路径。</li>
+</ul>
+<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><ul>
+<li>控制器，也就是ROS1中的局部规划器，是我们完成全局路径计算或者完成一个本地任务的方式。</li>
+<li>控制器将访问局部的环境表示，以尝试计算机器人本体应该遵循的可行控制。很多控制器会将机器人在空间中向前投射，并在每次更新迭代时计算一个局部的可行路径。</li>
+<li>控制器将被设计为：<ul>
+<li>跟随一条路径</li>
+<li>在里程计框架中与一个充电站对接</li>
+<li>登上电梯</li>
+<li>与工具交互</li>
+</ul>
+</li>
+<li>在Nav2中控制器的任务通常是计算出有效的控制过程来完成全局规划。</li>
+</ul>
+<h3 id="恢复器"><a href="#恢复器" class="headerlink" title="恢复器"></a>恢复器</h3><ul>
+<li>恢复器是容错系统的支柱。它的目标是处理系统中的未知或错误状态并自动解决这些问题。</li>
+<li>使用场景<ul>
+<li>感知系统的错误导致环境的描述中充斥着虚假的障碍物，此时会触发清理代价地图的恢复器，以便机器人继续运动</li>
+<li>机器人由于动态的障碍物出现或者不良操作而卡住了，如果可能的话，通过后退或者在原地旋转，机器人能够从恶劣的位置进入到一个自由运动的空间</li>
+<li>如果系统完全故障，恢复器将被用于寻求帮助，如通过email、短信、Slack、Matrix等</li>
+</ul>
+</li>
+</ul>
+<h3 id="航点跟随"><a href="#航点跟随" class="headerlink" title="航点跟随"></a>航点跟随</h3><ul>
+<li><p>航点跟随是导航系统的基本功能，它告诉我们的系统如何利用导航到达多个目标点。</p>
+</li>
+<li><p>nav2_waypoint_follower包含一个带特定任务执行器插件的航点跟随程序。目的是前往一个指定的位置并执行特定任务，比如取照片、搬箱子或者等待用户输入其他操作。</p>
+</li>
+<li><p>两种设计思路</p>
+<ul>
+<li><p>愚蠢的机器人，智能化的中央调度</p>
+<p>在这种模式下，nav2_waypoint_follower足以创建产品级的机器人解决方案。由于自动化系统或调度系统在分配任务时会考虑机器人的姿态、电池电量、当前任务等因素，机器人应用程序只需要负责手头的任务，而不必顾及系统的复杂性。此时，只需将向航点跟随器发出的请求视为一个工作单元（如仓库中的一个拣选、一个安全巡逻等）来执行任务，然后返回到给调度器以执行下一个任务等等。此时的航点跟随应用是介于导航和系统自动运行应用之间的。</p>
+</li>
+<li><p>智能化的机器人，愚蠢的中央调度</p>
+<p>在这种模式下，nav2_waypoint_follwer是一个一个示例应用/概念验证程序，需要机器人上的航点跟踪或自动化系统承担更多的任务来制定解决方案。此时，需要使用nav2_behavior_tree包创建自定义应用程序的行为树，并使用导航来完成任务。BT树的子树可以执行其他任务，如在运动过程中检车电池电量。很快nav2_bt_waypoint_follower就能上线来提供这个功能。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="状态估计"><a href="#状态估计" class="headerlink" title="状态估计"></a>状态估计</h2><ul>
+<li>在导航工程中，需要提供两个主要的坐标转换过程<ul>
+<li>map to odom转换由位置系统（localization, mapping, SLAM）来提供</li>
+<li>odom to base_link由odometry系统提供</li>
+</ul>
+</li>
+<li>标准Standards<ul>
+<li>REP 105定义了导航和ROS生态系统所需的框架和约定。使用社区中丰富的定位、里程计和slam相关的工程都应该一直遵守这个标准。</li>
+<li>简而言之，REP-105标准规定你必须为你的机器人至少创建一棵TF树去完成一个完整的map-&gt;odom-&gt;base_link-&gt;[sensor frames]的变换过程。TF2是ROS2中的实时变化的坐标变换库。全局的定位系统如GPS、SLAM等的工作是提供map-&gt;odom的转换。里程计系统odometry提供odom-&gt;base_link的转换。其他相对于base_link的变换是静态的并定义在URDF中。</li>
+</ul>
+</li>
+<li>全局定位：Localization and SLAM<ul>
+<li>amcl方法：为静态地图的定位服务的一种例子滤波技术</li>
+<li>SLAM toolbox</li>
+</ul>
+</li>
+<li>Odometry<ul>
+<li>里程计的来源：LIDAR, RADAR, 车轮编码器，VIO, IMU等</li>
+<li>里程计目的是提供基于机器人运动的平滑而连续的局部坐标系。全局的定位系统将更新全局坐标系来解决里程计漂移的问题</li>
+<li>robot localization功能包用于进行多传感器的数据融合。他采用n个不同类型传感器的数据计算出一个连续且平滑的里程计，并提供给TF和相应的topic。一个典型的移动机器人的里程计来自于车轮编码器、IMU和视觉数据的融合。</li>
+</ul>
+</li>
+<li>环境表征Environmental Representation<ul>
+<li>他是机器人感知环境的方式</li>
+<li>它充当着各种算法和数据源的中心定位器，负责将他们的数据信息整合到一个空间中</li>
+<li>控制器、规划器和恢复器使用这个空间来完成各自的任务。</li>
+</ul>
+</li>
+<li>代价地图和分层 costmap and layers<ul>
+<li>当前环境的表征就是一个代价地图，它是一个规则的2D网格，网格的每个单元都包含着一个代价来反应它是未知空间、空闲空间、被占据空间或者膨胀空间。代价地图会被遍历去计算出一个全局的规划，或者采样去计算一个局部的控制。</li>
+<li>代价地图被分为不同的层次，每个层次都被实现为一个插件用来缓存代价地图中的信息，其中包括来自LIDAR，RADAR，声呐，深度相机等的信息。比较聪明的做法是在数据被导入到代价地图图层之前完成传感器数据的处理，但这取决于开发者。</li>
+<li>代价地图的图层被创建出来用于侦测和跟踪场景中的障碍物，以实现避障功能。此外，这些图层也可以基于某些规则或算法来更改底层的代价地图。最后这些图层可以被用来缓存2D或3D世界中的实时数据，以进行二元障碍物的标记。</li>
+</ul>
+</li>
+<li>代价地图过滤器 costmap filters<ul>
+<li>假设，你在一边为地图文件或者任意图片文件做注释，一边根据被注释的地图中的位置去执行特定操作。这个注释或标记可以是防止进入区域以避免规划路径到其中，也可以是让一些像素属于标记区域的最大速度。这个被注释的地图被称为“过滤面具地图”。就好像是一个表面上的一副面具，它的大小，位置和规模相比于住地图可以相同，也可以不同。</li>
+<li>代价地图过滤器是一个代价地图图层，它将过滤面具地图中空间相关的行为变化应用到Nav2中。它被视为代价地图的插件。为了制作一个过滤代价地图并在注释区域改变机器人的行为，过滤插件从过滤面具地图读取数据，这个数据在过滤空间被线性地转换为特征地图。拥有了这个转换后的特性的地图或代价地图，任何传感器数据和当前机器人坐标过滤器都能更新底层的代价地图，并根据机器人的位置改变它的行为<ul>
+<li>机器人永远不会进入的区域（安全区）</li>
+<li>限速区域</li>
+<li>机器人在工业环境和仓库中移动的首选通道</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>其他形式<ul>
+<li>梯度图，类似于代价地图</li>
+<li>3D代价地图</li>
+<li>Mesh map</li>
+<li>矢量空间</li>
+</ul>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/10/29/Navigation2专题二：TF2设置/" data-toggle="tooltip" data-placement="top" title="Navigation专题二：TF2设置">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/09/17/ROS2开发插件/" data-toggle="tooltip" data-placement="top" title="ROS2开发插件">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ROS2, NAV2" title="ROS2, NAV2">ROS2, NAV2</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/10/27/Navigation2%E4%B8%93%E9%A2%98%E4%B8%80%EF%BC%9A%E6%A6%82%E5%BF%B5/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题十三：Behavior Trees简介 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/12/27/Navigation2专题十三：Behavior-Trees简介/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题十三：Behavior Trees简介</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-12-27
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p><strong>Behavior Tree</strong>：行为树，它是一种分层的节点树，用于控制决策流和“任务”的执行，我们也可以将“任务”进一步理解为“动作”。</p>
+<p><strong>leaves</strong>：树的叶子节点是实际的命令，即我们的协调组件与系统其余部分交互的地方。</p>
+<p>​                举个例子，在一个面向服务的架构中，叶子节点包含了“客户端”代码，通过该代码与执行操作                的“服务器”通信。</p>
+<p>在下面的例子中，将看到两个按顺序执行的动作：DetectObject与GraspObject。</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/leaftocomponentcommunication.png" alt="叶到组件通信"></p>
+<p>行为树的非叶子节点，则是控制“<strong>执行流程</strong>”。</p>
+<p>“<strong>执行流程</strong>”可以这样来理解：想象一个“tick”信号，它从树的根部开始执行，并通过分支传播，直到到达一个或多个叶子节点。tick在这里表示触发一个TreeNode的回调函数tick()。</p>
+<p>当一个TreeNode被tick时，将返回以下任意一种节点状态：</p>
+<ul>
+<li>SUCCESS</li>
+<li>FAILURE</li>
+<li>RUNNING 当异步节点的执行过程没有完成，仍然需要更多的时间去返回一个有效结果时，异步节点就会返回RUNNING状态；当然异步节点可以被终止。</li>
+</ul>
+<p>节点的结果将被传回它的父节点，这个结果将决定接下来tick哪个子节点或者这个结果是否要继续返回给它的父节点。</p>
+<h1 id="节点类型"><a href="#节点类型" class="headerlink" title="节点类型"></a>节点类型</h1><ul>
+<li><strong>ControlNodes</strong>：控制节点拥有一个或多个子节点。一旦它收到一个tick，该tick将被传递到一个或多个子节点中。</li>
+<li><strong>DecoratorNodes</strong>：装饰节点，类似于控制节点，但是它只能拥有一个子节点。</li>
+<li><strong>ActionNodes</strong>：动作节点为叶子节点，用户应该实现自己的ActionNode来执行实际任务。</li>
+<li><strong>ConditionNodes</strong>：等同于动作节点，它也是叶子节点，但是该节点一直保持原子状态和同步状态，如他们不能返回RUNNING状态。他们也不应该改变系统的状态。</li>
+</ul>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/typehierarchy.png" alt="UML hierarchy"></p>
+<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><p>我们将给出实际的例子来帮助理解行为树的工作过程，为简单起见，我们将不考虑一个动作返回RUNNING状态的情况，并假设每个动作都是以原子和同步的方式执行的。</p>
+<ul>
+<li><p>第一个控制节点：Sequence</p>
+<p>Sequence是一个使用频率最高的最基础的控制节点，也称为SequenceNode，序列节点。该节点的子节点都是有序执行的，在图形表示中，执行的顺序为从左到右。</p>
+<p>下图是取一杯啤酒的一个流程</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/sequencebasic.png" alt="Simple Sequence: fridge"></p>
+<ul>
+<li>如果子节点返回SUCCESS，则tick其右侧的子节点</li>
+<li>如果子节点返回FAILURE，则不再tick下一个子节点，整个Sequence返回FAILURE</li>
+<li>如果所有子节点都返回SUCCESS，则Sequence也返回SUCCESS</li>
+<li>但是，如上图所示，假设GrabBeer节点失败，那么冰箱将维持打开状态，因为跳过了CloseFridge这个节点。</li>
+</ul>
+</li>
+<li><p>装饰节点</p>
+<p>根据装饰节点的类型，它的目的可以包括</p>
+<ul>
+<li>转换它从其子节点收到的结果</li>
+<li>停止其子节点的执行过程</li>
+<li>反复地去tick其子节点</li>
+</ul>
+<p>下图为装饰节点的一种使用方式</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/decoratorenterroom.png" alt="Simple Decorator: Enter Room"></p>
+<p>装饰节点<strong>Inverter</strong>，顾名思义表示它将反转其子节点的返回结果，因此上图中Inverter后面跟有名为DoorOpen的节点，Inverter + DoorOpen 等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Is the door closed?</span><br></pre></td></tr></table></figure>
+
+<p>图中流程含义为：</p>
+<p>如果<strong>Inverter</strong>的子节点返回FAILURE，Inverter将其反转为SUCCESS，表示门是关闭的，则<strong>Retry</strong>节点将尝试tick其子节点执行开门动作，如果开门节点返回FAILURE，将Retry节点将重试tick其子节点OpenDoor总共3次，超过3次则放弃尝试并返回FAILURE。</p>
+<p>注意，如果Inverter的子节点返回SUCCESS，则Inverter将其反转为FAILURE，那么表示门是开的，则整个Inverter返回FAILURE，导致整个Sequence被中断。</p>
+</li>
+<li><p>第二个控制节点：Fallback</p>
+<p><strong>FallbackNodes</strong>：退路节点/回退节点，也称“选择器”，是可以表达回退策略的节点，即子节点返回FAILURE时下一步该做什么。</p>
+<p>它按顺序tick其子节点，遵循以下原则：</p>
+<ul>
+<li>如果当前子节点返回FAILURE，则tick下一个子节点</li>
+<li>如果当前子节点返回SUCCESS，则不再tick下一个，且Fallback返回SUCCESS</li>
+<li>如果所有子节点都返回FAILURE，则Fallback返回FAILURE</li>
+</ul>
+<p>下图将展示Sequence节点与Fallback节点是如何结合的</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/fallbackbasic.png" alt="FallbackNodes"></p>
+</li>
+</ul>
+<p>​        门是否打开？</p>
+<p>​        如果不是，尝试开门；</p>
+<p>​        如果开门失败，如果你有钥匙，解锁并开门；</p>
+<p>​        如果失败，砸碎那把锁；</p>
+<p>​        如果上述任何一个动作SUCCESS，那么就可以进入房间；否则，失败。</p>
+<ul>
+<li><p>重新考察“去啤酒”的例子</p>
+<p>使用“绿色”表示返回成功的节点，使用“红色”表示返回失败的节点，“黑色”节点表示未执行。</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/889e88af56d79fad6fec87ace84087d3cbbc7fbe/c636d/images/fetchbeerfails.png" alt="获取啤酒失败"></p>
+</li>
+</ul>
+<p>​        我们创建一棵替代树来解决上图中遗留的问题，即便取啤酒失败，也会关上冰箱门。</p>
+<p>​        <img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/fetchbeer.png" alt="FetchBeer failure"></p>
+<p>​        左侧的树会一直返回SUCCESS，无论是否取到啤酒；</p>
+<p>​        右侧的树则意味着如果取到啤酒，则Fallback返回SUCCESS，关闭冰箱门，如果没有取到啤酒，则        进入ForceFailure节点，关上冰箱门，强制返回Failure。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/12/27/Navigation2专题十四：行为树中的基本概念/" data-toggle="tooltip" data-placement="top" title="Navigation2专题十四：行为树中的基本概念">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/12/13/Navigation2专题十二：编写一个新的恢复器插件/" data-toggle="tooltip" data-placement="top" title="Navigation2专题十二：编写一个新的恢复器插件">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/12/27/Navigation2%E4%B8%93%E9%A2%98%E5%8D%81%E4%B8%89%EF%BC%9ABehavior-Trees%E7%AE%80%E4%BB%8B/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

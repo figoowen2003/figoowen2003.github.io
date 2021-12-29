@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          urdf+Gazebo实现机器人控制 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/07/02/urdf-Gazebo实现机器人控制/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#gazebo，ros2，gazebo_ros_pkgs" title="gazebo，ros2，gazebo_ros_pkgs">gazebo，ros2，gazebo_ros_pkgs</a>
+                            
+                        </div>
+                        <h1>urdf+Gazebo实现机器人控制</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-07-02
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="机器人运动控制简介"><a href="#机器人运动控制简介" class="headerlink" title="机器人运动控制简介"></a>机器人运动控制简介</h1><h2 id="1-ros2-control"><a href="#1-ros2-control" class="headerlink" title="1. ros2_control"></a>1. ros2_control</h2><ul>
+<li>ros2_control是一套软件包，它包含了控制器接口，控制器管理器，传输和硬件接口。它是机器人控制的中间件，是一套规范，不同的机器人平台只要按照这套规范实现，就可以保证与ROS程序兼容，通过这套规范，实现了一种可插拔的架构设计。</li>
+<li>ros2_control框架有以下软件包组成（<a target="_blank" rel="noopener" href="https://github.com/ros-controls/ros2_control%EF%BC%89">https://github.com/ros-controls/ros2_control）</a><ul>
+<li>ros_control 框架的主要接口和组件</li>
+<li>ros2_controllers 控制器，如前进指令控制器、关节轨迹控制器、差速控制器</li>
+<li>control_toolbox 一些被控制器广泛使用的控制理论的实现</li>
+<li>realtime_tools 用于实时性支持的通用工具包，如实时缓冲区和发布程序</li>
+<li>control_msgs 通用的消息</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Gazebo对ros2-control的实现"><a href="#2-Gazebo对ros2-control的实现" class="headerlink" title="2. Gazebo对ros2_control的实现"></a>2. Gazebo对ros2_control的实现</h2><p>Gazebo是一个独立的应用程序，支持ros和ros2。Gazebo与任何一个版本的ROS都是通过一组名为gazebo_ros_pkgs的功能包集来实现交互的。这些功能包集建立起来Gazebo与ROS2的消息服务之间的桥梁。</p>
+<ul>
+<li><p>ros2中gazebo_ros_pkgs的组成</p>
+<ul>
+<li>gazebo_dev 为支持ros发行版的Gazebo默认版提供cmake的配置，因此，下游的功能包可以之依赖gazebo_dev，而无需查找Gazebo。</li>
+<li>gazebo_msgs 用于与ROS2交互的消息与服务数据结构</li>
+<li>gazebo_ros 提供C++类和函数，可以被其他插件使用，如gazebo::Node，它还提供了一些常用的插件</li>
+<li>gazebo_plugins 一系列的Gazebo插件，将传感器和其他的特性暴露给ROS2。如，gazebo_ros_camera发布ROS2图像，gazebo_ros_diff_drive提供了通过ROS2控制和检查差速驱动机器人的接口。</li>
+</ul>
+</li>
+<li><p>gazebo_ros2_control 在ROS1中，该功能包名为gazebo_ros_control，并被作为gazebo_ros_pkgs元功能包的一个子包，而在ROS2中，它是独立的gazebo_ros2_control的功能包。</p>
+<p>gazebo_ros2_control是一个实现了ros2_control接口的控制管理器实例，该实例将连接到Gazebo模型上。</p>
+</li>
+</ul>
+<h2 id="3-机器人运动控制的实现流程"><a href="#3-机器人运动控制的实现流程" class="headerlink" title="3. 机器人运动控制的实现流程"></a>3. 机器人运动控制的实现流程</h2><h3 id="3-1-为joint添加控制器"><a href="#3-1-为joint添加控制器" class="headerlink" title="3.1 为joint添加控制器"></a>3.1 为joint添加控制器</h3><p>机器人模型采用了博客《URDF集成到Gazebo》中实操模型</p>
+<ul>
+<li><p>新建文件gazebo_demo_move.xacro，添加差速模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;my_car_move&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;gazebo&gt;</span><br><span class="line">      &lt;plugin name&#x3D;&quot;mycar_diff_drive&quot; filename&#x3D;&quot;libgazebo_ros_diff_drive.so&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;ros&gt;</span><br><span class="line">          &lt;!-- &lt;namespace&gt;&#x2F;demo&lt;&#x2F;namespace&gt; --&gt;</span><br><span class="line">        &lt;&#x2F;ros&gt;</span><br><span class="line"></span><br><span class="line">        &lt;update_rate&gt;30&lt;&#x2F;update_rate&gt;</span><br><span class="line"></span><br><span class="line">         &lt;!-- wheels --&gt;</span><br><span class="line">         &lt;left_joint&gt;left_wheel2base_link&lt;&#x2F;left_joint&gt;</span><br><span class="line">         &lt;right_joint&gt;right_wheel2base_link&lt;&#x2F;right_joint&gt;</span><br><span class="line"></span><br><span class="line">         &lt;!-- kinematics --&gt;</span><br><span class="line">         &lt;wheel_separation&gt;$&#123;base_link_radius * 2&#125;&lt;&#x2F;wheel_separation&gt;</span><br><span class="line">         &lt;wheel_diameter&gt;$&#123;wheel_radius * 2&#125;&lt;&#x2F;wheel_diameter&gt;</span><br><span class="line"></span><br><span class="line">         &lt;!-- limits --&gt;</span><br><span class="line">         &lt;max_wheel_torque&gt;20&lt;&#x2F;max_wheel_torque&gt;</span><br><span class="line">         &lt;max_wheel_acceleration&gt;1.0&lt;&#x2F;max_wheel_acceleration&gt;</span><br><span class="line"></span><br><span class="line">        &lt;command_topic&gt;cmd_vel&lt;&#x2F;command_topic&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- output --&gt;</span><br><span class="line">        &lt;publish_odom&gt;true&lt;&#x2F;publish_odom&gt;</span><br><span class="line">        &lt;publish_odom_tf&gt;true&lt;&#x2F;publish_odom_tf&gt;</span><br><span class="line">        &lt;publish_wheel_tf&gt;false&lt;&#x2F;publish_wheel_tf&gt;</span><br><span class="line"></span><br><span class="line">        &lt;odometry_topic&gt;odom&lt;&#x2F;odometry_topic&gt;</span><br><span class="line">        &lt;odometry_frame&gt;odom&lt;&#x2F;odometry_frame&gt;</span><br><span class="line">        &lt;robot_base_frame&gt;base_footprint&lt;&#x2F;robot_base_frame&gt;</span><br><span class="line"></span><br><span class="line">      &lt;&#x2F;plugin&gt;</span><br><span class="line"></span><br><span class="line">      &lt;plugin name&#x3D;&quot;my_car_joint_state&quot; filename&#x3D;&quot;libgazebo_ros_joint_state_publisher.so&quot;&gt;</span><br><span class="line">        &lt;ros&gt;</span><br><span class="line">          &lt;!-- &lt;namespace&gt;&#x2F;tb3&lt;&#x2F;namespace&gt; --&gt;</span><br><span class="line">          &lt;remapping&gt;~&#x2F;out:&#x3D;joint_states&lt;&#x2F;remapping&gt;</span><br><span class="line">        &lt;&#x2F;ros&gt;</span><br><span class="line">        &lt;update_rate&gt;30&lt;&#x2F;update_rate&gt;</span><br><span class="line">        &lt;joint_name&gt;left_wheel2base_link&lt;&#x2F;joint_name&gt;</span><br><span class="line">        &lt;joint_name&gt;right_wheel2base_link&lt;&#x2F;joint_name&gt;</span><br><span class="line">        &lt;joint_name&gt;front_wheel2base_link&lt;&#x2F;joint_name&gt;</span><br><span class="line">        &lt;joint_name&gt;back_wheel2base_link&lt;&#x2F;joint_name&gt;  </span><br><span class="line">      &lt;&#x2F;plugin&gt;  </span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<p>从源码可以看出，需要添加控制器插件的标签，具体形式为<gazebo></gazebo></p>
+<p>​        <plugin name></plugin></p>
+<p>​        </p>
+
+
+<ul>
+<li><p>添加gazebo_ros_control的插件</p>
+<ul>
+<li>差速插件 libgazebo_ros_diff_drive.so</li>
+<li>关节状态发布插件 libgazebo_ros_joint_state_publisher.so，主要是解决rivz中的坐标变换问题</li>
+</ul>
+<p>二者都需要在标签内指明所有需要控制的joint的名称</p>
+</li>
+</ul>
+</li>
+<li><p>将上述xacro文件集成到机器人模型文件gazebo_demo_my_car.xacro中</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;mycar&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;www.ros.org&#x2F;wiki&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_inertia_head.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_car_base.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_camera.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_laser.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_move.xacro&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动launch文件，运行结果如下</li>
+</ul>
+<p><img src="/2021/07/02/urdf-Gazebo%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/image-20210705182643641.png" alt="image-20210705182643641"></p>
+<ul>
+<li>命令行输入指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic pub -r 10 &#x2F;cmd_vel geometry_msgs&#x2F;Twist &#39;&#123;linear: &#123;x: 0.2, y: 0, z: 0&#125;, angular: &#123;x: 0, y: 0, z: 0.5&#125;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>![Peek 2021-07-05 18-30.gif](urdf-Gazebo实现机器人控制/Peek 2021-07-05 18-30.gif)</p>
+<h3 id="3-2-添加雷达仿真"><a href="#3-2-添加雷达仿真" class="headerlink" title="3.2 添加雷达仿真"></a>3.2 添加雷达仿真</h3><ul>
+<li><p>新建gazebo_demo_sensor.xacro文件，添加雷达插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;my_sensors&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line">  &lt;gazebo reference&#x3D;&quot;laser&quot;&gt;</span><br><span class="line">    &lt;sensor type&#x3D;&quot;ray&quot; name&#x3D;&quot;rplidar&quot;&gt;</span><br><span class="line">        &lt;visualize&gt;true&lt;&#x2F;visualize&gt;</span><br><span class="line">        &lt;ray&gt;</span><br><span class="line">        &lt;scan&gt;</span><br><span class="line">            &lt;horizontal&gt;</span><br><span class="line">            &lt;samples&gt;720&lt;&#x2F;samples&gt;</span><br><span class="line">            &lt;resolution&gt;1&lt;&#x2F;resolution&gt;</span><br><span class="line">            &lt;min_angle&gt;-3&lt;&#x2F;min_angle&gt;</span><br><span class="line">            &lt;max_angle&gt;3&lt;&#x2F;max_angle&gt;</span><br><span class="line">            &lt;&#x2F;horizontal&gt;</span><br><span class="line">        &lt;&#x2F;scan&gt;</span><br><span class="line">        &lt;range&gt;</span><br><span class="line">            &lt;min&gt;0.10&lt;&#x2F;min&gt;</span><br><span class="line">            &lt;max&gt;30.0&lt;&#x2F;max&gt;</span><br><span class="line">            &lt;resolution&gt;0.01&lt;&#x2F;resolution&gt;</span><br><span class="line">        &lt;&#x2F;range&gt;</span><br><span class="line">        &lt;!-- Using gazebo&#39;s noise instead of plugin&#39;s --&gt;</span><br><span class="line">        &lt;noise&gt;</span><br><span class="line">            &lt;type&gt;gaussian&lt;&#x2F;type&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;0.01&lt;&#x2F;stddev&gt;</span><br><span class="line">        &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;ray&gt;</span><br><span class="line">        &lt;!-- Using gazebo&#39;s update rate instead of plugin&#39;s --&gt;</span><br><span class="line">        &lt;update_rate&gt;30&lt;&#x2F;update_rate&gt;</span><br><span class="line"></span><br><span class="line">        &lt;plugin name&#x3D;&quot;gazebo_ros_head_hokuyo_controller&quot; filename&#x3D;&quot;libgazebo_ros_ray_sensor.so&quot;&gt;</span><br><span class="line">        &lt;!-- Change namespace and output topic so published topic is &#x2F;rrbot&#x2F;laser&#x2F;scan --&gt;</span><br><span class="line">        &lt;ros&gt;</span><br><span class="line">            &lt;namespace&gt;&#x2F;laser&lt;&#x2F;namespace&gt;</span><br><span class="line">            &lt;remapping&gt;~&#x2F;out:&#x3D;scan&lt;&#x2F;remapping&gt;</span><br><span class="line">        &lt;&#x2F;ros&gt;</span><br><span class="line">        &lt;!-- Set output to sensor_msgs&#x2F;LaserScan to get same output type as gazebo_ros_laser --&gt;</span><br><span class="line">        &lt;output_type&gt;sensor_msgs&#x2F;LaserScan&lt;&#x2F;output_type&gt;</span><br><span class="line">        &lt;!-- &lt;frame_name&gt; ommited, will default to hokuo_link --&gt;</span><br><span class="line">        &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;&#x2F;sensor&gt;</span><br><span class="line">  &lt;&#x2F;gazebo&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>gazebo reference 应当和机器人模型中的雷达名称相同</li>
+<li>sensor type 可以是ray或gpu_ray，二者目前没区别</li>
+<li>namespace 默认为root，可以不写</li>
+<li><remapping>~/out:=scan</remapping> topic名</li>
+<li>output_type 可以是以下值：<ul>
+<li>sensor_msgs/PointCloud2 3D点云（默认值）</li>
+<li>sensor_msgs/PointCloud 3D点云</li>
+<li>sensor_msgs/LaserScan 2D扫描，使用中心垂直射线</li>
+<li>sensor_msgs/Range 单个距离值，父传感器所有射线范围的最小值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>将上述xacro文件包含到机器人模型文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;mycar&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;www.ros.org&#x2F;wiki&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_inertia_head.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_car_base.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_camera.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_laser.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_move.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_sensor.xacro&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>启动launch文件，显示如下</p>
+<p>![Peek 2021-07-05 20-16.gif](urdf-Gazebo实现机器人控制/Peek 2021-07-05 20-16.gif)</p>
+</li>
+</ul>
+<h3 id="3-3-添加摄像头仿真"><a href="#3-3-添加摄像头仿真" class="headerlink" title="3.3 添加摄像头仿真"></a>3.3 添加摄像头仿真</h3><ul>
+<li><p>打开gazebo_demo_sensor.xacro文件，添加摄像头插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;my_sensors&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line">	...</span><br><span class="line">	...</span><br><span class="line">  &lt;gazebo reference&#x3D;&quot;camera&quot;&gt;</span><br><span class="line">    &lt;!-- 类型设置为 camara --&gt;</span><br><span class="line">    &lt;sensor type&#x3D;&quot;camera&quot; name&#x3D;&quot;camera_node&quot;&gt;</span><br><span class="line">        &lt;always_on&gt;true&lt;&#x2F;always_on&gt;</span><br><span class="line">        &lt;visualize&gt;true&lt;&#x2F;visualize&gt;</span><br><span class="line">        &lt;update_rate&gt;30&lt;&#x2F;update_rate&gt;</span><br><span class="line">        &lt;camera name&#x3D;&quot;intel_realsense_r200&quot;&gt;</span><br><span class="line">            &lt;horizontal_fov&gt;1.02974&lt;&#x2F;horizontal_fov&gt;</span><br><span class="line">            &lt;image&gt;</span><br><span class="line">                &lt;width&gt;1920&lt;&#x2F;width&gt;</span><br><span class="line">                &lt;height&gt;1080&lt;&#x2F;height&gt;</span><br><span class="line">                &lt;format&gt;R8G8B8&lt;&#x2F;format&gt;</span><br><span class="line">            &lt;&#x2F;image&gt;</span><br><span class="line">            &lt;clip&gt;</span><br><span class="line">                &lt;near&gt;0.02&lt;&#x2F;near&gt;</span><br><span class="line">                &lt;far&gt;300&lt;&#x2F;far&gt;</span><br><span class="line">            &lt;&#x2F;clip&gt;</span><br><span class="line">            &lt;noise&gt;</span><br><span class="line">                &lt;type&gt;gaussian&lt;&#x2F;type&gt;</span><br><span class="line">                &lt;!-- Noise is sampled independently per pixel on each frame.</span><br><span class="line">                    That pixel&#39;s noise value is added to each of its color</span><br><span class="line">                    channels, which at that point lie in the range [0,1]. --&gt;</span><br><span class="line">                &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">                &lt;stddev&gt;0.007&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;&#x2F;noise&gt;</span><br><span class="line">            &lt;distortion&gt;</span><br><span class="line">              &lt;k1&gt;0.0&lt;&#x2F;k1&gt;</span><br><span class="line">              &lt;k2&gt;0.0&lt;&#x2F;k2&gt;</span><br><span class="line">              &lt;k3&gt;0.0&lt;&#x2F;k3&gt;</span><br><span class="line">              &lt;p1&gt;0.0&lt;&#x2F;p1&gt;</span><br><span class="line">              &lt;p2&gt;0.0&lt;&#x2F;p2&gt;</span><br><span class="line">              &lt;center&gt;0.5 0.5&lt;&#x2F;center&gt;</span><br><span class="line">            &lt;&#x2F;distortion&gt;          </span><br><span class="line">        &lt;&#x2F;camera&gt;</span><br><span class="line">        &lt;plugin name&#x3D;&quot;camera_driver&quot; filename&#x3D;&quot;libgazebo_ros_camera.so&quot;&gt;</span><br><span class="line">            &lt;ros&gt;</span><br><span class="line">                &lt;namespace&gt;camera&lt;&#x2F;namespace&gt;</span><br><span class="line">                &lt;remapping&gt;image_raw:&#x3D;camera_image&lt;&#x2F;remapping&gt;</span><br><span class="line">                &lt;remapping&gt;camera_info:&#x3D;camera_info&lt;&#x2F;remapping&gt;</span><br><span class="line">            &lt;&#x2F;ros&gt;</span><br><span class="line">            &lt;camera_name&gt;&#x2F;camera&lt;&#x2F;camera_name&gt;</span><br><span class="line">            &lt;frame_name&gt;camera&lt;&#x2F;frame_name&gt;</span><br><span class="line">            &lt;hack_baseline&gt;0.07&lt;&#x2F;hack_baseline&gt;</span><br><span class="line">        &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;&#x2F;sensor&gt;</span><br><span class="line">  &lt;&#x2F;gazebo&gt;	</span><br><span class="line">&lt;&#x2F;robot&gt;	</span><br></pre></td></tr></table></figure></li>
+<li><p>无需修改机器人模型文件，直接启动launch文件</p>
+<p>![Peek 2021-07-06 10-45.gif](urdf-Gazebo实现机器人控制/Peek 2021-07-06 10-45.gif)</p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/08/18/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/06/30/Gazebo中的环境变量/" data-toggle="tooltip" data-placement="top" title="Gazebo中运行的组件">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#gazebo，ros2，gazebo_ros_pkgs" title="gazebo，ros2，gazebo_ros_pkgs">gazebo，ros2，gazebo_ros_pkgs</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/07/02/urdf-Gazebo%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题三：URDF补充知识 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/11/18/Navigation2专题三：URDF补充知识/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题三：URDF补充知识</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-11-18
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Gazebo模拟传感器"><a href="#Gazebo模拟传感器" class="headerlink" title="Gazebo模拟传感器"></a>Gazebo模拟传感器</h1><p>以libgazebo_ros_ray_sensor.so为例，它用于模拟一个激光雷达传感器。</p>
+<h2 id="1-默认的topic"><a href="#1-默认的topic" class="headerlink" title="1. 默认的topic"></a>1. 默认的topic</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">## 2. 在URDF&#x2F;SDF文件中设置topic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code> &lt;sensor name=&quot;laser&quot; type=&quot;ray&quot;&gt;
+   &lt;pose&gt;0.01 0 0.0175 0 -0 0&lt;/pose&gt;
+       &lt;ray&gt;
+         &lt;scan&gt;
+           &lt;horizontal&gt;
+             &lt;samples&gt;181&lt;/samples&gt;
+             &lt;resolution&gt;1&lt;/resolution&gt;
+             &lt;min_angle&gt;-1.57080&lt;/min_angle&gt;
+             &lt;max_angle&gt;1.57080&lt;/max_angle&gt;
+           &lt;/horizontal&gt;
+         &lt;/scan&gt;
+         &lt;range&gt;
+           &lt;min&gt;0.08&lt;/min&gt;
+           &lt;max&gt;10&lt;/max&gt;
+           &lt;resolution&gt;0.05&lt;/resolution&gt;
+         &lt;/range&gt;
+       &lt;/ray&gt;
+       &lt;always_on&gt;1&lt;/always_on&gt;
+       &lt;update_rate&gt;10&lt;/update_rate&gt;
+       &lt;visualize&gt;true&lt;/visualize&gt;
+
+       &lt;plugin name=&#39;laser&#39; filename=&#39;libgazebo_ros_ray_sensor.so&#39;&gt;
+         &lt;ros&gt;
+           &lt;namespace&gt;/demo&lt;/namespace&gt;
+           &lt;argument&gt;~/out:=scan&lt;/argument&gt;
+         &lt;/ros&gt;
+         &lt;output_type&gt;sensor_msgs/LaserScan&lt;/output_type&gt;
+         &lt;frame_name&gt;laser_link&lt;/frame_name&gt;
+       &lt;/plugin&gt;
+ &lt;/sensor&gt;
+</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;namespace&gt;&#x2F;demo&lt;&#x2F;namespace&gt;表示话题的命名空间，&lt;argument&gt;~&#x2F;out:&#x3D;scan&lt;&#x2F;argument&gt;表示话题输出的名称为scan，因此话题的全名为&#x2F;demo&#x2F;scan</span><br><span class="line"></span><br><span class="line">![image-20211118151347923](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118151347923.png)</span><br><span class="line"></span><br><span class="line">我们改写一下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+  <ros>
+    <namespace>/demo</namespace>
+    <argument>--ros-args --remap ~/out:=scan</argument>
+  </ros>
+  <output_type>sensor_msgs/LaserScan</output_type>
+  <frame_name>laser_link</frame_name>
+</plugin>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">重新编译，运行</span><br><span class="line"></span><br><span class="line">![image-20211118151634681](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118151634681.png)</span><br><span class="line"></span><br><span class="line">增加了--ros-args --remap 参数，表示要将topic重命名为out，此时topic名称为&#x2F;demo&#x2F;laser&#x2F;out</span><br><span class="line"></span><br><span class="line">再改写一下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+  <ros>
+    <remapping>~/out:=scan</remapping>
+  </ros>
+  <output_type>sensor_msgs/LaserScan</output_type>
+  <frame_name>laser_link</frame_name>
+</plugin>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image-20211118154725191](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118154725191.png)</span><br><span class="line"></span><br><span class="line">此处取消了namespace的设置，话题名称被重命名为scan</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ros>
+  <remapping>~/out:=my_scan</remapping>
+</ros>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image-20211118155013628](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118155013628.png)</span><br><span class="line"></span><br><span class="line">如果不去重命名topic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ros>
+  <!--<remapping>~/out:=my_scan</remapping> -->
+</ros>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image-20211118161218242](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118161218242.png)</span><br><span class="line"></span><br><span class="line">默认话题名称为&#x2F;laser&#x2F;out</span><br><span class="line"></span><br><span class="line">再改写一下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ros>
+  <argument>~/out:=my_scan</argument>
+</ros>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">用argument取代remapping，结果为</span><br><span class="line"></span><br><span class="line">![image-20211118161750011](&#x2F;home&#x2F;ubuntu-ros2&#x2F;myBlog&#x2F;source&#x2F;_posts&#x2F;Navigation2专题三：URDF补充知识&#x2F;image-20211118161750011.png)</span><br><span class="line"></span><br><span class="line">## 3. 在Launch文件中设置topic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+spawn_entity = Node(package='gazebo_ros', node_executable='spawn_entity.py',
+                    arguments=['-entity', 'demo', '0', '0.5', '0.0'],
+                    output='screen')
+```
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162116545.png" alt="image-20211118162116545"></p>
+<p>在arguments参数列表中，第二个参数’demo’代表命名空间，因此在孵化机器人模型的过程中会为机器人的参数如topic添加该命名空间，并且此处设置的topicde 命名空间优先级在SDF或者URDF文件之上。</p>
+<p>需要将第二个参数设置为空</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162450214.png" alt="image-20211118162450214"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162624615.png" alt="image-20211118162624615"></p>
+<h1 id="Gazebo与Rviz仿真同步"><a href="#Gazebo与Rviz仿真同步" class="headerlink" title="Gazebo与Rviz仿真同步"></a>Gazebo与Rviz仿真同步</h1><h2 id="问题：将turtlebot3的burger模型与turtlebot3-world世界导入到自定义的孵化器中，在Gazebo中运行该模型，接下来运行turtlebotbot3-navigation，发现无论如何操纵rviz中的2D-Pose-Estimate去初始化机器人的位置都不成功，自然向Nav2-Goal更是不可能完成。"><a href="#问题：将turtlebot3的burger模型与turtlebot3-world世界导入到自定义的孵化器中，在Gazebo中运行该模型，接下来运行turtlebotbot3-navigation，发现无论如何操纵rviz中的2D-Pose-Estimate去初始化机器人的位置都不成功，自然向Nav2-Goal更是不可能完成。" class="headerlink" title="问题：将turtlebot3的burger模型与turtlebot3_world世界导入到自定义的孵化器中，在Gazebo中运行该模型，接下来运行turtlebotbot3_navigation，发现无论如何操纵rviz中的2D Pose Estimate去初始化机器人的位置都不成功，自然向Nav2 Goal更是不可能完成。"></a>问题：将turtlebot3的burger模型与turtlebot3_world世界导入到自定义的孵化器中，在Gazebo中运行该模型，接下来运行turtlebotbot3_navigation，发现无论如何操纵rviz中的2D Pose Estimate去初始化机器人的位置都不成功，自然向Nav2 Goal更是不可能完成。</h2><p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119161029263.png" alt="image-20211119161029263"></p>
+<p>具体操作步骤：</p>
+<ul>
+<li><p>从turtlebot3_gazebo源码中拷贝models文件夹中turtlebot3_burger以及turtlebot3_common文件夹到自定义工程的models文件夹下</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119161324923.png" alt="image-20211119161324923"></p>
+</li>
+<li><p>拷贝turtlebot3的世界turtlebot3_world文件夹到自定义工程的models文件夹下</p>
+</li>
+<li><p>修改自定义工程中的.world文件，此处名为warehouse.world</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119161618152.png" alt="image-20211119161618152"></p>
+</li>
+<li><p>修改自定义工程中的launch文件</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119161803619.png" alt="image-20211119161803619"></p>
+</li>
+<li><p>编译运行后，Gazebo正常加载世界与机器人模型，但如果启动nav2却无法加载机器人模型，更无法与Gazebo同步</p>
+</li>
+</ul>
+<p><strong>原因：</strong></p>
+<p>​    <strong>turtlebot3的模型由SDF格式来完成，rviz无法解析SDF文件，rviz只能解析URDF文件</strong></p>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li><p>拷贝turtlebot3_gazebo源码models文件夹下的urdf文件夹到自定义工程的models文件夹下</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119162915615.png" alt="image-20211119162915615"></p>
+</li>
+<li><p>修改自定义工程的launch文件，需要启动robot state publisher节点去接卸turtlebot3的urdf文件。拷贝turtlebot3_gazebo源码中的robot_state_publiser.launch.py到自定义工程的launch文件夹下，修改gazebo_world.launch.py文件</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119164344927.png" alt="image-20211119164344927"></p>
+</li>
+<li><p>重新编译，运行，然后在新的terminal中启动nav2（自定义或者turtlebot3的nav2都行）</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119164957893.png" alt="image-20211119164957893"></p>
+</li>
+</ul>
+<p>​        <img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119173051632.png" alt="image-20211119173051632"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119173156082.png" alt="image-20211119173156082"></p>
+<p>![](/home/ubuntu-ros2/myBlog/source/_posts/Navigation2专题三：URDF补充知识/Peek 2021-11-19 17-33.gif)</p>
+<p><strong>注意</strong></p>
+<p><strong>warehouse.world文件中physics属性的设置会影响机器人的运行速度</strong></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211119173642564.png" alt="image-20211119173642564"></p>
+<p>其中max_step_size设置过大，机器人会加速运行，而real_time_update_rate设置越大，整体运行速度越慢。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/11/26/OpenSSF专题之一：scorecard/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题之一：scorecard">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/11/12/Navigation2专题八：相机校正/" data-toggle="tooltip" data-placement="top" title="Navigation2专题八：相机校正">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/11/18/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

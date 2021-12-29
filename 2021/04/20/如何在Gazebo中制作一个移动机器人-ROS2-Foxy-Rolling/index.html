@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          如何在Gazebo中制作一个移动机器人(ROS2 Foxy/Rolling) - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/04/20/如何在Gazebo中制作一个移动机器人-ROS2-Foxy-Rolling/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ros2, gazebo, sdf, ubuntu" title="ros2, gazebo, sdf, ubuntu">ros2, gazebo, sdf, ubuntu</a>
+                            
+                        </div>
+                        <h1>如何在Gazebo中制作一个移动机器人(ROS2 Foxy/Rolling)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-04-20
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><ul>
+<li><p>Linux环境：Ubuntu 20.04</p>
+</li>
+<li><p>安装ROS2：foxy或者rolling，尽量安装最新版</p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.ros.org/install/">https://www.ros.org/install/</a></p>
+</li>
+<li><p>安装gazebo：目前最新的是11版</p>
+<p>参考链接：</p>
+</li>
+</ul>
+<h1 id="Model目录的建立"><a href="#Model目录的建立" class="headerlink" title="Model目录的建立"></a>Model目录的建立</h1><ol>
+<li><p>创建model文件夹</p>
+<p><code>mkdir -p ~/.gazebo/model/my_robot</code></p>
+</li>
+<li><p>创建一个model config文件</p>
+<p><code>gedit ~/.gazebo/models/my_robot/model.config</code></p>
+<p>向文件中添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;model&gt;</span><br><span class="line">  &lt;name&gt;My Robot&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;version&gt;1.0&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;sdf version&#x3D;&#39;1.4&#39;&gt;model.sdf&lt;&#x2F;sdf&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;author&gt;</span><br><span class="line">   &lt;name&gt;My Name&lt;&#x2F;name&gt;</span><br><span class="line">   &lt;email&gt;me@my.email&lt;&#x2F;email&gt;</span><br><span class="line">  &lt;&#x2F;author&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;description&gt;</span><br><span class="line">    My awesome robot.</span><br><span class="line">  &lt;&#x2F;description&gt;</span><br><span class="line">&lt;&#x2F;model&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>创建model.sdf文件，该文件提供了创建一个机器人模型实例所需要的标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit ~&#x2F;.gazebo&#x2F;models&#x2F;my_robot&#x2F;model.sdf</span><br></pre></td></tr></table></figure>
+
+<p>向上述文件中添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&#39;1.0&#39;?&gt;</span><br><span class="line">&lt;sdf version&#x3D;&#39;1.4&#39;&gt;</span><br><span class="line">  &lt;model name&#x3D;&quot;my_robot&quot;&gt;</span><br><span class="line">  &lt;&#x2F;model&gt;</span><br><span class="line">&lt;&#x2F;sdf&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="创建模型（model）"><a href="#创建模型（model）" class="headerlink" title="创建模型（model）"></a>创建模型（model）</h1><ol>
+<li><p>创建机器人的主体</p>
+<p><img src="/2021/04/20/%E5%A6%82%E4%BD%95%E5%9C%A8Gazebo%E4%B8%AD%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E6%9C%BA%E5%99%A8%E4%BA%BA-ROS2-Foxy-Rolling/1-add-static-tagJPG.jpg" alt="1-add-static-tagJPG"></p>
+<p>在创建机器人的时候，我们希望Gazebo的physics engine能够忽略这个机器人，那么在标签<model name="my_robot">下添加</model></p>
+<p><static>true<static>，如上图</static></static></p>
+<p>接着，在<static>true<static>标签下，添加以下内容</static></static></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;link name&#x3D;&#39;chassis&#39;&gt;</span><br><span class="line">  &lt;pose&gt;0 0 .1 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;collision name&#x3D;&#39;collision&#39;&gt;</span><br><span class="line">    &lt;geometry&gt;</span><br><span class="line">      &lt;box&gt;</span><br><span class="line">        &lt;size&gt;.4 .2 .1&lt;&#x2F;size&gt;</span><br><span class="line">      &lt;&#x2F;box&gt;</span><br><span class="line">    &lt;&#x2F;geometry&gt;</span><br><span class="line">  &lt;&#x2F;collision&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;visual name&#x3D;&#39;visual&#39;&gt;</span><br><span class="line">    &lt;geometry&gt;</span><br><span class="line">      &lt;box&gt;</span><br><span class="line">        &lt;size&gt;.4 .2 .1&lt;&#x2F;size&gt;</span><br><span class="line">      &lt;&#x2F;box&gt;</span><br><span class="line">    &lt;&#x2F;geometry&gt;</span><br><span class="line">  &lt;&#x2F;visual&gt;</span><br><span class="line">&lt;&#x2F;link&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最终model.sdf如下</p>
+<p><img src="/2021/04/20/%E5%A6%82%E4%BD%95%E5%9C%A8Gazebo%E4%B8%AD%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E6%9C%BA%E5%99%A8%E4%BA%BA-ROS2-Foxy-Rolling/image-20210421114021426.png" alt="image-20210421114021426"></p>
+<p>这样我们就创建了一个box，它的名字(link name)是‘chassis’</p>
+</li>
+<li><p>chassis的pose标签</p>
+<ul>
+<li>pose代表的是chassis几何中心的位置（x = 0 meters， y = 0 meters, z = .01meters）以及它的姿态（roll = 0 radians, pitch = 0 radians, yaw = 0 radians）。<ul>
+<li>roll：绕x轴旋转</li>
+<li>pitch：绕y轴旋转</li>
+<li>yaw：绕z轴旋转</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>collision标签和visusal标签</p>
+<ul>
+<li>collision定义了几何形状，它将被Gazebo的collision detection engine所使用。</li>
+<li>visual定义了机器人的显示形状，它将被Gazebo的rendering engine所使用</li>
+<li>大多数情况下这两个tag是一直的</li>
+</ul>
+</li>
+<li><p>添加一个caster wheel</p>
+<ul>
+<li><p>caster wheel将被设计为一个半径0.05米的圆球</p>
+</li>
+<li><p>编辑model.sdf文件，添加如下内容（在第一个之后，之前）</p>
+<p><code>gedit ~/.gazebo/models/my_robot/model.sdf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;collision name&#x3D;&#39;caster_collision&#39;&gt;</span><br><span class="line">  &lt;pose&gt;-0.15 0 -0.05 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">  &lt;geometry&gt;</span><br><span class="line">      &lt;sphere&gt;</span><br><span class="line">      &lt;radius&gt;.05&lt;&#x2F;radius&gt;</span><br><span class="line">    &lt;&#x2F;sphere&gt;</span><br><span class="line">  &lt;&#x2F;geometry&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;surface&gt;</span><br><span class="line">    &lt;friction&gt;</span><br><span class="line">      &lt;ode&gt;</span><br><span class="line">        &lt;mu&gt;0&lt;&#x2F;mu&gt;</span><br><span class="line">        &lt;mu2&gt;0&lt;&#x2F;mu2&gt;</span><br><span class="line">        &lt;slip1&gt;1.0&lt;&#x2F;slip1&gt;</span><br><span class="line">        &lt;slip2&gt;1.0&lt;&#x2F;slip2&gt;</span><br><span class="line">      &lt;&#x2F;ode&gt;</span><br><span class="line">    &lt;&#x2F;friction&gt;</span><br><span class="line">  &lt;&#x2F;surface&gt;</span><br><span class="line">&lt;&#x2F;collision&gt;</span><br><span class="line"> </span><br><span class="line">&lt;visual name&#x3D;&#39;caster_visual&#39;&gt;</span><br><span class="line">  &lt;pose&gt;-0.15 0 -0.05 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">  &lt;geometry&gt;</span><br><span class="line">    &lt;sphere&gt;</span><br><span class="line">      &lt;radius&gt;.05&lt;&#x2F;radius&gt;</span><br><span class="line">    &lt;&#x2F;sphere&gt;</span><br><span class="line">  &lt;&#x2F;geometry&gt;</span><br><span class="line">&lt;&#x2F;visual&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>添加左轮和右轮</p>
+<ul>
+<li><p>编辑model.sdf文件（在之后，之前），添加以下内容</p>
+<p><code>gedit ~/.gazebo/models/my_robot/model.sdf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;link name&#x3D;&quot;left_wheel&quot;&gt;</span><br><span class="line">   &lt;pose&gt;0.1 0.13 0.1 0 1.5707 1.5707&lt;&#x2F;pose&gt;</span><br><span class="line">   &lt;collision name&#x3D;&quot;collision&quot;&gt;</span><br><span class="line">     &lt;geometry&gt;</span><br><span class="line">       &lt;cylinder&gt;</span><br><span class="line">         &lt;radius&gt;.1&lt;&#x2F;radius&gt;</span><br><span class="line">         &lt;length&gt;.05&lt;&#x2F;length&gt;</span><br><span class="line">       &lt;&#x2F;cylinder&gt;</span><br><span class="line">     &lt;&#x2F;geometry&gt;</span><br><span class="line">   &lt;&#x2F;collision&gt;</span><br><span class="line">   &lt;visual name&#x3D;&quot;visual&quot;&gt;</span><br><span class="line">     &lt;geometry&gt;</span><br><span class="line">       &lt;cylinder&gt;</span><br><span class="line">         &lt;radius&gt;.1&lt;&#x2F;radius&gt;</span><br><span class="line">         &lt;length&gt;.05&lt;&#x2F;length&gt;</span><br><span class="line">       &lt;&#x2F;cylinder&gt;</span><br><span class="line">     &lt;&#x2F;geometry&gt;</span><br><span class="line">   &lt;&#x2F;visual&gt;</span><br><span class="line"> &lt;&#x2F;link&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;link name&#x3D;&quot;right_wheel&quot;&gt;</span><br><span class="line">    &lt;pose&gt;0.1 -0.13 0.1 0 1.5707 1.5707&lt;&#x2F;pose&gt;</span><br><span class="line">    &lt;collision name&#x3D;&quot;collision&quot;&gt;</span><br><span class="line">      &lt;geometry&gt;</span><br><span class="line">        &lt;cylinder&gt;</span><br><span class="line">          &lt;radius&gt;.1&lt;&#x2F;radius&gt;</span><br><span class="line">          &lt;length&gt;.05&lt;&#x2F;length&gt;</span><br><span class="line">        &lt;&#x2F;cylinder&gt;</span><br><span class="line">      &lt;&#x2F;geometry&gt;</span><br><span class="line">    &lt;&#x2F;collision&gt;</span><br><span class="line">    &lt;visual name&#x3D;&quot;visual&quot;&gt;</span><br><span class="line">      &lt;geometry&gt;</span><br><span class="line">        &lt;cylinder&gt;</span><br><span class="line">          &lt;radius&gt;.1&lt;&#x2F;radius&gt;</span><br><span class="line">          &lt;length&gt;.05&lt;&#x2F;length&gt;</span><br><span class="line">        &lt;&#x2F;cylinder&gt;</span><br><span class="line">      &lt;&#x2F;geometry&gt;</span><br><span class="line">    &lt;&#x2F;visual&gt;</span><br><span class="line">  &lt;&#x2F;link&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>添加左转动关节和右转动关节</p>
+<ul>
+<li><p>将robot从static改变为dynamic状态，修改model.sdf文件</p>
+<p><code>&lt;static&gt;false&lt;/static&gt;</code></p>
+</li>
+<li><p>添加左右两个转动关节（在最后一个之前添加以下内容）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;joint type&#x3D;&quot;revolute&quot; name&#x3D;&quot;left_wheel_hinge&quot;&gt;</span><br><span class="line">  &lt;pose&gt;0 0 -0.03 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">  &lt;child&gt;left_wheel&lt;&#x2F;child&gt;</span><br><span class="line">  &lt;parent&gt;chassis&lt;&#x2F;parent&gt;</span><br><span class="line">  &lt;axis&gt;</span><br><span class="line">    &lt;xyz&gt;0 1 0&lt;&#x2F;xyz&gt;</span><br><span class="line">  &lt;&#x2F;axis&gt;</span><br><span class="line">&lt;&#x2F;joint&gt;</span><br><span class="line"> </span><br><span class="line">&lt;joint type&#x3D;&quot;revolute&quot; name&#x3D;&quot;right_wheel_hinge&quot;&gt;</span><br><span class="line">  &lt;pose&gt;0 0 0.03 0 0 0&lt;&#x2F;pose&gt;</span><br><span class="line">  &lt;child&gt;right_wheel&lt;&#x2F;child&gt;</span><br><span class="line">  &lt;parent&gt;chassis&lt;&#x2F;parent&gt;</span><br><span class="line">  &lt;axis&gt;</span><br><span class="line">    &lt;xyz&gt;0 1 0&lt;&#x2F;xyz&gt;</span><br><span class="line">  &lt;&#x2F;axis&gt;</span><br><span class="line">&lt;&#x2F;joint&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/20/%E5%A6%82%E4%BD%95%E5%9C%A8Gazebo%E4%B8%AD%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E6%9C%BA%E5%99%A8%E4%BA%BA-ROS2-Foxy-Rolling/12-two-joints-appearJPG.jpg" alt="12-two-joints-appearJPG"></p>
+</li>
+</ul>
+</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/04/21/如何使用Gazebo和ROS2进行移动机器人仿真/" data-toggle="tooltip" data-placement="top" title="如何使用Gazebo和ROS2进行移动机器人仿真">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/04/09/dolly跟随机器人研究/" data-toggle="tooltip" data-placement="top" title="dolly跟随机器人研究">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ros2, gazebo, sdf, ubuntu" title="ros2, gazebo, sdf, ubuntu">ros2, gazebo, sdf, ubuntu</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/04/20/%E5%A6%82%E4%BD%95%E5%9C%A8Gazebo%E4%B8%AD%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E6%9C%BA%E5%99%A8%E4%BA%BA-ROS2-Foxy-Rolling/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          基于ROS2设计action之补充二：cmake语法解析 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/08/24/基于ROS2设计action之补充二：cmake语法解析/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>基于ROS2设计action之补充二：cmake语法解析</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-08-24
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="cmake之add-library"><a href="#cmake之add-library" class="headerlink" title="cmake之add_library"></a>cmake之add_library</h1><p><strong>语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add_library(&lt;name&gt; [STATIC | SHARED | MODULE]</span><br><span class="line">            [EXCLUDE_FROM_ALL]</span><br><span class="line">            source1 [source2 ...])</span><br></pre></td></tr></table></figure>
+
+<p>name：库的名字，无需加lib，会自动添加这个前缀</p>
+<p>STATIC | SHARED | MODULE：静态库 | 动态库 | 在使用dyld的系统有效，否则被视为SHARED</p>
+<p>EXCLUDE_FROM_ALL：这个库不会被默认构建，除非有其他的组件依赖或者手动构建</p>
+<p><strong>使用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET(LIBHELLO_SRC hello.c)</span><br><span class="line">ADD_LIBRARY(hello SHARED $&#123;LIBHELLO_SRC&#125;)</span><br><span class="line">ADD_LIBRARY(hello_static STATIC $&#123;LIBHELLO_SRC&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<p>上面构建的libhello.so与libhello_static.a，本质区别一个是动态库，一个是静态库，合理的命名为libhello.so与libhell.a，但显然名字不同。原因在于，如果将第三行代码改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD_LIBRARY(hello STATIC $&#123;LIBHELLO_SRC&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>则会因为重名，导致静态库无法构建。</p>
+<p>解决办法为，修改libhello_static.a的属性-OUTPUT_NAME</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(hello_static PROPERTIES OUTPUT_NAME &quot;hello&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以生成libhello.so与libhello.a了</p>
+<h1 id="cmake之target-include-directories"><a href="#cmake之target-include-directories" class="headerlink" title="cmake之target_include_directories"></a>cmake之target_include_directories</h1><p><strong>语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">target_include_directories(&lt;target&gt; [SYSTEM] [BEFORE]</span><br><span class="line">  &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1...]</span><br><span class="line">  [&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2...] ...])</span><br></pre></td></tr></table></figure>
+
+<p>指定编译target时需要包含的目录或者目标。</p>
+<p>target必须是由add_executable()或者add_library()命令创建的目标</p>
+<p>INTERFACE|PUBLIC|PRIVATE关键字用于指定items1等参数的范围，PRIVATE和PUBLIC的items将产生target的INCLUDE_DIRECTORIES属性，PUBLIC和INTERFACE的items将产生target的INTERFACE_INCLUDE_DIRECTORIES属性，也就是添加了公共默认搜索路径。。</p>
+<p>target_include_directories的参数也可以使用“生成表达式”$&lt;…&gt;这样的语法，如$<BUILD_INTERFACE>和$<INSTALL_INTERFACE>被用于描述不同的使用要求。</INSTALL_INTERFACE></BUILD_INTERFACE></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target_include_directories(mylib PUBLIC</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&#x2F;mylib&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&#x2F;mylib&gt;  # &lt;prefix&gt;&#x2F;include&#x2F;mylib</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="cmake之target-compile-definitions"><a href="#cmake之target-compile-definitions" class="headerlink" title="cmake之target_compile_definitions"></a>cmake之target_compile_definitions</h1><p><strong>语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">target_compile_definitions(&lt;target&gt;</span><br><span class="line">   &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1...]</span><br><span class="line">   [&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2...] ...])</span><br></pre></td></tr></table></figure>
+
+<p>给target添加编译选项，格式与target_include_directories类似。</p>
+<p>PRIVATE 和 PUBLIC 项将产生 target&gt;的 COMPILE_DEFINITIONS 属性。PUBLIC 和 INTERFACE 项将产生 target&gt;的INTERFACE_COMPILE_DEFINITIONS 属性。其后的参数指定编译定义。重复调用相同的目标将按照调用顺序追加（定义）。</p>
+<p>target_compile_definitions的参数可以使用带语法$&lt;…&gt;的“生成表达式”。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">target<span class="constructor">_compile_definitions(<span class="params">foo</span> PUBLIC FOO)</span></span><br><span class="line">target<span class="constructor">_compile_definitions(<span class="params">foo</span> PUBLIC -DFOO)</span>  # -D removed</span><br><span class="line">target<span class="constructor">_compile_definitions(<span class="params">foo</span> PUBLIC <span class="string">&quot;&quot;</span> FOO)</span> # <span class="string">&quot;&quot;</span> ignored</span><br><span class="line">target<span class="constructor">_compile_definitions(<span class="params">foo</span> PUBLIC -D FOO)</span> # -D becomes <span class="string">&quot;&quot;</span>, <span class="keyword">then</span> ignored</span><br><span class="line"></span><br><span class="line">#定义带值的</span><br><span class="line">target<span class="constructor">_compile_definitions( Tutorial PRIVATE <span class="string">&quot;LOG_LEVEL=2&quot;</span> )</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="cmake-ROS2之rclcpp-components-register-node"><a href="#cmake-ROS2之rclcpp-components-register-node" class="headerlink" title="cmake+ROS2之rclcpp_components_register_node"></a>cmake+ROS2之rclcpp_components_register_node</h1><p><strong>背景</strong></p>
+<p>ROS2中的组件，类似与ROS1中的nodelet，这样无需写main函数，而是直接将组件编译成库。</p>
+<p>组件通常都是rclcpp::Node的子类，因为组件不能控制线程，所以其构造函数不能运行占用太多时间或者阻塞的任务。</p>
+<p><strong>语法</strong></p>
+<p>写好一个Node，然后加上下面那句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;rclcpp_components&#x2F;register_node_macro.hpp&quot;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; Register the component with class_loader.</span><br><span class="line">&#x2F;&#x2F; This acts as a sort of entry point, allowing the component to be discoverable when its library</span><br><span class="line">&#x2F;&#x2F; is being loaded into a running process.</span><br><span class="line">RCLCPP_COMPONENTS_REGISTER_NODE(composition::Talker)</span><br></pre></td></tr></table></figure>
+
+<p>然后组件的CMakeLists.txt中必须加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add_library(talker_component SHARED</span><br><span class="line">   src&#x2F;talker_component.cpp)</span><br><span class="line">rclcpp_components_register_nodes(talker_component &quot;composition::Talker&quot;)</span><br><span class="line"># To register multiple components in the same shared library, use multiple calls</span><br><span class="line"># rclcpp_components_register_nodes(talker_component &quot;composition::Talker2&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="action设计中的示例"><a href="#action设计中的示例" class="headerlink" title="action设计中的示例"></a>action设计中的示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.8)</span><br><span class="line">project(action_tutorials_cpp)</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"># find dependencies</span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(action_tutorials_interfaces REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(rclcpp_action REQUIRED)</span><br><span class="line">find_package(rclcpp_components REQUIRED)</span><br><span class="line"></span><br><span class="line"># 表示将cpp编译为名为action_server的共享库</span><br><span class="line">add_library(action_server SHARED</span><br><span class="line">  src&#x2F;fibonacci_action_server.cpp)</span><br><span class="line"># 编译action_server所依赖的头文件的搜索路径</span><br><span class="line">target_include_directories(action_server PRIVATE</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&gt;)</span><br><span class="line"># 在编译时灵活注入需要的宏定义</span><br><span class="line">target_compile_definitions(action_server</span><br><span class="line">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span><br><span class="line">ament_target_dependencies(action_server</span><br><span class="line">  &quot;action_tutorials_interfaces&quot;</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;rclcpp_action&quot;</span><br><span class="line">  &quot;rclcpp_components&quot;)</span><br><span class="line">rclcpp_components_register_node(action_server PLUGIN &quot;action_tutorials_cpp::FibonacciActionServer&quot; EXECUTABLE fibonacci_action_server)</span><br><span class="line">install(TARGETS</span><br><span class="line">  action_server</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin)</span><br><span class="line"></span><br><span class="line">add_library(action_client SHARED</span><br><span class="line">  src&#x2F;fibonacci_action_client.cpp)</span><br><span class="line">target_include_directories(action_client PRIVATE</span><br><span class="line">  $&lt;BUILD_INTERFACE:$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&#x2F;include&gt;</span><br><span class="line">  $&lt;INSTALL_INTERFACE:include&gt;)</span><br><span class="line">target_compile_definitions(action_client</span><br><span class="line">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span><br><span class="line">ament_target_dependencies(action_client</span><br><span class="line">  &quot;action_tutorials_interfaces&quot;</span><br><span class="line">  &quot;rclcpp&quot;</span><br><span class="line">  &quot;rclcpp_action&quot;</span><br><span class="line">  &quot;rclcpp_components&quot;)</span><br><span class="line">rclcpp_components_register_node(action_client PLUGIN &quot;action_tutorials_cpp::FibonacciActionClient&quot; EXECUTABLE fibonacci_action_client)</span><br><span class="line">install(TARGETS</span><br><span class="line">  action_client</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin)</span><br><span class="line"></span><br><span class="line">if(BUILD_TESTING)</span><br><span class="line">  find_package(ament_lint_auto REQUIRED)</span><br><span class="line">  # the following line skips the linter which checks for copyrights</span><br><span class="line">  # uncomment the line when a copyright and license is not present in all source files</span><br><span class="line">  #set(ament_cmake_copyright_FOUND TRUE)</span><br><span class="line">  # the following line skips cpplint (only works in a git repo)</span><br><span class="line">  # uncomment the line when this package is not in a git repo</span><br><span class="line">  #set(ament_cmake_cpplint_FOUND TRUE)</span><br><span class="line">  ament_lint_auto_find_test_dependencies()</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">ament_package()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/08/28/ROS2工具之组件加载/" data-toggle="tooltip" data-placement="top" title="ROS2工具之组件加载">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/08/23/基于ROS2设计action之补充一：visibility-control/" data-toggle="tooltip" data-placement="top" title="基于ROS2设计action之补充一：visibility control">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/08/24/%E5%9F%BA%E4%BA%8EROS2%E8%AE%BE%E8%AE%A1action%E4%B9%8B%E8%A1%A5%E5%85%85%E4%BA%8C%EF%BC%9Acmake%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

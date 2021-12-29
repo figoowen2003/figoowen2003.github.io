@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          URDF集成到Gazebo - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/06/28/URDF集成到Gazebo/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#urdf,Gazebo" title="urdf,Gazebo">urdf,Gazebo</a>
+                            
+                        </div>
+                        <h1>URDF集成到Gazebo</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-06-28
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="在Gazebo中显示urdf"><a href="#在Gazebo中显示urdf" class="headerlink" title="在Gazebo中显示urdf"></a>在Gazebo中显示urdf</h1><h2 id="urdf语法简介"><a href="#urdf语法简介" class="headerlink" title="urdf语法简介"></a>urdf语法简介</h2><p>urdf文件是一个标准的xml文件，其中预定义了一系列的标签用于描述机器人模型，主要标签包括：</p>
+<ul>
+<li>robot根标签</li>
+<li>link连杆标签</li>
+<li>joint关节标签</li>
+<li>gazebo标签，用于集成gazebo中的插件，在使用gazebo仿真时会用到，用于配置仿真环境所需要的参数</li>
+</ul>
+<h3 id="robot标签"><a href="#robot标签" class="headerlink" title="robot标签"></a>robot标签</h3><p><img src="/2021/06/28/URDF%E9%9B%86%E6%88%90%E5%88%B0Gazebo/image-20210628195539031.png" alt="image-20210628195539031"></p>
+<p>属性name用于指定机器人模型的名字，可以是任意字符串</p>
+<p>展开robot标签，内部的都是子级标签</p>
+<h3 id="link标签"><a href="#link标签" class="headerlink" title="link标签"></a>link标签</h3><p>link标签用于描述机器人某个部件的外观和物理属性，比如机器人底座、轮子、激光雷达、摄像头等等。每一个部件都对应着一个link，在link标签内，可以设计该部件的形状、尺寸、颜色、惯性矩阵、碰撞参数等一系列属性。</p>
+<ol>
+<li><p>name 为部件命名</p>
+</li>
+<li><p>子标签</p>
+<ul>
+<li>visual 描述可视的外观<ul>
+<li>geometry 设置连杆的形状<ul>
+<li>box 长方体<ul>
+<li>属性 size=长(x) 宽(y) 高(z)</li>
+</ul>
+</li>
+<li>cylinder 圆柱<ul>
+<li>属性 radius=半径 length=高度</li>
+</ul>
+</li>
+<li>sphere 球体<ul>
+<li>属性 radius=半径</li>
+</ul>
+</li>
+<li>mesh 为连杆添加皮肤<ul>
+<li>属性 filename=资源路径(格式:<strong>package://<packagename>/<path></path>/文件</packagename></strong>)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>origin 设置偏移量与倾斜弧度<ul>
+<li>偏移量 xyz=x偏移 y偏移 z偏移</li>
+<li>倾斜 rpy= r翻滚 p俯仰 yaw偏航（单位弧度）</li>
+</ul>
+</li>
+<li>material 设置材料属性（颜色）<ul>
+<li>name</li>
+<li>color</li>
+</ul>
+</li>
+<li>collision 连杆的碰撞属性</li>
+<li>inertial 连杆的惯性矩阵</li>
+</ul>
+</li>
+<li><p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- add base link </span><br><span class="line">    参数</span><br><span class="line">        形状:圆柱 </span><br><span class="line">        半径:10     cm </span><br><span class="line">        高度:8      cm </span><br><span class="line">        离地:1.5    cm        </span><br><span class="line">--&gt;</span><br><span class="line">&lt;link name&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">    &lt;visual&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">            &lt;cylinder radius&#x3D;&quot;0.1&quot; length&#x3D;&quot;0.08&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;material name&#x3D;&quot;yellow&quot;&gt;</span><br><span class="line">            &lt;color rgba&#x3D;&quot;0.8 0.3 0.1 0.5&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;visual&gt;</span><br><span class="line">&lt;&#x2F;link&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="joint标签"><a href="#joint标签" class="headerlink" title="joint标签"></a>joint标签</h3><p>joint标签用于描述机器人关节的运动学和动力学属性，还可以指定关节运动的安全极限，机器人的两个link以joint的形式连接，不同的关节有不同的运动形式：旋转、滑动、固定、旋转速度、旋转角速度限制等等。</p>
+<ol>
+<li><p>属性</p>
+<ul>
+<li>name 关节的名字</li>
+<li>type 关节的运动形式<ul>
+<li>continuous 旋转关节，绕单轴无限旋转</li>
+<li>revolute 旋转关节，类似continuous，但有角度限制</li>
+<li>prismatic 滑动关节，沿着某一轴线移动的关节，有位置极限</li>
+<li>planer 平面关节，允许在平面正交方向上平移或旋转</li>
+<li>floating 浮动关节，允许进行平移、旋转运动</li>
+<li>fixed 固定关节，不允许运动的特殊关节</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>子标签</p>
+<ul>
+<li><p>parent（不可省略）</p>
+<p>parent link 父级连杆，对应link中的名字</p>
+</li>
+<li><p>child（不可省略）</p>
+<p>child link 子级连杆，对应link中的名字</p>
+</li>
+<li><p>origin</p>
+<p>xyz = 各轴上的偏移量 rpy=绕各轴旋转的弧度</p>
+</li>
+<li><p>axis</p>
+<p>xyz 设置绕哪个轴进行旋转</p>
+</li>
+</ul>
+</li>
+<li><p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;mycar&quot;&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;base_footprint&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;sphere radius&#x3D;&quot;0.001&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;!-- add base link </span><br><span class="line">        参数</span><br><span class="line">            形状:圆柱 </span><br><span class="line">            半径:10     cm </span><br><span class="line">            高度:8      cm </span><br><span class="line">            离地:1.5    cm        </span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;0.1&quot; length&#x3D;&quot;0.08&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;yellow&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.8 0.3 0.1 0.5&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;joint name&#x3D;&quot;base_link2base_footprint&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_footprint&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 0 0.055&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- add drive wheel </span><br><span class="line">        驱动轮是侧翻的圆柱</span><br><span class="line">        参数</span><br><span class="line">            半径: 3.25 cm</span><br><span class="line">            宽度: 1.5  cm</span><br><span class="line">            颜色: 黑色</span><br><span class="line">        关节设置:</span><br><span class="line">            x &#x3D; 0</span><br><span class="line">            y &#x3D; 底盘的半径 + 轮胎宽度 &#x2F; 2</span><br><span class="line">            z &#x3D; 离地间距 + 底盘长度 &#x2F; 2 - 轮胎半径 &#x3D; 1.5 + 4 - 3.25 &#x3D; 2.25(cm)</span><br><span class="line">            axis &#x3D; 0 1 0    </span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;left_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;0.0325&quot; length&#x3D;&quot;0.015&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;1.5705 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.0 0.0 0.0 1.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;joint name&#x3D;&quot;left_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;left_wheel&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 0.1 -0.0225&quot; &#x2F;&gt;</span><br><span class="line">        &lt;axis xyz&#x3D;&quot;0 1 0&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;link name&#x3D;&quot;right_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;0.0325&quot; length&#x3D;&quot;0.015&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;1.5705 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.0 0.0 0.0 1.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;joint name&#x3D;&quot;right_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;right_wheel&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 -0.1 -0.0225&quot; &#x2F;&gt;</span><br><span class="line">        &lt;axis xyz&#x3D;&quot;0 1 0&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- add support wheel </span><br><span class="line">        参数</span><br><span class="line">            形状: 球体</span><br><span class="line">            半径: 0.75 cm</span><br><span class="line">            颜色: 黑色</span><br><span class="line"></span><br><span class="line">        关节设置:</span><br><span class="line">            x &#x3D; 自定义(底盘半径 - 万向轮半径) &#x3D; 0.1 - 0.0075 &#x3D; 0.0925(cm)</span><br><span class="line">            y &#x3D; 0</span><br><span class="line">            z &#x3D; 底盘长度 &#x2F; 2 + 离地间距 &#x2F; 2 &#x3D; 0.08 &#x2F; 2 + 0.015 &#x2F; 2 &#x3D; 0.0475 </span><br><span class="line">            axis&#x3D; 1 1 1    </span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;front_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;sphere radius&#x3D;&quot;0.0075&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.0 0.0 0.0 1.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;            </span><br><span class="line">        &lt;&#x2F;visual&gt;       </span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;joint name&#x3D;&quot;front_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;front_wheel&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0.0925 0 -0.0475&quot; &#x2F;&gt;</span><br><span class="line">        &lt;axis xyz&#x3D;&quot;1 1 1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;link name&#x3D;&quot;back_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;sphere radius&#x3D;&quot;0.0075&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.0 0.0 0.0 1.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;            </span><br><span class="line">        &lt;&#x2F;visual&gt;       </span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;joint name&#x3D;&quot;back_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;back_wheel&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;-0.0925 0 -0.0475&quot; &#x2F;&gt;</span><br><span class="line">        &lt;axis xyz&#x3D;&quot;1 1 1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt; </span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="在Gazebo中使用urdf"><a href="#在Gazebo中使用urdf" class="headerlink" title="在Gazebo中使用urdf"></a>在Gazebo中使用urdf</h1><h2 id="urdf适配Gazebo"><a href="#urdf适配Gazebo" class="headerlink" title="urdf适配Gazebo"></a>urdf适配Gazebo</h2><p>不同于在rviz中解析urdf文件，如果需要在Gazebo中使用urdf，需要完成以下几个环节</p>
+<ul>
+<li>必须在link标签内使用inertial标签，此标签标注了机器人某个刚体部件的惯性矩阵，用于一些力学相关的仿真计算</li>
+<li>必须在link标签内使用collision标签，用于提供碰撞检测的依据</li>
+<li>可以在link标签内使用gazebo标签，作用如下<ul>
+<li>将颜色转化为Gazebo支持的格式</li>
+<li>将stl文件转化为dae文件以获得更优的皮肤效果</li>
+<li>添加传感器插件</li>
+</ul>
+</li>
+<li>可以在joint标签内使用gazebo标签，作用如下<ul>
+<li>添加执行器控制插件</li>
+<li>设置合适的阻尼（动力学相关）</li>
+</ul>
+</li>
+<li>可以在robot标签内使用gazebo标签</li>
+<li>可以添加如<link name="world">的link标签，这样机器人会被严格的连接到一个世界中</li>
+</ul>
+<p>总之，gazebo标签是对urdf格式的扩展，它允许指定出现在sdf格式却没有被包含在urdf格式中的多种属性。目前有三种不同类型的gazebo标签，一种用于robot标签内，一种用于link标签内，还有一种用于joint标签内。我们将在后面展开讨论。</p>
+<h3 id="简单的实例"><a href="#简单的实例" class="headerlink" title="简单的实例"></a>简单的实例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">    创建一个机器人模型(盒状即可)，显示在 Gazebo 中 </span><br><span class="line">--&gt;</span><br><span class="line"></span><br><span class="line">&lt;robot name&#x3D;&quot;mycar&quot;&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;box size&#x3D;&quot;0.5 0.2 0.1&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;yellow&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.5 0.3 0.0 1&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;box size&#x3D;&quot;0.5 0.2 0.1&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;inertial&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;mass value&#x3D;&quot;6&quot; &#x2F;&gt;</span><br><span class="line">            &lt;inertia ixx&#x3D;&quot;1&quot; ixy&#x3D;&quot;0&quot; ixz&#x3D;&quot;0&quot; iyy&#x3D;&quot;1&quot; iyz&#x3D;&quot;0&quot; izz&#x3D;&quot;1&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;inertial&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line">    &lt;gazebo reference&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Black&lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动Gazebo并显示模型"><a href="#启动Gazebo并显示模型" class="headerlink" title="启动Gazebo并显示模型"></a>启动Gazebo并显示模型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">from ament_index_python.packages import get_package_share_directory</span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch.actions import ExecuteProcess</span><br><span class="line">from launch.actions import DeclareLaunchArgument</span><br><span class="line">from launch.substitutions import LaunchConfiguration, Command</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line">from launch.actions import IncludeLaunchDescription</span><br><span class="line">from launch.launch_description_sources import PythonLaunchDescriptionSource</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    use_sim_time &#x3D; LaunchConfiguration(&#39;use_sim_time&#39;, default&#x3D;&#39;false&#39;)</span><br><span class="line">    urdf_file_name &#x3D; &#39;my_car.urdf&#39; # urdf file name</span><br><span class="line">    urdf &#x3D; os.path.join(</span><br><span class="line">        get_package_share_directory(&#39;urdf_tutorial&#39;),</span><br><span class="line">        urdf_file_name)</span><br><span class="line">    with open(urdf, &#39;r&#39;) as infp:</span><br><span class="line">        robot_desc &#x3D; infp.read()</span><br><span class="line">        print(robot_desc)</span><br><span class="line"></span><br><span class="line">    pkg_gazebo_ros &#x3D; get_package_share_directory(&#39;gazebo_ros&#39;)</span><br><span class="line">    world &#x3D; os.path.join(pkg_gazebo_ros, &#39;&#x2F;launch&#x2F;empty_world.launch&#39;)</span><br><span class="line">    </span><br><span class="line">    return LaunchDescription([</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            &#39;use_sim_time&#39;,</span><br><span class="line">            default_value&#x3D;&#39;false&#39;,</span><br><span class="line">            description&#x3D;&#39;Use simulation (Gazebo) clock if true&#39;),</span><br><span class="line"></span><br><span class="line">        Node(</span><br><span class="line">            package&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            executable&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            name&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            output&#x3D;&#39;screen&#39;,</span><br><span class="line">            parameters&#x3D;[&#123;&#39;use_sim_time&#39;: use_sim_time, &#39;robot_description&#39;: robot_desc&#125;],</span><br><span class="line">            arguments&#x3D;[urdf]),</span><br><span class="line"></span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource(</span><br><span class="line">                os.path.join(pkg_gazebo_ros, &#39;launch&#39;, &#39;gzserver.launch.py&#39;)</span><br><span class="line">            ),</span><br><span class="line">            launch_arguments&#x3D;&#123;&#39;world&#39;: world&#125;.items(),</span><br><span class="line">        ),</span><br><span class="line"></span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource(</span><br><span class="line">                os.path.join(pkg_gazebo_ros, &#39;launch&#39;, &#39;gzclient.launch.py&#39;)</span><br><span class="line">            ),</span><br><span class="line">        ),</span><br><span class="line">        </span><br><span class="line">        Node(package&#x3D;&#39;gazebo_ros&#39;, executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">            arguments&#x3D;[&#39;-entity&#39;, &#39;mycar&#39;, &#39;-topic&#39;, &#39;&#x2F;robot_description&#39;],</span><br><span class="line">            output&#x3D;&#39;screen&#39;),         </span><br><span class="line">    ])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<p>解析urdf文件，并将其内容加载到参数服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">    executable&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">    name&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">    output&#x3D;&#39;screen&#39;,</span><br><span class="line">    parameters&#x3D;[&#123;&#39;use_sim_time&#39;: use_sim_time, &#39;robot_description&#39;: robot_desc&#125;],</span><br><span class="line">    arguments&#x3D;[urdf]),</span><br></pre></td></tr></table></figure>
+
+<p>利用gazebo_ros_pkgs中的功能包孵化机器人模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Node(package&#x3D;&#39;gazebo_ros&#39;, executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">    arguments&#x3D;[&#39;-entity&#39;, &#39;mycar&#39;, &#39;-topic&#39;, &#39;&#x2F;robot_description&#39;],</span><br><span class="line">    output&#x3D;&#39;screen&#39;),  </span><br></pre></td></tr></table></figure>
+
+<h2 id="urdf新增标签详解"><a href="#urdf新增标签详解" class="headerlink" title="urdf新增标签详解"></a>urdf新增标签详解</h2><h3 id="collision"><a href="#collision" class="headerlink" title="collision"></a>collision</h3><p>collision表示碰撞蚕食。如果机器人link是标准的几何形状，和link中的visual标签内容可以保持一致（复制，粘贴即可）</p>
+<h3 id="inertial"><a href="#inertial" class="headerlink" title="inertial"></a>inertial</h3><p>inertial表示惯性矩阵。为了让Gazebo的物理引擎能正常工作，必须提供inertial标签。惯性矩阵的设置需要结合link标签中的质量和外形参数动态生成。link标签中的质量必须大于。如果存在任何的扭矩，如果惯性矩阵的主惯性矩为0，会导致无限加速的问题。通常惯性矩阵需要通过对机器人部件进行测量或者通过CAD软件进行近似来获得。以下是PRBot的一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;inertial&gt;</span><br><span class="line">  &lt;origin xyz&#x3D;&quot;0 0 $&#123;height1&#x2F;2&#125;&quot; rpy&#x3D;&quot;0 0 0&quot;&#x2F;&gt;</span><br><span class="line">  &lt;mass value&#x3D;&quot;1&quot;&#x2F;&gt;</span><br><span class="line">  &lt;inertia</span><br><span class="line">    ixx&#x3D;&quot;1.0&quot; ixy&#x3D;&quot;0.0&quot; ixz&#x3D;&quot;0.0&quot;</span><br><span class="line">    iyy&#x3D;&quot;1.0&quot; iyz&#x3D;&quot;0.0&quot;</span><br><span class="line">    izz&#x3D;&quot;1.0&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;inertial&gt;</span><br></pre></td></tr></table></figure>
+
+<p>实际使用中，我们已经封装好了标准的球体、圆柱与立方体的惯性矩阵公式（以xacro来实现），可以在使用中直接copy：</p>
+<p>球体的惯性矩阵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Macro for inertia matrix --&gt;</span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;sphere_inertial_matrix&quot; params&#x3D;&quot;m r&quot;&gt;</span><br><span class="line">        &lt;inertial&gt;</span><br><span class="line">            &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;inertia ixx&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; ixy&#x3D;&quot;0&quot; ixz&#x3D;&quot;0&quot;</span><br><span class="line">                iyy&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; iyz&#x3D;&quot;0&quot; </span><br><span class="line">                izz&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;inertial&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br></pre></td></tr></table></figure>
+
+<p>圆柱的惯性矩阵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;xacro:macro name&#x3D;&quot;cylinder_inertial_matrix&quot; params&#x3D;&quot;m r h&quot;&gt;</span><br><span class="line">        &lt;inertial&gt;</span><br><span class="line">            &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;inertia ixx&#x3D;&quot;$&#123;m*(3*r*r+h*h)&#x2F;12&#125;&quot; ixy &#x3D; &quot;0&quot; ixz &#x3D; &quot;0&quot;</span><br><span class="line">                iyy&#x3D;&quot;$&#123;m*(3*r*r+h*h)&#x2F;12&#125;&quot; iyz &#x3D; &quot;0&quot;</span><br><span class="line">                izz&#x3D;&quot;$&#123;m*r*r&#x2F;2&#125;&quot; &#x2F;&gt; </span><br><span class="line">        &lt;&#x2F;inertial&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br></pre></td></tr></table></figure>
+
+<p>立方体的惯性矩阵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;xacro:macro name&#x3D;&quot;Box_inertial_matrix&quot; params&#x3D;&quot;m l w h&quot;&gt;</span><br><span class="line">      &lt;inertial&gt;</span><br><span class="line">              &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">              &lt;inertia ixx&#x3D;&quot;$&#123;m*(h*h + l*l)&#x2F;12&#125;&quot; ixy &#x3D; &quot;0&quot; ixz &#x3D; &quot;0&quot;</span><br><span class="line">                  iyy&#x3D;&quot;$&#123;m*(w*w + l*l)&#x2F;12&#125;&quot; iyz&#x3D; &quot;0&quot;</span><br><span class="line">                  izz&#x3D;&quot;$&#123;m*(w*w + h*h)&#x2F;12&#125;&quot; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;inertial&gt;</span><br><span class="line">  &lt;&#x2F;xacro:macro&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="gazebo"><a href="#gazebo" class="headerlink" title="gazebo"></a>gazebo</h3><h4 id="link中的gazebo"><a href="#link中的gazebo" class="headerlink" title="link中的gazebo"></a>link中的gazebo</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="left">类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>material</td>
+<td align="left">value</td>
+<td>Material of visual element</td>
+</tr>
+<tr>
+<td>gravity</td>
+<td align="left">bool</td>
+<td>Use gravity</td>
+</tr>
+<tr>
+<td>dampingFactor</td>
+<td align="left">double</td>
+<td>连杆速度的指数速度衰减</td>
+</tr>
+<tr>
+<td>maxVel</td>
+<td align="left">double</td>
+<td>Exponential velocity decay of the link velocity - takes the value and multiplies the previous link velocity by (1-dampingFactor).</td>
+</tr>
+<tr>
+<td>minDepth</td>
+<td align="left">double</td>
+<td>minimum allowable depth before contact correction impulse is applied</td>
+</tr>
+<tr>
+<td>mu1</td>
+<td align="left">double</td>
+<td>Friction coefficients μ for the principal contact directions along the contact surface as defined by the <a target="_blank" rel="noopener" href="http://www.ode.org/">Open Dynamics Engine (ODE)</a> (see parameter descriptions in <a target="_blank" rel="noopener" href="http://www.ode.org/ode-latest-userguide.html#sec_7_3_7">ODE’s user guide</a>)</td>
+</tr>
+<tr>
+<td>mu2</td>
+<td align="left">double</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>fdir1</td>
+<td align="left">string</td>
+<td>3-tuple specifying direction of mu1 in the collision local reference frame.</td>
+</tr>
+<tr>
+<td>kp</td>
+<td align="left">double</td>
+<td>Contact stiffness k_p and damping k_d for rigid body contacts as defined by ODE (<a target="_blank" rel="noopener" href="http://www.ode.org/ode-latest-userguide.html#sec_7_3_7">ODE uses erp and cfm</a> but there is a <a target="_blank" rel="noopener" href="https://github.com/osrf/gazebo/blob/gazebo9/gazebo/physics/ode/ODEJoint.cc">mapping between erp/cfm and stiffness/damping</a>)</td>
+</tr>
+<tr>
+<td>kd</td>
+<td align="left">double</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>selfCollide</td>
+<td align="left">bool</td>
+<td>If true, the link can collide with other links in the model.</td>
+</tr>
+<tr>
+<td>maxContacts</td>
+<td align="left">int</td>
+<td>Maximum number of contacts allowed between two entities. This value overrides the max_contacts element defined in physics.</td>
+</tr>
+<tr>
+<td>laserRetro</td>
+<td align="left">double</td>
+<td>intensity value returned by laser sensor.</td>
+</tr>
+</tbody></table>
+<h4 id="joint中的gazebo"><a href="#joint中的gazebo" class="headerlink" title="joint中的gazebo"></a>joint中的gazebo</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stopCfm</td>
+<td>double</td>
+<td>Joint stop constraint force mixing (cfm) and error reduction parameter (erp) used by ODE</td>
+</tr>
+<tr>
+<td>stopErp</td>
+<td>double</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>provideFeedback</td>
+<td>bool</td>
+<td>Allows joints to publish their wrench data (force-torque) via a Gazebo plugin</td>
+</tr>
+<tr>
+<td>implicitSpringDamper</td>
+<td>bool</td>
+<td>If this flag is set to true, ODE will use ERP and CFM to simulate damping. This is a more stable numerical method for damping than the default damping tag. The cfmDamping element is deprecated and should be changed to implicitSpringDamper.</td>
+</tr>
+<tr>
+<td>springStiffness</td>
+<td>bool</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>springReference</td>
+<td>double</td>
+<td>Equilibrium position for the spring.</td>
+</tr>
+<tr>
+<td>cfmDamping</td>
+<td>double</td>
+<td>same as above</td>
+</tr>
+<tr>
+<td>fudgeFactor</td>
+<td>double</td>
+<td>Scale the excess for in a joint motor at joint limits. Should be between zero and one.</td>
+</tr>
+</tbody></table>
+<h4 id="robot中的gazebo"><a href="#robot中的gazebo" class="headerlink" title="robot中的gazebo"></a>robot中的gazebo</h4><p>如果gazebo标签没有与属性reference=“”连用，那么意味着gazebo标签属于整个robot</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>static</td>
+<td>bool</td>
+<td>if set to true, the model is immovable. Otherwise the model is simulated in the dynamics engine.</td>
+</tr>
+</tbody></table>
+<h1 id="urdf实操例子"><a href="#urdf实操例子" class="headerlink" title="urdf实操例子"></a>urdf实操例子</h1><p>在实操中，我们采用xacro语法进行编写</p>
+<h2 id="1-编写封装了惯性矩阵算法的xacro文件-gazebo-demo-laser-xacro"><a href="#1-编写封装了惯性矩阵算法的xacro文件-gazebo-demo-laser-xacro" class="headerlink" title="1.编写封装了惯性矩阵算法的xacro文件 gazebo_demo_laser.xacro"></a>1.编写封装了惯性矩阵算法的xacro文件 gazebo_demo_laser.xacro</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;base&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;!-- Macro for inertia matrix --&gt;</span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;sphere_inertial_matrix&quot; params&#x3D;&quot;m r&quot;&gt;</span><br><span class="line">        &lt;inertial&gt;</span><br><span class="line">            &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;inertia ixx&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; ixy&#x3D;&quot;0&quot; ixz&#x3D;&quot;0&quot;</span><br><span class="line">                iyy&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; iyz&#x3D;&quot;0&quot; </span><br><span class="line">                izz&#x3D;&quot;$&#123;2*m*r*r&#x2F;5&#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;inertial&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;cylinder_inertial_matrix&quot; params&#x3D;&quot;m r h&quot;&gt;</span><br><span class="line">        &lt;inertial&gt;</span><br><span class="line">            &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;inertia ixx&#x3D;&quot;$&#123;m*(3*r*r+h*h)&#x2F;12&#125;&quot; ixy &#x3D; &quot;0&quot; ixz &#x3D; &quot;0&quot;</span><br><span class="line">                iyy&#x3D;&quot;$&#123;m*(3*r*r+h*h)&#x2F;12&#125;&quot; iyz &#x3D; &quot;0&quot;</span><br><span class="line">                izz&#x3D;&quot;$&#123;m*r*r&#x2F;2&#125;&quot; &#x2F;&gt; </span><br><span class="line">        &lt;&#x2F;inertial&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;Box_inertial_matrix&quot; params&#x3D;&quot;m l w h&quot;&gt;</span><br><span class="line">       &lt;inertial&gt;</span><br><span class="line">               &lt;mass value&#x3D;&quot;$&#123;m&#125;&quot; &#x2F;&gt;</span><br><span class="line">               &lt;inertia ixx&#x3D;&quot;$&#123;m*(h*h + l*l)&#x2F;12&#125;&quot; ixy &#x3D; &quot;0&quot; ixz &#x3D; &quot;0&quot;</span><br><span class="line">                   iyy&#x3D;&quot;$&#123;m*(w*w + l*l)&#x2F;12&#125;&quot; iyz&#x3D; &quot;0&quot;</span><br><span class="line">                   izz&#x3D;&quot;$&#123;m*(w*w + h*h)&#x2F;12&#125;&quot; &#x2F;&gt;</span><br><span class="line">       &lt;&#x2F;inertial&gt;</span><br><span class="line">   &lt;&#x2F;xacro:macro&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-设计机器人的底盘-gazebo-demo-car-base-xacro"><a href="#2-设计机器人的底盘-gazebo-demo-car-base-xacro" class="headerlink" title="2.设计机器人的底盘 gazebo_demo_car_base.xacro"></a>2.设计机器人的底盘 gazebo_demo_car_base.xacro</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 根标签，必须声明 xmlns:xacro --&gt;</span><br><span class="line">&lt;robot name&#x3D;&quot;mycar_base&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;www.ros.org&#x2F;wiki&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;!-- 封装变量、常量 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;PI&quot; value&#x3D;&quot;3.141&quot;&#x2F;&gt;</span><br><span class="line">    &lt;!-- 宏:黑色设置 --&gt;</span><br><span class="line">    &lt;material name&#x3D;&quot;black&quot;&gt;</span><br><span class="line">        &lt;color rgba&#x3D;&quot;0.0 0.0 0.0 1.0&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;material&gt;</span><br><span class="line">    &lt;material name&#x3D;&quot;red&quot;&gt;</span><br><span class="line">        &lt;color rgba&#x3D;&quot;0.5 0.0 0.0 1.077&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;material&gt;</span><br><span class="line">    &lt;!-- 底盘属性 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;base_footprint_radius&quot; value&#x3D;&quot;0.001&quot; &#x2F;&gt; &lt;!-- base_footprint 半径  --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;base_link_radius&quot; value&#x3D;&quot;0.1&quot; &#x2F;&gt; &lt;!-- base_link 半径 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;base_link_length&quot; value&#x3D;&quot;0.08&quot; &#x2F;&gt; &lt;!-- base_link 长 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;earth_space&quot; value&#x3D;&quot;0.015&quot; &#x2F;&gt; &lt;!-- 离地间距 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;base_link_m&quot; value&#x3D;&quot;0.5&quot; &#x2F;&gt; &lt;!-- 质量  --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 底盘 --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;base_footprint&quot;&gt;</span><br><span class="line">      &lt;visual&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">          &lt;sphere radius&#x3D;&quot;$&#123;base_footprint_radius&#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">      &lt;&#x2F;visual&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">    &lt;link name&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">      &lt;visual&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">          &lt;cylinder radius&#x3D;&quot;$&#123;base_link_radius&#125;&quot; length&#x3D;&quot;$&#123;base_link_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;material name&#x3D;&quot;yellow&quot;&gt;</span><br><span class="line">          &lt;color rgba&#x3D;&quot;0.5 0.3 0.0 0.5&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;material&gt;</span><br><span class="line">      &lt;&#x2F;visual&gt;</span><br><span class="line">      &lt;collision&gt;</span><br><span class="line">        &lt;geometry&gt;</span><br><span class="line">          &lt;cylinder radius&#x3D;&quot;$&#123;base_link_radius&#125;&quot; length&#x3D;&quot;$&#123;base_link_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;geometry&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;material name&#x3D;&quot;yellow&quot;&gt;</span><br><span class="line">          &lt;color rgba&#x3D;&quot;0.5 0.3 0.0 0.5&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;material&gt;        </span><br><span class="line">      &lt;&#x2F;collision&gt;</span><br><span class="line">      &lt;xacro:cylinder_inertial_matrix m&#x3D;&quot;$&#123;base_link_m&#125;&quot; r&#x3D;&quot;$&#123;base_link_radius&#125;&quot; h&#x3D;&quot;$&#123;base_link_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">    &lt;joint name&#x3D;&quot;base_link2base_footprint&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">      &lt;parent link&#x3D;&quot;base_footprint&quot; &#x2F;&gt;</span><br><span class="line">      &lt;child link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">      &lt;origin xyz&#x3D;&quot;0 0 $&#123;earth_space + base_link_length &#x2F; 2 &#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;gazebo reference&#x3D;&quot;base_link&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Yellow&lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 驱动轮 --&gt;</span><br><span class="line">    &lt;!-- 驱动轮属性 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;wheel_radius&quot; value&#x3D;&quot;0.0325&quot; &#x2F;&gt;&lt;!-- 半径 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;wheel_length&quot; value&#x3D;&quot;0.015&quot; &#x2F;&gt;&lt;!-- 宽度 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;wheel_mass&quot; value&#x3D;&quot;0.05&quot; &#x2F;&gt;</span><br><span class="line">    &lt;!-- 驱动轮宏实现 --&gt;</span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;add_wheels&quot; params&#x3D;&quot;name flag&quot;&gt;</span><br><span class="line">      &lt;link name&#x3D;&quot;$&#123;name&#125;_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;wheel_radius&#125;&quot; length&#x3D;&quot;$&#123;wheel_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;$&#123;PI &#x2F; 2&#125; 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;red&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;wheel_radius&#125;&quot; length&#x3D;&quot;$&#123;wheel_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;$&#123;PI &#x2F; 2&#125; 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;red&quot; &#x2F;&gt;                     </span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;xacro:cylinder_inertial_matrix m&#x3D;&quot;$&#123;wheel_mass&#125;&quot; r&#x3D;&quot;$&#123;wheel_radius&#125;&quot; h&#x3D;&quot;$&#123;wheel_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">      &lt;joint name&#x3D;&quot;$&#123;name&#125;_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;$&#123;name&#125;_wheel&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;0 $&#123;flag * base_link_radius&#125; $&#123;-(earth_space + base_link_length &#x2F; 2 - wheel_radius) &#125;&quot; &#x2F;&gt;</span><br><span class="line">        &lt;axis xyz&#x3D;&quot;0 1 0&quot; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;joint&gt;</span><br><span class="line">      &lt;gazebo reference&#x3D;&quot;$&#123;name&#125;_wheel&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Red&lt;&#x2F;material&gt;</span><br><span class="line">      &lt;&#x2F;gazebo&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br><span class="line">    &lt;xacro:add_wheels name&#x3D;&quot;left&quot; flag&#x3D;&quot;1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:add_wheels name&#x3D;&quot;right&quot; flag&#x3D;&quot;-1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;!-- 支撑轮 --&gt;</span><br><span class="line">    &lt;!-- 支撑轮属性 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_wheel_radius&quot; value&#x3D;&quot;0.0075&quot; &#x2F;&gt; &lt;!-- 支撑轮半径 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_wheel_mass&quot; value&#x3D;&quot;0.03&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 支撑轮宏 --&gt;</span><br><span class="line">    &lt;xacro:macro name&#x3D;&quot;add_support_wheel&quot; params&#x3D;&quot;name flag&quot; &gt;</span><br><span class="line">      &lt;link name&#x3D;&quot;$&#123;name&#125;_wheel&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;sphere radius&#x3D;&quot;$&#123;support_wheel_radius&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;sphere radius&#x3D;&quot;$&#123;support_wheel_radius&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0 0 0&quot; rpy&#x3D;&quot;0 0 0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;xacro:sphere_inertial_matrix m&#x3D;&quot;$&#123;support_wheel_mass&#125;&quot; r&#x3D;&quot;$&#123;support_wheel_radius&#125;&quot; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">      &lt;joint name&#x3D;&quot;$&#123;name&#125;_wheel2base_link&quot; type&#x3D;&quot;continuous&quot;&gt;</span><br><span class="line">          &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">          &lt;child link&#x3D;&quot;$&#123;name&#125;_wheel&quot; &#x2F;&gt;</span><br><span class="line">          &lt;origin xyz&#x3D;&quot;$&#123;flag * (base_link_radius - support_wheel_radius)&#125; 0 $&#123;-(base_link_length &#x2F; 2 + earth_space &#x2F; 2)&#125;&quot; &#x2F;&gt;</span><br><span class="line">          &lt;axis xyz&#x3D;&quot;1 1 1&quot; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;joint&gt;</span><br><span class="line">      &lt;gazebo reference&#x3D;&quot;$&#123;name&#125;_wheel&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Black&lt;&#x2F;material&gt;</span><br><span class="line">      &lt;&#x2F;gazebo&gt;</span><br><span class="line">    &lt;&#x2F;xacro:macro&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:add_support_wheel name&#x3D;&quot;front&quot; flag&#x3D;&quot;1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:add_support_wheel name&#x3D;&quot;back&quot; flag&#x3D;&quot;-1&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-给机器人添加摄像头-gazebo-demo-camera-xacro"><a href="#3-给机器人添加摄像头-gazebo-demo-camera-xacro" class="headerlink" title="3.给机器人添加摄像头 gazebo_demo_camera.xacro"></a>3.给机器人添加摄像头 gazebo_demo_camera.xacro</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;my_camera&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;!-- 摄像头属性 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_length&quot; value&#x3D;&quot;0.01&quot; &#x2F;&gt; &lt;!-- 摄像头长度(x) --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_width&quot; value&#x3D;&quot;0.025&quot; &#x2F;&gt; &lt;!-- 摄像头宽度(y) --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_height&quot; value&#x3D;&quot;0.025&quot; &#x2F;&gt; &lt;!-- 摄像头高度(z) --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_x&quot; value&#x3D;&quot;0.08&quot; &#x2F;&gt; &lt;!-- 摄像头安装的x坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_y&quot; value&#x3D;&quot;0.0&quot; &#x2F;&gt; &lt;!-- 摄像头安装的y坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_z&quot; value&#x3D;&quot;$&#123;base_link_length &#x2F; 2 + camera_height &#x2F; 2&#125;&quot; &#x2F;&gt; &lt;!-- 摄像头安装的z坐标:底盘高度 &#x2F; 2 + 摄像头高度 &#x2F; 2  --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;camera_m&quot; value&#x3D;&quot;0.01&quot; &#x2F;&gt; &lt;!-- 摄像头质量 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 摄像头关节以及link --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;camera&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;box size&#x3D;&quot;$&#123;camera_length&#125; $&#123;camera_width&#125; $&#123;camera_height&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;box size&#x3D;&quot;$&#123;camera_length&#125; $&#123;camera_width&#125; $&#123;camera_height&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;xacro:Box_inertial_matrix m&#x3D;&quot;$&#123;camera_m&#125;&quot; l&#x3D;&quot;$&#123;camera_length&#125;&quot; w&#x3D;&quot;$&#123;camera_width&#125;&quot; h&#x3D;&quot;$&#123;camera_height&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">    &lt;joint name&#x3D;&quot;camera2base_link&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;camera&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;$&#123;camera_x&#125; $&#123;camera_y&#125; $&#123;camera_z&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line">    &lt;gazebo reference&#x3D;&quot;camera&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Blue&lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-给机器人添加雷达-gazebo-demo-laser-xacro"><a href="#4-给机器人添加雷达-gazebo-demo-laser-xacro" class="headerlink" title="4.给机器人添加雷达 gazebo_demo_laser.xacro"></a>4.给机器人添加雷达 gazebo_demo_laser.xacro</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--</span><br><span class="line">    小车底盘添加雷达</span><br><span class="line">--&gt;</span><br><span class="line">&lt;robot name&#x3D;&quot;my_laser&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;wiki.ros.org&#x2F;xacro&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 雷达支架 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_length&quot; value&#x3D;&quot;0.15&quot; &#x2F;&gt; &lt;!-- 支架长度 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_radius&quot; value&#x3D;&quot;0.01&quot; &#x2F;&gt; &lt;!-- 支架半径 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_x&quot; value&#x3D;&quot;0.0&quot; &#x2F;&gt; &lt;!-- 支架安装的x坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_y&quot; value&#x3D;&quot;0.0&quot; &#x2F;&gt; &lt;!-- 支架安装的y坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_z&quot; value&#x3D;&quot;$&#123;base_link_length &#x2F; 2 + support_length &#x2F; 2&#125;&quot; &#x2F;&gt; &lt;!-- 支架安装的z坐标:底盘高度 &#x2F; 2 + 支架高度 &#x2F; 2  --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;support_m&quot; value&#x3D;&quot;0.02&quot; &#x2F;&gt; &lt;!-- 支架质量 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;link name&#x3D;&quot;support&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;support_radius&#125;&quot; length&#x3D;&quot;$&#123;support_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;red&quot;&gt;</span><br><span class="line">                &lt;color rgba&#x3D;&quot;0.8 0.2 0.0 0.8&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;material&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line"></span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;support_radius&#125;&quot; length&#x3D;&quot;$&#123;support_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line"></span><br><span class="line">        &lt;xacro:cylinder_inertial_matrix m&#x3D;&quot;$&#123;support_m&#125;&quot; r&#x3D;&quot;$&#123;support_radius&#125;&quot; h&#x3D;&quot;$&#123;support_length&#125;&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">    &lt;joint name&#x3D;&quot;support2base_link&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;base_link&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;support&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;$&#123;support_x&#125; $&#123;support_y&#125; $&#123;support_z&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;gazebo reference&#x3D;&quot;support&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;White&lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 雷达属性 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_length&quot; value&#x3D;&quot;0.05&quot; &#x2F;&gt; &lt;!-- 雷达长度 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_radius&quot; value&#x3D;&quot;0.03&quot; &#x2F;&gt; &lt;!-- 雷达半径 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_x&quot; value&#x3D;&quot;0.0&quot; &#x2F;&gt; &lt;!-- 雷达安装的x坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_y&quot; value&#x3D;&quot;0.0&quot; &#x2F;&gt; &lt;!-- 雷达安装的y坐标 --&gt;</span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_z&quot; value&#x3D;&quot;$&#123;support_length &#x2F; 2 + laser_length &#x2F; 2&#125;&quot; &#x2F;&gt; &lt;!-- 雷达安装的z坐标:支架高度 &#x2F; 2 + 雷达高度 &#x2F; 2  --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;xacro:property name&#x3D;&quot;laser_m&quot; value&#x3D;&quot;0.1&quot; &#x2F;&gt; &lt;!-- 雷达质量 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 雷达关节以及link --&gt;</span><br><span class="line">    &lt;link name&#x3D;&quot;laser&quot;&gt;</span><br><span class="line">        &lt;visual&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;laser_radius&#125;&quot; length&#x3D;&quot;$&#123;laser_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">            &lt;material name&#x3D;&quot;black&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;visual&gt;</span><br><span class="line">        &lt;collision&gt;</span><br><span class="line">            &lt;geometry&gt;</span><br><span class="line">                &lt;cylinder radius&#x3D;&quot;$&#123;laser_radius&#125;&quot; length&#x3D;&quot;$&#123;laser_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;geometry&gt;</span><br><span class="line">            &lt;origin xyz&#x3D;&quot;0.0 0.0 0.0&quot; rpy&#x3D;&quot;0.0 0.0 0.0&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;collision&gt;</span><br><span class="line">        &lt;xacro:cylinder_inertial_matrix m&#x3D;&quot;$&#123;laser_m&#125;&quot; r&#x3D;&quot;$&#123;laser_radius&#125;&quot; h&#x3D;&quot;$&#123;laser_length&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">    &lt;joint name&#x3D;&quot;laser2support&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">        &lt;parent link&#x3D;&quot;support&quot; &#x2F;&gt;</span><br><span class="line">        &lt;child link&#x3D;&quot;laser&quot; &#x2F;&gt;</span><br><span class="line">        &lt;origin xyz&#x3D;&quot;$&#123;laser_x&#125; $&#123;laser_y&#125; $&#123;laser_z&#125;&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;joint&gt;</span><br><span class="line">    &lt;gazebo reference&#x3D;&quot;laser&quot;&gt;</span><br><span class="line">        &lt;material&gt;Gazebo&#x2F;Black&lt;&#x2F;material&gt;</span><br><span class="line">    &lt;&#x2F;gazebo&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-搭建整个机器人的框架"><a href="#5-搭建整个机器人的框架" class="headerlink" title="5.搭建整个机器人的框架"></a>5.搭建整个机器人的框架</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;robot name&#x3D;&quot;mycar&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;www.ros.org&#x2F;wiki&#x2F;xacro&quot;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_inertia_head.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_car_base.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_camera.xacro&quot; &#x2F;&gt;</span><br><span class="line">    &lt;xacro:include filename&#x3D;&quot;gazebo_demo_laser.xacro&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-编写launch文件"><a href="#6-编写launch文件" class="headerlink" title="6.编写launch文件"></a>6.编写launch文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">from ament_index_python.packages import get_package_share_directory</span><br><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch.actions import ExecuteProcess</span><br><span class="line">from launch.actions import DeclareLaunchArgument</span><br><span class="line">from launch.substitutions import LaunchConfiguration, Command</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line">from launch.actions import IncludeLaunchDescription</span><br><span class="line">from launch.launch_description_sources import PythonLaunchDescriptionSource</span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    xacro_file_name &#x3D; &quot;gazebo_demo_my_car.xacro&quot;</span><br><span class="line">    xacro &#x3D; os.path.join(get_package_share_directory(&#39;urdf_tutorial&#39;), xacro_file_name);  </span><br><span class="line">    with open(xacro, &#39;r&#39;) as infp:</span><br><span class="line">        robot_desc &#x3D; infp.read()</span><br><span class="line">        print(robot_desc)</span><br><span class="line"></span><br><span class="line">    os.environ[&#39;GAZEBO_MODEL_PATH&#39;] &#x3D; get_package_share_directory(&#39;urdf_tutorial&#39;)</span><br><span class="line"></span><br><span class="line">    use_sim_time &#x3D; LaunchConfiguration(&#39;use_sim_time&#39;, default&#x3D;&#39;true&#39;)</span><br><span class="line">    # world file name</span><br><span class="line">    pkg_gazebo_ros &#x3D; get_package_share_directory(&#39;gazebo_ros&#39;)</span><br><span class="line">    world &#x3D; os.path.join(pkg_gazebo_ros, &#39;&#x2F;launch&#x2F;empty_world.launch&#39;)</span><br><span class="line"></span><br><span class="line">    return LaunchDescription([</span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource(</span><br><span class="line">                os.path.join(pkg_gazebo_ros, &#39;launch&#39;, &#39;gzserver.launch.py&#39;)</span><br><span class="line">            ),</span><br><span class="line">            launch_arguments&#x3D;&#123;&#39;world&#39;: world&#125;.items(),</span><br><span class="line">        ),</span><br><span class="line"></span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource(</span><br><span class="line">                os.path.join(pkg_gazebo_ros, &#39;launch&#39;, &#39;gzclient.launch.py&#39;)</span><br><span class="line">            ),</span><br><span class="line">        ),</span><br><span class="line">        ExecuteProcess(</span><br><span class="line">            cmd&#x3D;[&#39;ros2&#39;, &#39;param&#39;, &#39;set&#39;, &#39;&#x2F;gazebo&#39;, &#39;use_sim_time&#39;, use_sim_time],</span><br><span class="line">            output&#x3D;&#39;screen&#39;),        </span><br><span class="line">        Node(</span><br><span class="line">            package&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            executable&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            name&#x3D;&#39;robot_state_publisher&#39;,</span><br><span class="line">            output&#x3D;&#39;screen&#39;,</span><br><span class="line">            parameters&#x3D;[&#123;&#39;robot_description&#39;:Command([&#39;xacro&#39;,&#39; &#39;, xacro])</span><br><span class="line">            &#125;],</span><br><span class="line">        ),</span><br><span class="line">        Node(package&#x3D;&#39;gazebo_ros&#39;, executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">            arguments&#x3D;[&#39;-entity&#39;, &#39;mycar&#39;, &#39;-topic&#39;, &#39;&#x2F;robot_description&#39;],</span><br><span class="line">            output&#x3D;&#39;screen&#39;),             </span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+
+<p>显示结果如下</p>
+<p><img src="/2021/06/28/URDF%E9%9B%86%E6%88%90%E5%88%B0Gazebo/image-20210702153509425.png" alt="image-20210702153509425"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/06/30/Gazebo中的环境变量/" data-toggle="tooltip" data-placement="top" title="Gazebo中运行的组件">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/06/16/rust-and-go/" data-toggle="tooltip" data-placement="top" title="rust and go">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#urdf,Gazebo" title="urdf,Gazebo">urdf,Gazebo</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/06/28/URDF%E9%9B%86%E6%88%90%E5%88%B0Gazebo/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

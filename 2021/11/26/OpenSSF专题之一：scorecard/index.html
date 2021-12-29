@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          OpenSSF专题之一：scorecard - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/11/26/OpenSSF专题之一：scorecard/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#go" title="go">go</a>
+                            
+                        </div>
+                        <h1>OpenSSF专题之一：scorecard</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-11-26
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h1><ol>
+<li><p>什么是<strong>Scorecard</strong></p>
+<p>Scorecard的全称为Security Scorecard，顾名思义为安全记分卡，它是一种自动化工具，提供了与软件安全相关的许多重要的启发式/探索式方法（一系列检查），并为每个检查分配0-10分。</p>
+<p>优势：</p>
+<p>​        可以通过这些分数来了解需要改进的特定领域，以加强项目的安全状况。</p>
+<p>​        可以评估引入依赖的风险，并且就究竟是接受这些风险、或者评估替代解决方案、还是与维护者合作进行改进做出合理的决定。</p>
+<p>它为开源工程的使用者提供了一个简单的方法去判断工程的依赖是否安全。</p>
+</li>
+<li><p>目的</p>
+<ul>
+<li>实现开源项目安全状况的自动分析和信任决策</li>
+<li>使用这些数据去主动提升全世界所依赖的关键项目的安全状况</li>
+</ul>
+</li>
+<li><p>主要的使用者</p>
+<p>目前已经有数千个项目在使用积分卡来监控和跟踪安全指标，其中比较突出的有：</p>
+<ul>
+<li>sos.dev：Linux基金会运行的项目，为开发人员提供经济上的激励，提高关键开源项目的安全性，最初由google开源团队赞助<ul>
+<li>软件供应链安全提升，比如强化CI/CD管道和分发的基础设施</li>
+<li>采用软件工件签名和验证</li>
+<li>能产生更高openSSF scorecard结果的项目改进</li>
+</ul>
+</li>
+<li>deps.dev：Open Source Insights是谷歌开发和托管的实验性服务，旨在帮助开发人员更好地了解开源软件包的结构、构造和安全性。这个服务会检查每个包，构建其依赖关系以及属性的完整且详细的图标，目标是让开发人员了解他们的软件如何组合在一起，又是如何随依赖关系的改变而变化，以及可能产生的后果。有对pypi的scorecard评分<a target="_blank" rel="noopener" href="https://deps.dev/pypi/scorecard%EF%BC%8C%E4%B9%9F%E6%9C%89go%E7%9A%84https://deps.dev/go/github.com%2Fossf%2Fscorecard%2Fv3">https://deps.dev/pypi/scorecard，也有go的https://deps.dev/go/github.com%2Fossf%2Fscorecard%2Fv3</a></li>
+<li>metrics.openssf.org：OpenSSF安全度量项目，为了收集、汇总、分析和交流开源项目的安全数据。</li>
+</ul>
+</li>
+</ol>
+<h1 id="使用评分卡"><a href="#使用评分卡" class="headerlink" title="使用评分卡"></a>使用评分卡</h1><h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>平台：当前只支持OSX与Linux</p>
+<p>语言：需要安装Golang</p>
+<h2 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h2><ul>
+<li>访问最新的版本页面，下载适合操作系统的二进制文件<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/releases/latest">https://github.com/ossf/scorecard/releases/latest</a></li>
+<li>提取二进制文件</li>
+<li>将二进制文件添加到GOPATH/bin目录中（必要时使用go env GOPATH去标识你的目录）</li>
+</ul>
+<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p>运行记分卡之前，需要</p>
+<ul>
+<li><p>创建Github的访问令牌，并且将其设置在名为GITHUB_AUTH_TOKEN<code>， </code>GITHUB_TOKEN<code>，</code>GH_AUTH_TOKEN<code>或</code>GH_TOKEN的环境变量中。这有助于防止github对未验证身份的api速率限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># For posix platforms, e.g. linux, mac:</span><br><span class="line">export GITHUB_AUTH_TOKEN&#x3D;&lt;your access token&gt;</span><br><span class="line"># Multiple tokens can be provided separated by comma to be utilized</span><br><span class="line"># in a round robin fashion.</span><br><span class="line">export GITHUB_AUTH_TOKEN&#x3D;&lt;your access token1&gt;,&lt;your access token2&gt;</span><br><span class="line"></span><br><span class="line"># For windows:</span><br><span class="line">set GITHUB_AUTH_TOKEN&#x3D;&lt;your access token&gt;</span><br><span class="line">set GITHUB_AUTH_TOKEN&#x3D;&lt;your access token1&gt;,&lt;your access token2&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>安装github app以获取更高的速率限制配额。如果已经安装github应用程序和密钥文件，可以使用以下三个环境变量，按照平台显示的命令进行操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GITHUB_APP_KEY_PATH&#x3D;&lt;path to the key file on disk&gt;</span><br><span class="line">GITHUB_APP_INSTALLATION_ID&#x3D;&lt;installation id&gt;</span><br><span class="line">GITHUB_APP_ID&#x3D;&lt;app id&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p><strong>docker</strong></p>
+<p>记分卡以docker容器的形式使用：</p>
+<p>环境变量GITHUB_AUTH_TOKEN必须设置为一个有效的令牌（token）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e GITHUB_AUTH_TOKEN&#x3D;token gcr.io&#x2F;openssf&#x2F;scorecard:stable --show-details --repo&#x3D;https:&#x2F;&#x2F;github.com&#x2F;ossf&#x2F;scorecard</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用仓库的URL</strong></p>
+<p>记分卡运行时，可以只使用一个参数-目标仓库的URL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">$ scorecard --repo&#x3D;github.com&#x2F;ossf-tests&#x2F;scorecard-check-branch-protection-e2e</span><br><span class="line">Starting [CII-Best-Practices]</span><br><span class="line">Starting [Fuzzing]</span><br><span class="line">Starting [Pinned-Dependencies]</span><br><span class="line">Starting [CI-Tests]</span><br><span class="line">Starting [Maintained]</span><br><span class="line">Starting [Packaging]</span><br><span class="line">Starting [SAST]</span><br><span class="line">Starting [Dependency-Update-Tool]</span><br><span class="line">Starting [Token-Permissions]</span><br><span class="line">Starting [Security-Policy]</span><br><span class="line">Starting [Signed-Releases]</span><br><span class="line">Starting [Binary-Artifacts]</span><br><span class="line">Starting [Branch-Protection]</span><br><span class="line">Starting [Code-Review]</span><br><span class="line">Starting [Contributors]</span><br><span class="line">Starting [Vulnerabilities]</span><br><span class="line">Finished [CI-Tests]</span><br><span class="line">Finished [Maintained]</span><br><span class="line">Finished [Packaging]</span><br><span class="line">Finished [SAST]</span><br><span class="line">Finished [Signed-Releases]</span><br><span class="line">Finished [Binary-Artifacts]</span><br><span class="line">Finished [Branch-Protection]</span><br><span class="line">Finished [Code-Review]</span><br><span class="line">Finished [Contributors]</span><br><span class="line">Finished [Dependency-Update-Tool]</span><br><span class="line">Finished [Token-Permissions]</span><br><span class="line">Finished [Security-Policy]</span><br><span class="line">Finished [Vulnerabilities]</span><br><span class="line">Finished [CII-Best-Practices]</span><br><span class="line">Finished [Fuzzing]</span><br><span class="line">Finished [Pinned-Dependencies]</span><br><span class="line"></span><br><span class="line">RESULTS</span><br><span class="line">-------</span><br><span class="line">Aggregate score: 7.9 &#x2F; 10</span><br><span class="line"></span><br><span class="line">Check scores:</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">|  SCORE  |          NAME          |             REASON             |                         DOCUMENTATION&#x2F;REMEDIATION                         |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 10 &#x2F; 10 | Binary-Artifacts       | no binaries found in the repo  | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#binary-artifacts       |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 9 &#x2F; 10  | Branch-Protection      | branch protection is not       | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#branch-protection      |</span><br><span class="line">|         |                        | maximal on development and all |                                                                           |</span><br><span class="line">|         |                        | release branches               |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| ?       | CI-Tests               | no pull request found          | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#ci-tests               |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | CII-Best-Practices     | no badge found                 | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#cii-best-practices     |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 10 &#x2F; 10 | Code-Review            | branch protection for default  | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#code-review            |</span><br><span class="line">|         |                        | branch is enabled              |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | Contributors           | 0 different companies found -- | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#contributors           |</span><br><span class="line">|         |                        | score normalized to 0          |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | Dependency-Update-Tool | no update tool detected        | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#dependency-update-tool |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | Fuzzing                | project is not fuzzed in       | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#fuzzing                |</span><br><span class="line">|         |                        | OSS-Fuzz                       |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 1 &#x2F; 10  | Maintained             | 2 commit(s) found in the last  | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#maintained             |</span><br><span class="line">|         |                        | 90 days -- score normalized to |                                                                           |</span><br><span class="line">|         |                        | 1                              |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| ?       | Packaging              | no published package detected  | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#packaging              |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 8 &#x2F; 10  | Pinned-Dependencies    | unpinned dependencies detected | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#pinned-dependencies    |</span><br><span class="line">|         |                        | -- score normalized to 8       |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | SAST                   | no SAST tool detected          | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#sast                   |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 0 &#x2F; 10  | Security-Policy        | security policy file not       | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#security-policy        |</span><br><span class="line">|         |                        | detected                       |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| ?       | Signed-Releases        | no releases found              | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#signed-releases        |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 10 &#x2F; 10 | Token-Permissions      | tokens are read-only in GitHub | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#token-permissions      |</span><br><span class="line">|         |                        | workflows                      |                                                                           |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line">| 10 &#x2F; 10 | Vulnerabilities        | no vulnerabilities detected    | github.com&#x2F;ossf&#x2F;scorecard&#x2F;blob&#x2F;main&#x2F;docs&#x2F;checks.md#vulnerabilities        |</span><br><span class="line">|---------|------------------------|--------------------------------|---------------------------------------------------------------------------|</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>计分标准</strong></p>
+<p>每个单独的检查都会返回 0 到 10 的分数，其中 10 代表可能的最佳分数。记分卡还会产生一个总分，这是按风险加权的单个检查的基于权重的平均值。</p>
+<ul>
+<li>“关键”风险检查的权重为 10</li>
+<li>“高”风险检查的权重为 7.5</li>
+<li>“中等”风险检查的权重为 5</li>
+<li>“低”风险检查的权重为 2.5</li>
+</ul>
+<p>注意：目前没有评分卡检查被评为“严重”风险。</p>
+<p>被评为“高”风险的测试是：</p>
+<ul>
+<li>保持</li>
+<li>依赖更新工具</li>
+<li>二进制工件</li>
+<li>分支保护</li>
+<li>代码审查</li>
+<li>签名版本</li>
+<li>令牌权限</li>
+<li>漏洞</li>
+</ul>
+<p>被评为“中等”风险的测试是：</p>
+<ul>
+<li>模糊测试</li>
+<li>包装</li>
+<li>固定依赖</li>
+<li>第一天</li>
+<li>安全策略</li>
+</ul>
+<p>被评为“低”风险的测试是：</p>
+<ul>
+<li>CI-测试</li>
+<li>CII-最佳实践</li>
+<li>贡献者</li>
+</ul>
+<h2 id="检查Checks"><a href="#检查Checks" class="headerlink" title="检查Checks"></a>检查Checks</h2><p>针对目标项目，以下的检查都会默认运行：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Binary-Artifacts</td>
+<td>Is the project free of checked-in binaries? 在项目的仓库中是否生成了可执行二进制文件，用户可能会直接使用他们，导致危险行为。因为，无法审查二进制文件，可能包含而已代码；还可能导致无法创建可执行文件。在代码”github.com/ossf/scorecard/v3/checks/raw”中完成。</td>
+</tr>
+<tr>
+<td>Branch-Protection</td>
+<td>Does the project use <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/about-protected-branches">Branch Protection</a> ? 检查项目的默认分支是否收到github的分支保护设置的保护。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/branch_protection.go%E4%B8%AD%E5%AE%9E%E7%8E%B0">https://github.com/ossf/scorecard/blob/main/checks/branch_protection.go中实现</a></td>
+</tr>
+<tr>
+<td>CI-Tests</td>
+<td>Does the project run tests in CI, e.g. <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/actions">GitHub Actions</a>, <a target="_blank" rel="noopener" href="https://github.com/kubernetes/test-infra/tree/master/prow">Prow</a>? 检查确定项目是否在合并拉去请求之前运行CI测试，目前仅限github上的仓库。检查github CheckRuns和Statuses最近的提交记录中（30次以内包含30次）一组CI系统的名称集合：appveyor、buildkite、circleci、e2e、github-actions、jenkins、mergeable、test、travis-ci  <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/ci_tests.go">https://github.com/ossf/scorecard/blob/main/checks/ci_tests.go</a></td>
+</tr>
+<tr>
+<td>CII-Best-Practices</td>
+<td>Does the project have a <a target="_blank" rel="noopener" href="https://bestpractices.coreinfrastructure.org/en">CII Best Practices Badge</a>? 检查项目是否获得了CII最佳实践徽章，这个徽章表明该项目使用了一组以安全为中心的开源软件最佳开发实践。使用了Git仓库了URL和CII API。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/cii_best_practices.go">https://github.com/ossf/scorecard/blob/main/checks/cii_best_practices.go</a></td>
+</tr>
+<tr>
+<td>Code-Review</td>
+<td>Does the project require code review before code is merged? 检查项目在合并pr之前是否需要代码审查。首先尝试检查是否在默认分支上启用了分支保护，提至少需要一个审查者。如果失败了，则检查最近（&lt;=30）次提交是否有github所允许的审查，或者合并是否与提交者不同。还需要执行prow(<a target="_blank" rel="noopener" href="https://github.com/kubernetes/test-infra/tree/master/prow#readme)%E8%BF%99%E4%B8%AAk8s%E7%9A%84CI/CD%E7%B3%BB%E7%BB%9F%E5%92%8CGerrit">https://github.com/kubernetes/test-infra/tree/master/prow#readme)这个k8s的CI/CD系统和Gerrit</a> Code Review（谷歌开发的review工具）<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/code_review.go">https://github.com/ossf/scorecard/blob/main/checks/code_review.go</a></td>
+</tr>
+<tr>
+<td>Contributors</td>
+<td>Does the project have contributors from at least two different organizations?  检查项目是否有来自多个组织的的近期贡献者。仅限于github上的仓库。会查看项目最近提交者的github个人资料的company字段，要获得最高分，项目必须在最近 30 次提交中至少有来自 3 家不同公司的贡献者；在过去的 30 次提交中，每个贡献者必须至少有 5 次提交。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/contributors.go">https://github.com/ossf/scorecard/blob/main/checks/contributors.go</a></td>
+</tr>
+<tr>
+<td>Dependency-Update-Tool</td>
+<td>Does the project use tools to help update its dependencies? 检查项目是或否使用依赖更新工具，尤其是dependabot或renovatebot。只能判断是否开启了依赖更新工具 <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/dependency_update_tool.go">https://github.com/ossf/scorecard/blob/main/checks/dependency_update_tool.go</a></td>
+</tr>
+<tr>
+<td>Fuzzing</td>
+<td>Does the project use fuzzing tools, e.g. <a target="_blank" rel="noopener" href="https://github.com/google/oss-fuzz">OSS-Fuzz</a>? 检查是否使用了模糊测试。 <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/fuzzing.go">https://github.com/ossf/scorecard/blob/main/checks/fuzzing.go</a></td>
+</tr>
+<tr>
+<td>Maintained</td>
+<td>Is the project maintained? 检查项目是否处于主动维护状态，如果已经存档了，则得分最低。如果在过去 90 天内每周至少有一次提交，则该项目获得最高分。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/maintained.go">https://github.com/ossf/scorecard/blob/main/checks/maintained.go</a></td>
+</tr>
+<tr>
+<td>Pinned-Dependencies</td>
+<td>Does the project declare and pin <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/github/visualizing-repository-data-with-graphs/about-the-dependency-graph#supported-package-ecosystems">dependencies</a>?  检查项目是不是一个已经声明并且固定了依赖项的应用程序。固定依赖项试制明确设置为特定版本而不是允许适配一个版本范围。需要检查 根目录下的以下文件：go.mod, go.sum (Golang), package-lock.json, npm-shrinkwrap.json (Javascript), requirements.txt, pipfile.lock (Python), gemfile.lock (Ruby) )、cargo.lock (Rust)、yarn.lock (包管理器)、composer.lock (PHP)、vendor/、third_party/、第三方/；Dockerfiles、shell 脚本和 GitHub 工作流中的非固定依赖项。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/pinned_dependencies.go">https://github.com/ossf/scorecard/blob/main/checks/pinned_dependencies.go</a></td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td>Does the project build and publish official packages from CI/CD, e.g. <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/actions/guides/about-packaging-with-github-actions#workflows-for-publishing-packages">GitHub Publishing</a> ? 检查项目是否被发布为一个package。检查github的打包工作流和特定语言的github操作，这些操作将包上传到相应的中心。比如Npm但是目前还不支持NPM,PyPI。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/packaging.go">https://github.com/ossf/scorecard/blob/main/checks/packaging.go</a></td>
+</tr>
+<tr>
+<td>SAST</td>
+<td>Does the project use static code analysis tools, e.g. <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/enabling-code-scanning-for-a-repository#enabling-code-scanning-using-actions">CodeQL</a>, <a target="_blank" rel="noopener" href="https://lgtm.com/">LGTM</a>, <a target="_blank" rel="noopener" href="https://sonarcloud.io/">SonarCloud</a>? 是否使用静态程序安全测试Static Application Security Testing，也叫静态代码分析。在最近合并（30个）的pr中查找已知的github应用比如 <a target="_blank" rel="noopener" href="https://codeql.github.com/">CodeQL</a>（github-code-scanning）、 <a target="_blank" rel="noopener" href="https://lgtm.com/">LGTM</a>和 <a target="_blank" rel="noopener" href="https://sonarcloud.io/">SonarCloud</a>，或在 GitHub 工作流程中使用“github/codeql-action”。  <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/sast.go">https://github.com/ossf/scorecard/blob/main/checks/sast.go</a></td>
+</tr>
+<tr>
+<td>Security-Policy</td>
+<td>Does the project contain a <a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/github/managing-security-vulnerabilities/adding-a-security-policy-to-your-repository">security policy</a>? 此检查尝试确定项目是否已发布安全策略。它的工作原理是``在几个众所周知的目录中查找名为SECURITY.md（不区分大小写）的文件。 <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/security_policy.go">https://github.com/ossf/scorecard/blob/main/checks/security_policy.go</a></td>
+</tr>
+<tr>
+<td>Signed-Releases</td>
+<td>Does the project cryptographically [sign releases](<a target="_blank" rel="noopener" href="https://wiki.debian.org/Creating">https://wiki.debian.org/Creating</a> signed GitHub releases)? 此检查尝试确定项目是否对发布工件进行加密签名，此检查在项目的最后五个版本中查找以下文件名：<a target="_blank" rel="noopener" href="https://github.com/jedisct1/minisign">*.minisig</a>、*.asc (pgp)、*. <a target="_blank" rel="noopener" href="https://github.com/jedisct1/minisign">sig</a>、*.sign。<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/signed_releases.go">https://github.com/ossf/scorecard/blob/main/checks/signed_releases.go</a></td>
+</tr>
+<tr>
+<td>Token-Permissions</td>
+<td>Does the project declare GitHub workflow tokens as <a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/reference/authentication-in-a-workflow">read only</a>? 此检查确定项目的自动化工作流令牌是否默认设置为只读。当每个工作流的 yaml 文件中的权限定义在<a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#permissions">顶级</a>设置为只读 <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/cc4949465b6730ee398e49a096e0132f02078372/checks/permissions.go">https://github.com/ossf/scorecard/blob/cc4949465b6730ee398e49a096e0132f02078372/checks/permissions.go</a></td>
+</tr>
+<tr>
+<td>Vulnerabilities</td>
+<td>Does the project have unfixed vulnerabilities? Uses the <a target="_blank" rel="noopener" href="https://osv.dev/">OSV service</a>. 此检查使用<a target="_blank" rel="noopener" href="https://osv.dev/">OSV（开源漏洞）</a>服务（提供了开源漏洞的数据库）确定项目是否具有开放的、未<a target="_blank" rel="noopener" href="https://osv.dev/">修复的漏洞</a> <a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/checks/vulnerabilities.go">https://github.com/ossf/scorecard/blob/main/checks/vulnerabilities.go</a>  数据集是否可以下载</td>
+</tr>
+</tbody></table>
+<h2 id="公共数据库"><a href="#公共数据库" class="headerlink" title="公共数据库"></a>公共数据库</h2><p>如何有兴趣查看一系列带有scorecard检查结果的项目列表，它将结果发布在BigQuery pulbic dataset这个数据集中BigQuery 视图中提供了最新结果<code>openssf:scorecardcron.scorecard-v2_latest</code></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/public-data">https://cloud.google.com/bigquery/public-data</a></p>
+<p>公共数据集是存储于 BigQuery ，并通过 <a target="_blank" rel="noopener" href="https://cloud.google.com/public-datasets">Google Cloud 公共数据集计划</a>提供给公众的任何数据集。公共数据集是由 BigQuery 托管的数据集，可供您访问并集成到您的应用中。Google 会支付这些数据集的存储费用，并通过<a target="_blank" rel="noopener" href="https://cloud.google.com/docs/overview#projects">项目</a>提供对数据的公开访问权限。您只需为对数据执行的查询付费。每月免费处理前 1 TB 数据，具体参阅<a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/pricing#analysis_pricing_models">查询价格详情</a>。</p>
+<p>您可以使用旧版 SQL 或<a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax">标准 SQL</a> 查询对公共数据集进行分析。查询公共数据集时，请使用完全限定的表名称，例如 <code>bigquery-public-data.bbc_news.fulltext</code>。</p>
+<p>您可以通过以下方式访问 BigQuery 公共数据集：使用 <a target="_blank" rel="noopener" href="https://console.cloud.google.com/marketplace/partners/bigquery-public-data">Cloud Console</a>、使用 <a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/docs/cli_tool"><code>bq</code> 命令行工具</a>，或者使用各种<a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/docs/reference/libraries">客户端库</a>（例如<a target="_blank" rel="noopener" href="https://developers.google.com/api-client-library/java/apis/bigquery/v2">Java</a>、<a target="_blank" rel="noopener" href="https://developers.google.com/api-client-library/dotnet/get_started">.NET</a> 或 <a target="_blank" rel="noopener" href="https://developers.google.com/api-client-library/python/">Python</a>）调用 <a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery/docs/reference/v2">BigQuery REST API</a>。</p>
+<h2 id="如何一个其他的github仓库让在scorecard的dailyscore去扫描"><a href="#如何一个其他的github仓库让在scorecard的dailyscore去扫描" class="headerlink" title="如何一个其他的github仓库让在scorecard的dailyscore去扫描"></a>如何一个其他的github仓库让在scorecard的dailyscore去扫描</h2><p>scorecard维护了一个仓库的列表文件<a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/main/cron/projects.txt%EF%BC%8C%E6%8F%90%E4%BA%A4%E4%B8%80%E4%B8%AAPR%E5%8E%BB%E4%BF%AE%E6%94%B9%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%8C%E9%82%A3%E4%B9%88scorecard%E4%BC%9A%E5%9C%A8%E4%B8%8B%E6%AC%A1%E8%BF%90%E8%A1%8C%E6%97%B6%E5%90%AF%E5%8A%A8%E6%89%AB%E6%8F%8F">https://github.com/ossf/scorecard/blob/main/cron/projects.txt，提交一个PR去修改这个文件，那么scorecard会在下次运行时启动扫描</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ossf/scorecard/blob/cc4949465b6730ee398e49a096e0132f02078372/CONTRIBUTING.md#where-the-ci-tests-are-configured">https://github.com/ossf/scorecard/blob/cc4949465b6730ee398e49a096e0132f02078372/CONTRIBUTING.md#where-the-ci-tests-are-configured</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/11/26/OpenSSF专题之二：package-anlysis/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题之二：package-anlysis">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/11/18/Navigation2专题三：URDF补充知识/" data-toggle="tooltip" data-placement="top" title="Navigation2专题三：URDF补充知识">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#go" title="go">go</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/11/26/OpenSSF%E4%B8%93%E9%A2%98%E4%B9%8B%E4%B8%80%EF%BC%9Ascorecard/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ROS2基础 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/04/07/ROS2基础/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ros2,c++,python" title="ros2,c++,python">ros2,c++,python</a>
+                            
+                        </div>
+                        <h1>ROS2基础</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-04-07
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>ROS是一个用于在不同进程间匿名的发布、订阅、传递信息的中间件。 ROS2系统的核心部分是ROS网络(ROS Graph)。ROS网络是指在ROS系统中不同的节点间相互通信的连接关系。 ROS Graph这里翻译成了ROS网络，因为我觉得Graph更加抽象，而网络的概念更容易帮助理解其内涵。</p>
+<h2 id="ROS网络-ROS-Graph-概念简介"><a href="#ROS网络-ROS-Graph-概念简介" class="headerlink" title="ROS网络(ROS Graph)概念简介"></a>ROS网络(ROS Graph)概念简介</h2><ul>
+<li>​    节点(Nodes)： 一个节点是一个利用ROS系统和其他节点通信的实体</li>
+<li>​    消息(Messages)： ROS中在订阅和发布主题时所用到的数据结构</li>
+<li>​    主题(Topics): 节点可以发布信息到一个主题，同样也可订阅主题来接收消息</li>
+<li>​    发现(Discovery): 一个自动运行的进程，通过这个进程不同的节点相互发现，建立连接</li>
+</ul>
+<h2 id="节点-Nodes"><a href="#节点-Nodes" class="headerlink" title="节点(Nodes)"></a>节点(Nodes)</h2><p>一个节点就是一个在ROS网络中的参与者。 ROS节点通过ROS客户端程序库(ROS client library)来和其他节点进行通信。 节点可以发布或者订阅主题 节点也可以提供ROS服务(Service)。 节点有很多可以配置的相关参数。 节点间的连接时通过一个分布式发现进程来建立的（即上面所说的Discovery）。 不同的节点可以在同一个进程里面，也可以在不同的进程里面，甚至可以在不同的机器上。</p>
+<h2 id="客户端程序库"><a href="#客户端程序库" class="headerlink" title="客户端程序库"></a>客户端程序库</h2><p>ROS客户端程序库可以让不同的语言编写的节点进行通信。 在不同的编程语言中都有对应的ROS客户端程序库(RCL)，这个程序库实现了ROS的基本API。 这样就确保了不同的编程语言的客户端更加容易编写，也保证了其行为更加一致。</p>
+<p>下面的客户端程序库是由ROS2团队维护的</p>
+<ul>
+<li>​    rclcpp = C++ 客户端程序库</li>
+<li>​    rclpy = Python 客户端程序库</li>
+</ul>
+<p>另外其他客户端程序也已经有ROS社区开发出来</p>
+<h2 id="发现"><a href="#发现" class="headerlink" title="发现"></a>发现</h2><p>节点之间的互相发现是通过ROS2底层的中间件实现的。 过程总结如下</p>
+<ol>
+<li>​    当一个节点启动后， 它会向其他拥有相同ROS域名(ROS domain， 可以通过设置ROS_DOMAIN_ID环境变量来设置)的节点进行广播，说明它已经上线。 其他节点在收到广播后返回自己的相关信息，这样节点间的连接就可以建立了，之后就可以通信了。</li>
+<li>​    节点会定时广播它的信息，这样即使它已经错过了最初的发现过程，它也可以和新上线的节点进行连接。</li>
+<li>​    节点在下线前它也会广播其他节点自己要下线了。</li>
+</ol>
+<p>节点只会与具有相兼容QOS设置的节点进行通信。</p>
+<h2 id="例子：发布和接收"><a href="#例子：发布和接收" class="headerlink" title="例子：发布和接收"></a>例子：发布和接收</h2><p>在一个终端，启动一个节点(用C++编写)，这个节点会向一个主题发布消息</p>
+<p>ros2 run demo_nodes_cpp talker</p>
+<p>在另一个终端，同样启动一个节点(用Python编写)，这个节点会订阅和上个节点相同的主题来接收消息。</p>
+<p>ros2 run demo_nodes_py listener</p>
+<p>你会看到节点自动发现了对方，然后开始互相通信。 你也可以在不同的电脑上启动节点，你也会发现，节点自动建立了它们的连接，然后开始通信。</p>
+<h1 id="ROS2和不同的DDS程序"><a href="#ROS2和不同的DDS程序" class="headerlink" title="ROS2和不同的DDS程序"></a>ROS2和不同的DDS程序</h1><p>ROS2是建立在DDS程序的基础上的。DDS程序被用来发现节点，序列化和传递信息。 <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/ros_on_dds.html">这篇文章</a>(<a target="_blank" rel="noopener" href="http://design.ros2.org/articles/ros_on_dds.html)%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%E4%BA%86DDS%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BC%80%E5%8F%91%E5%8A%A8%E6%9C%BA%E3%80%82">http://design.ros2.org/articles/ros_on_dds.html)详细介绍了DDS程序的开发动机。</a> 总而言之，DDS程序提供了ROS系统所需的一些功能，比如分布式发现节点(并不是像ROS1那样中心化)，控制传输中的不同的”通信质量（Quality of Service）”选项。</p>
+<p>DDS是一个被很多公司实现的工业标准。比如RTI的实现<a target="_blank" rel="noopener" href="http://ros2.bwbot.org/tourial/about-ros2/(https:/www.rti.com/products">Connext</a>和eProsima的实现<a target="_blank" rel="noopener" href="http://www.eprosima.com/index.php/products-all/eprosima-fast-rtps">Fast RTPS</a>。 ROS2 支持多种实现方式。因为没有必要“一个尺码的鞋给所有人穿”。用户有选择的自由。 在选择DDS实现的时候你要考虑很多方面：比如法律上你要考虑他们的协议，技术上要考虑是否支持跨平台。 不同的公司也许会为了适应不同的场景提出不止一种的DDS实现方式。 比如RTI为了不同的目标就有很多种他们的Connext的变种。从小到微处理器到需要特殊资质的应用程序（我们支持标准的桌面版）。</p>
+<p>为了能够在ROS2中使用一个DDS实现，需要一个ROS中间件(RMW软件包), 这个包需要利用DDS程序提供的API和工具实现ROS中间件的接口。 为了在ROS2中使用一个DDS实现，有大量的工作需要做。但是为了防止ROS2的代码过于绑定某种DDS程序必须支持至少几种DDS程序。因为用户可能会根据他们的项目需求选择不同的DDS程序。</p>
+<table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>协议</strong></th>
+<th><strong>RMW</strong>                 <strong>实现</strong></th>
+<th><strong>状态</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eProsima <em>Fast                 RTPS</em></td>
+<td>Apache                 2</td>
+<td>rmw_fastrtps_cpp</td>
+<td>完全支持.                 默认的RMW.                 已经打包在发布的文件中.</td>
+</tr>
+<tr>
+<td>RTI <em>Connext</em></td>
+<td>commercial,                 research</td>
+<td>rmw_connext_cpp</td>
+<td>完全支持.                 需要从源码编译支持.</td>
+</tr>
+<tr>
+<td>RTI <em>Connext</em> (dynamic                 implementation)</td>
+<td>commercial,                 research</td>
+<td>rmw_connext_dynamic_cpp</td>
+<td>停止支持.                 alpha 8.* 之前版本完全支持</td>
+</tr>
+<tr>
+<td>PrismTech <em>Opensplice</em></td>
+<td>LGPL                 (only v6.4), commercial</td>
+<td>rmw_opensplice_cpp</td>
+<td>停止支持.                 alpha 8.* 之前版本完全支持</td>
+</tr>
+<tr>
+<td>OSRF <em>FreeRTPS</em></td>
+<td>Apache                 2</td>
+<td>–</td>
+<td>部分支持.                 开发暂停.</td>
+</tr>
+</tbody></table>
+<h3 id="支持的RMW实现"><a href="#支持的RMW实现" class="headerlink" title="支持的RMW实现"></a>支持的RMW实现</h3><p>***<em>暂停支持意味着从 ROS2 alpha 8 版本以后新的添加进ROS2的功能还没有添加到这些中间件的实现中来。 这些中间件的实现也许以后会有也许以后也不会有</em></p>
+<h1 id="ROS2客户端简介"><a href="#ROS2客户端简介" class="headerlink" title="ROS2客户端简介"></a>ROS2客户端简介</h1><p>客户端程序库是用户在写自己的ROS程序时使用到的ROS API程序。 他们就是用户来访问ROS的基本概念比如节点，主题，服务等等时所使用的程序。 客户端程序库有很多不同语言的实现，这样用户就可以根据他们自己的使用场景灵活的选择最合适的语言。 例如你也许想用Python来写图形程序，因为写起来很方便。但是对于对性能要求比较高的地方，这些程序最好还是用C++来写。</p>
+<p>使用不同语言编写的程序之间可以自由的共享信息。因为所有的客户端程序库都提供了代码生成程序，这些程序为用户提供了能够处理ROS的接口文件的能力。</p>
+<p>客户端程序除了提供不同语言特定的通信工具之外，还为用户提供了一些使得ROS更加ROS化的核心功能。 比如，这些就是可以通过客户端程序库操作的核心功能</p>
+<ul>
+<li>​    名称和命名空间</li>
+<li>​    时间（实际的或者模拟的）</li>
+<li>​    参数</li>
+<li>​    终端输出</li>
+<li>​    线程模型</li>
+<li>​    跨进程通信</li>
+</ul>
+<h2 id="支持的客户端程序库"><a href="#支持的客户端程序库" class="headerlink" title="支持的客户端程序库"></a>支持的客户端程序库</h2><p>C++ 客户端程序库(rclcpp)和Python客户端程序库(rclpy)都提供了RCL的常用功能。</p>
+<p>C++和Python的客户端程序库由 ROS 2 团队维护，ROS2的社区成员同时也支持了以下额外的客户端程序库：</p>
+<ul>
+<li>​    <a target="_blank" rel="noopener" href="https://github.com/esteve/ros2_java">JVM     和     Android</a></li>
+<li>​    <a target="_blank" rel="noopener" href="https://github.com/esteve/ros2_objc">Objective     C 和     iOS</a></li>
+<li>​    <a target="_blank" rel="noopener" href="https://github.com/firesurfer/rclcs">C#</a></li>
+<li>​    <a target="_blank" rel="noopener" href="https://github.com/younata/rclSwift">Swift</a></li>
+<li>​    <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/rclnodejs">Node.js</a></li>
+</ul>
+<h2 id="通用的功能：RCL"><a href="#通用的功能：RCL" class="headerlink" title="通用的功能：RCL"></a>通用的功能：RCL</h2><p>大部分客户端程序库提供的功能并不只是在特定的语言里才有。比如参数的效果，命名空间的逻辑，在理想的情况下应该在所有的语言下保持一致。 正是因为这一点，与其为每种语言从零开始实现一遍，倒不如使用一个通用的核心ROS客户端程序库接口。这个接口实现了程序逻辑和ROS中语言无关的功能。这样就使得ROS客户端程序库更小也更容易开发。 由于这个原因，<strong>RCL<strong><strong>通用功能暴露出了</strong></strong>C****的程序接口</strong>。因为C是其他程序语言最容易进行包装的语言。</p>
+<p>使用通用的核心库的优点不止可以使得客户端程序更加小型化，同时也使得不同语言的客户端程序库能够保持高度的一致性。 如果通用核心库内的任何功能发生了变化，比如说命名空间，那么所有的客户端程序库的这个功能都会跟着变化。 再者使用通用的核心程序库也意味着当修复bug的时候维护多个客户端程序会更加方便。</p>
+<p><a target="_blank" rel="noopener" href="http://docs.ros2.org/beta1/api/rcl/">RCL </a><a target="_blank" rel="noopener" href="http://docs.ros2.org/beta1/api/rcl/">的 API文档可以看这里</a>(<a target="_blank" rel="noopener" href="https://docs.ros2.org/beta1/api/rcl/">https://docs.ros2.org/beta1/api/rcl/</a>)</p>
+<h2 id="和语言相关的功能"><a href="#和语言相关的功能" class="headerlink" title="和语言相关的功能"></a>和语言相关的功能</h2><p>对于和语言相关的功能，并没有在RCL中实现，而是在各个语言的客户端程序库中去实现。 例如，在spin中使用到的线程模型，完全由各语言客户端程序自己实现。</p>
+<h2 id="与ROS1相比"><a href="#与ROS1相比" class="headerlink" title="与ROS1相比"></a>与ROS1相比</h2><p>在ROS1中所有的客户端程序都是从零开始编写的。 这样可以使Python的客户端程序库完全由Python编写。这样就有不用编译源代码的好处。 但是命名规则和其他一些特性并不能和其他客户端程序库保持一致。bug的修复需要在不同的地方重复很多遍。而且有很多功能只有在特定语言的客户端程序库中才实现。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过把ROS通用客户端核心程序库抽出来，不同的语言的客户端程序变得更加容易开发也更能保证功能的一致性</p>
+<h1 id="ROS-接口"><a href="#ROS-接口" class="headerlink" title="ROS 接口"></a>ROS 接口</h1><h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><p>ROS程序一般通过一种或两种接口进行通信：消息和服务 ROS使用了一种简化的描述语言来描述这些接口。这种描述语言使得ROS的工具更加容易的自动生成对应语言的源代码。</p>
+<p>在这篇文章中，我们将介绍支持的类型和如何创建你的 msg/srv文件</p>
+<h2 id="2-消息描述说明"><a href="#2-消息描述说明" class="headerlink" title="2. 消息描述说明"></a>2. 消息描述说明</h2><p>消息的描述文件是在ROS软件包msg文件夹内的.msg文件。 .msg文件包含两个部分：变量域（Fields）和常量(constants)</p>
+<p><em>这里将**Field翻译成变量域以和constants做作对比区分。如果直接翻译成域，会让人不明所以。</em></p>
+<h3 id="2-1-域"><a href="#2-1-域" class="headerlink" title="2.1 域"></a>2.1 域</h3><p>每一个域包含两个部分, 类型和名称。中间用空格隔开，例如</p>
+<p>fieldtype1 fieldname1</p>
+<p>fieldtype2 fieldname2</p>
+<p>fieldtype3 fieldname3</p>
+<p>又如</p>
+<p>int32 my_int</p>
+<p>string my_string</p>
+<h4 id="2-1-1-变量域类型"><a href="#2-1-1-变量域类型" class="headerlink" title="2.1.1 变量域类型"></a>2.1.1 变量域类型</h4><p>变量域的类型可以是一下几种</p>
+<ul>
+<li>​    内部定义类型</li>
+<li>​    有用户自己定义的类型，比如 “geometry_msgs/PoseStamped”</li>
+</ul>
+<p><em>内部定义的类型现在支持一下几种：</em> | 类型名称 | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/generated_interfaces_cpp.html">C++</a> | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/generated_interfaces_python.html">Python</a> | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/mapping_dds_types.html">DDS type</a> | ————- | ————- | —– | —- | | bool | bool | builtins.bool | boolean | | byte | uint8_t | builtins.bytes <em>| octet | | char | char | builtins.str</em> | char | | float32 | float | builtins.float <em>| float | | float64 | double | builtins.float</em> | double | | int8 | int8_t | builtins.int <em>| octet | | uint8 | uint8_t | builtins.int</em> | octet | | int16 | int16_t | builtins.int <em>| short | | uint16 | uint16_t | builtins.int</em> | unsigned short | | int32 | int32_t | builtins.int <em>| long | | uint32 | uint32_t | builtins.int</em> | unsigned long | | int64 | int64_t | builtins.int <em>| long long | | uint64 | uint64_t | builtins.int</em> | unsigned long long | | string | std::string | builtins.str | string |</p>
+<p><em>每种内部定义类型都可以用来定义数组</em> | 类型名称 | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/generated_interfaces_cpp.html">C++</a> | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/generated_interfaces_python.html">Python</a> | <a target="_blank" rel="noopener" href="http://design.ros2.org/articles/mapping_dds_types.html">DDS type</a> | ————- | ————- | —– | —- | | static array | std::array | builtins.list <em>| T[N] | | unbounded dynamic array | std::vector | builtins.list | sequence | | bounded dynamic array | custom_class | builtins.list</em> | sequence | | bounded string | std::string | builtins.str* | string |</p>
+<p>所有比ROS变量定义中范围更广，更加宽松的变量，都会被软件限制在ROS所定义的范围中。</p>
+<p><em>使用数组和限制类型的消息定义的例子</em></p>
+<p>int32[] unbounded_integer_array</p>
+<p>int32[5] five_integers_array</p>
+<p>int32[&lt;=5] up_to_five_integers_array</p>
+<p>string string_of_unbounded_size</p>
+<p>string&lt;=10 up_to_ten_characters_string</p>
+<p>string[&lt;=5] up_to_five_unbounded_strings</p>
+<p>string&lt;=10[] unbounded_array_of_string_up_to_ten_characters each</p>
+<p>string&lt;=10[&lt;=5] up_to_five_strings_up_to_ten_characters_each</p>
+<h4 id="2-1-2-变量域名称"><a href="#2-1-2-变量域名称" class="headerlink" title="2.1.2 变量域名称"></a>2.1.2 变量域名称</h4><p>变量域名称必须以小写字母开始，同时以下划线作为单词的分割符。不能以下划线结束，也不允许有两个连续的下划线。</p>
+<h4 id="2-1-3-变量域默认值"><a href="#2-1-3-变量域默认值" class="headerlink" title="2.1.3 变量域默认值"></a>2.1.3 变量域默认值</h4><p>默认值可以设置成变量域类型所允许的任意值。 当前默认值还不能支持字符串数组和复杂类型。（也就是没有出现在内部定义类型里面的，同样也适用于所有的嵌套消息）</p>
+<p>定义默认值可以通过在变量域定义中添加第三个元素来实现。也就是</p>
+<p>变量域名称 变量域类型 变量域默认值</p>
+<p>比如</p>
+<p>uint8 x 42</p>
+<p>int16 y -2000</p>
+<p>string full_name “John Doe”</p>
+<p>int32[] samples [-200, -100, 0, 100, 200]</p>
+<p>特别说明:</p>
+<ul>
+<li>​    字符串类型默认值必须用单引号或者双引号括起来</li>
+<li>​    当前的字符串类型是没有被转义的</li>
+</ul>
+<h3 id="2-2-常量"><a href="#2-2-常量" class="headerlink" title="2.2 常量"></a>2.2 常量</h3><p>常量的定义就好像有默认值的变量域定义。除了常量的值是永远不能由程序改变的。常量通过等号进行赋值。也就是</p>
+<p>常量类型 常量名称=常量值</p>
+<p>例如</p>
+<p>int32 X=123</p>
+<p>int32 Y=-123</p>
+<p>string FOO=”foo”</p>
+<p>string EXAMPLE=’bar’</p>
+<p>特别说明：常量名必须是大写</p>
+<h2 id="3-服务定义说明"><a href="#3-服务定义说明" class="headerlink" title="3. 服务定义说明"></a>3. 服务定义说明</h2><p>服务描述由位于ROS包下的srv文件夹内的.srv文件定义。</p>
+<p>一个服务描述文件包含了一个请求和一个回应的消息类型。之间用—分割。任意的两个消息类型连接起来，并在中间用—分割都是一个合法的服务描述。</p>
+<p>下面是一个非常简单的服务的例子。这个服务接收一个字符串然后返回一个字符串：</p>
+<p>string str</p>
+<p>-–</p>
+<p>string str</p>
+<p>当然我们也可以更加复杂一点（如果你想引用来自同一个软件包内的消息类型，那么你一定不要包含这个软件包的名字）：</p>
+<p>#request constants</p>
+<p>int8 FOO=1</p>
+<p>int8 BAR=2</p>
+<p>#request fields</p>
+<p>int8 foobar</p>
+<p>another_pkg/AnotherMessage msg</p>
+<p>-–</p>
+<p>#response constants</p>
+<p>uint32 SECRET=123456</p>
+<p>#response fields</p>
+<p>another_pkg/YetAnotherMessage val</p>
+<p>CustomMessageDefinedInThisPackage value</p>
+<p>uint32 an_integer</p>
+<p>你不能在一个服务中嵌入另外一个服务。</p>
+<h1 id="QOS（Quality-Of-Service）简介"><a href="#QOS（Quality-Of-Service）简介" class="headerlink" title="QOS（Quality Of Service）简介"></a>QOS（Quality Of Service）简介</h1><p>ROS2 提供了非常丰富的服务质量控制规则。利用这些规则你可以优化节点间的通信。 合适的服务质量设置可以使得ROS2像TCP协议一样可靠或者像UDP协议一样高效。 在ROS1中，我们只能支持TCP协议。ROS2则受益于底层的DDS传输可以灵活设置。对于在一个容易丢失数据的无线网环境下，可以使用一个高效的服务质量规则。对于在实时计算情况下可以使用高可靠性的服务质量规则。</p>
+<p>一组服务质量规则组合在一起就构成了一个服务质量配置文件。 由于在不同的场景中设置合适的服务质量配置文件并不是一个简单的事情。ROS2预先提供了一些常用情景下的配置文件。（比如传感器数据） 同时用户也可以更改服务质量的具体配置。</p>
+<p>服务质量文件可以专门用来配置发布者，订阅者，服务提供者和客户端。 一个服务质量文件可以独立应用于不同的上面所说的各种实体。但是如果它们之间使用了不同的服务质量文件那么有可能它们之间会无法建立连接。</p>
+<h2 id="服务质量规则"><a href="#服务质量规则" class="headerlink" title="服务质量规则"></a>服务质量规则</h2><p>一个基本服务质量规则配置文件包含下面的几个规则：</p>
+<ul>
+<li>​    历史 (History)<ul>
+<li>​        Keep     last: 只存储最多N个样本，通过队列深度设置</li>
+<li>​        Keep     all: 存储所有样本，由底层中间件的资源大小限制</li>
+</ul>
+</li>
+<li>​    深度 (Depth)<ul>
+<li>​        队列的大小：只有在和Keep     last一起时才会起作用</li>
+</ul>
+</li>
+<li>​    可靠性 (Reliability)<ul>
+<li>​        最高效率：     尝试发送数据，但是在网络不好的情况下有可能丢包</li>
+<li>​        高可靠性:     保证数据发送成功，但是可能会重试发送多次</li>
+</ul>
+</li>
+<li>​    耐久力 (Durability)<ul>
+<li>​        本地缓存(Transient     local): 发送者会为还未加入的节点保存未接收的数据</li>
+<li>​        自动挥发(Volatile):     不会特意保存数据</li>
+</ul>
+</li>
+</ul>
+<p>对于每个规则，都还有一个系统默认选项。这些值使用了来自底层中间件的参数。默认值可以通过DDS工具进行设置(比如 xml配置文件) DDS本身有着更多的规则可以配置。 由于和ROS1中的功能很相似，所以以上的规则被暴露出来。在未来很有可能会在ROS2中暴露更多的配置规则。</p>
+<h3 id="和ROS1的对比"><a href="#和ROS1的对比" class="headerlink" title="和ROS1的对比"></a>和ROS1的对比</h3><p>历史和深度规则组合起来和ROS1中的队列大小是一样的。</p>
+<p>ROS2中的可靠性规则和ROS1中也有对应。ROS1的UDPROS(只在roscpp里面)对应于高效模式。TCPROS(ROS1的默认模式)对应于高可靠性模式。 特别注意即使是ROS2里面的高可靠性模式也是用UDP去实现的。在合适的场景下还可以用来进行广播。</p>
+<p>持久性规则和depth=1的规则组合起来和ROS1中的”latching” subscribers很类似。</p>
+<h2 id="QoS-配置文件"><a href="#QoS-配置文件" class="headerlink" title="QoS 配置文件"></a>QoS 配置文件</h2><p>配置文件使得开发者可以专注于开发自己的应用程序，不用关心每个服务质量设置。 服务质量配置文件包含了一系列的规则，保证程序能够在特定的使用场景下工作。</p>
+<p>目前已经定义的qos配置有</p>
+<ul>
+<li>​    默认的发布者和订阅者的qos配置</li>
+</ul>
+<p>为了能够从ROS1过渡到ROS2，保证网络的相似性是很必要的。 在默认条件下，发布者和订阅者在ROS2中都是配置为<strong>可靠模式**</strong>(Reliability)**。</p>
+<ul>
+<li>​    service</li>
+</ul>
+<p>和发布者和订阅者一样服务也是<strong>可靠的</strong>，对于服务来说使用<strong>vilatile</strong>是必须的，因为否则当服务提供者可能会受到已经过时的请求。 尽管这样可以保证客户端不会受到多个应答。服务端却无法保证不受到已经过时的请求。</p>
+<ul>
+<li>​    传感器数据</li>
+</ul>
+<p>对于传感器数据，在大多数情况下及时收到数据更加重要。而保证收到所有的数据并没有这么重要。 也就是开发者希望能尽快的收到最新的数据，尽管可能会有数据丢失。 由于这个原因传感器数据被设置成了<strong>高效模式</strong>和一个较低队列深度。</p>
+<ul>
+<li>​    参数</li>
+</ul>
+<p>ROS2中的参数设置是基于服务的。所以他们有相似的配置。 不同的是参数会有一个更大的队列来保证请求不会丢失。比如当参数客户端无法连接到参数服务器的时候。</p>
+<ul>
+<li>​    系统默认</li>
+</ul>
+<p>使用系统默认的规则</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ros2/rmw/blob/release-latest/rmw/include/rmw/qos_profiles.h">点击这里</a>(<a target="_blank" rel="noopener" href="https://github.com/ros2/rmw/blob/release-latest/rmw/include/rmw/qos_profiles.h)%E5%8F%AF%E4%BB%A5%E6%9F%A5%E7%9C%8B%E4%B8%8A%E9%9D%A2%E7%9A%84%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A7%84%E5%88%99%E3%80%82">https://github.com/ros2/rmw/blob/release-latest/rmw/include/rmw/qos_profiles.h)可以查看上面的配置使用到的特殊规则。</a> 根据社区的反馈上面的一些规则还需要进一步的调整。</p>
+<p>尽管ROS2提供了一些服务质量配置，但是直接配置DDS所提供的规则可以更大程度的发挥出DDS程序的性能。</p>
+<h2 id="服务质量兼容性"><a href="#服务质量兼容性" class="headerlink" title="服务质量兼容性"></a>服务质量兼容性</h2><p><strong>注意**</strong>:** 这一部分只说明了发布者和订阅者的信息，但是这些内容对于服务提供者和服务客户端同样也是适用的。</p>
+<p>服务配置文件可以独立配置发布者和订阅者。 只有在发布者和订阅者的服务质量规则是相兼容的时候，它们才能相互建立连接。 服务质量配置文件的兼容性判定是基于“请求对比提供者”模型。只有在请求方，也就是订阅者的规则没有发布者更加严格的条件下才能建立连接。 两者中的更为严格的那个规则会被用于它们之间的这个连接。</p>
+<p>在ROS2中暴露的服务质量规则能够影响到连接的是可靠性和耐久性。 下面的表格表示了不同的配置规则和结果：、</p>
+<p><em>服务质量耐久度兼容性</em></p>
+<table>
+<thead>
+<tr>
+<th><strong>Publisher</strong></th>
+<th><strong>Subscriber</strong></th>
+<th><strong>Connection</strong></th>
+<th><strong>Result</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Volatile</td>
+<td>Volatile</td>
+<td>Yes</td>
+<td>Volatile</td>
+</tr>
+<tr>
+<td>Volatile</td>
+<td>Transient             local</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Transient             local</td>
+<td>Volatile</td>
+<td>Yes</td>
+<td>Volatile</td>
+</tr>
+<tr>
+<td>Transient             local</td>
+<td>Transient             local</td>
+<td>Yes</td>
+<td>Transient             local</td>
+</tr>
+</tbody></table>
+<p><em>服务质量可靠性兼容性</em></p>
+<table>
+<thead>
+<tr>
+<th><strong>Publisher</strong></th>
+<th><strong>Subscriber</strong></th>
+<th><strong>Connection</strong></th>
+<th><strong>Result</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Best             effort</td>
+<td>Best             effort</td>
+<td>Yes</td>
+<td>Best             effort</td>
+</tr>
+<tr>
+<td>Best             effort</td>
+<td>Reliable</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Reliable</td>
+<td>Best             effort</td>
+<td>Yes</td>
+<td>Best             effort</td>
+</tr>
+<tr>
+<td>Reliable</td>
+<td>Reliable</td>
+<td>Yes</td>
+<td>Reliable</td>
+</tr>
+</tbody></table>
+<p>为了保证能够建立一个连接。所有可能影响到兼容性的规则都要注意保证兼容。 也就是即使一个发布者和订阅者有相互兼容的服务质量可靠性规则，但是如果它们的服务质量耐久性规则不兼容，也是无法建立连接的。反之亦然。</p>
+<h1 id="Ros2入们教程"><a href="#Ros2入们教程" class="headerlink" title="Ros2入们教程"></a>Ros2入们教程</h1><p><a target="_blank" rel="noopener" href="https://www.guyuehome.com/category/column/ros2-tutorials">https://www.guyuehome.com/category/column/ros2-tutorials</a></p>
+<ol>
+<li>Ubuntu 20.04硬盘多系统安装 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/8300">https://www.guyuehome.com/8300</a></li>
+<li>Ubuntu 20.04安装ROS2 Foxy <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10226">https://www.guyuehome.com/10226</a></li>
+<li>ROS2环境配置 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10243">https://www.guyuehome.com/10243</a>  </li>
+<li>小海龟仿真器基础使用 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10386">https://www.guyuehome.com/10386</a>  </li>
+<li>理解节点（Node） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10465">https://www.guyuehome.com/10465</a>  </li>
+<li>理解话题（Topic） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10560">https://www.guyuehome.com/10560</a>  </li>
+<li>理解服务（Service） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10721">https://www.guyuehome.com/10721</a>  </li>
+<li>理解参数（Parameter） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10864">https://www.guyuehome.com/10864</a>  </li>
+<li>理解动作（Action） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/10898">https://www.guyuehome.com/10898</a>  </li>
+<li>rqt_console工具的使用 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11162">https://www.guyuehome.com/11162</a>  </li>
+<li>创建一个launch文件 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11264">https://www.guyuehome.com/11264</a>  </li>
+<li>使用ros2 bag录制/回放数据 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11320">https://www.guyuehome.com/11320</a>  </li>
+<li>创建ros2工作空间 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11466">https://www.guyuehome.com/11466</a>  </li>
+<li>创建ros2功能包 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11507">https://www.guyuehome.com/11507</a>  </li>
+<li>创建一个简单的订阅者和发布者（C++） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11660">https://www.guyuehome.com/11660</a>  </li>
+<li>创建一个简单的订阅者和发布者（python） <a target="_blank" rel="noopener" href="https://www.guyuehome.com/11701">https://www.guyuehome.com/11701</a>  </li>
+<li>创建一个简单的服务器和客户端（C++）<a target="_blank" rel="noopener" href="https://www.guyuehome.com/12596">https://www.guyuehome.com/12596</a>  </li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/04/09/dolly跟随机器人研究/" data-toggle="tooltip" data-placement="top" title="dolly跟随机器人研究">&larr; Previous post</a>
+                        </li>
+                    
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ros2,c++,python" title="ros2,c++,python">ros2,c++,python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/04/07/ROS2%E5%9F%BA%E7%A1%80/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
