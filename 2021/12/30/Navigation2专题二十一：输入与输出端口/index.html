@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题二十一：输入与输出端口 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/12/30/Navigation2专题二十一：输入与输出端口/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题二十一：输入与输出端口</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2021-12-30
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>如上一节所述，自定义TreeNode可用于执行任意简单或复杂的软件，它们的目标是提供一个更高抽象级别的接口。因此TreeNode（树节点）在概念上与函数并无差别。</p>
+<p>类似与使用函数，通常我们会有如下诉求：</p>
+<ul>
+<li>将参数传递给节点（inputs）</li>
+<li>从一个节点获取某种信息（outputs）</li>
+<li>一个节点的输出可能是另一个节点的输入</li>
+</ul>
+<p>BehaviorTree.CPP库提供了通过端口传递数据流的基本机制。</p>
+<h1 id="Inputs-ports"><a href="#Inputs-ports" class="headerlink" title="Inputs ports"></a>Inputs ports</h1><p>有效输入可以是以下任意一条：</p>
+<ul>
+<li>可以被节点解析的静态字符串</li>
+<li>指向Blackboard条目的指针，由条目中的key来指定</li>
+</ul>
+<p>blackboard：是树中所有节点共享的key/value存储形式。</p>
+<p>entry（条目）：blackboard中的一个key/value对。</p>
+<p>输入端口能够从blackboard中读取条目，而输出端口则可以写一个条目。</p>
+<p><strong>假设我们想要创建一个动作节点SaySomething，该节点的回调函数中会打印给定的字符串，我们使用名为message的输入端口来传递这个字符串</strong></p>
+<ol>
+<li><p>该节点的XML语法为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;SaySomething name&#x3D;&quot;first&quot;    message&#x3D;&quot;hello world&quot; &#x2F;&gt;</span><br><span class="line">&lt;SaySomething name&#x3D;&quot;second&quot;   message&#x3D;&quot;&#123;greetings&#125;&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>first node中的message表示传递一个静态字符串“hello world”给端口message，该值在运行时不可以改变;</p>
+<p>second node 则表示读取blackboard中名为greetings的条目的当前值，并赋值给message，这个值在运行时可能会改变。</p>
+</li>
+<li><p>动作节点SaySomething的实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; SyncActionNode (synchronous action) with an input port.</span><br><span class="line">class SaySomething : public SyncActionNode</span><br><span class="line">&#123;</span><br><span class="line">  public:</span><br><span class="line">    &#x2F;&#x2F; If your Node has ports, you must use this constructor signature </span><br><span class="line">    SaySomething(const std::string&amp; name, const NodeConfiguration&amp; config)</span><br><span class="line">      : SyncActionNode(name, config)</span><br><span class="line">    &#123; &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; It is mandatory to define this static method.定义端口所必需的静态方法</span><br><span class="line">    static PortsList providedPorts()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; This action has a single input port called &quot;message&quot;</span><br><span class="line">        &#x2F;&#x2F; Any port must have a name. The type is optional.端口名和端口支持的数据类型</span><br><span class="line">        return &#123; InputPort&lt;std::string&gt;(&quot;message&quot;) &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; As usual, you must override the virtual function tick()</span><br><span class="line">    NodeStatus tick() override</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; std::optional为C++17语法，它包装了一个特定类型的对象，并用一个额外的bool标志来表示值是否存在。</span><br><span class="line">        Optional&lt;std::string&gt; msg &#x3D; getInput&lt;std::string&gt;(&quot;message&quot;);</span><br><span class="line">        &#x2F;&#x2F; Check if optional is valid. If not, throw its error</span><br><span class="line">        if (!msg)</span><br><span class="line">        &#123;</span><br><span class="line">            throw BT::RuntimeError(&quot;missing required input [message]: &quot;, </span><br><span class="line">                                   msg.error() );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; use the method value() to extract the valid message.</span><br><span class="line">        std::cout &lt;&lt; &quot;Robot says: &quot; &lt;&lt; msg.value() &lt;&lt; std::endl;</span><br><span class="line">        return NodeStatus::SUCCESS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>用简单函数实现相同功能的节点树，该函数将BT：TreeNode的实例作为输入以访问消息的输入端口，实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Simple function that return a NodeStatus</span><br><span class="line">BT::NodeStatus SaySomethingSimple(BT::TreeNode&amp; self)</span><br><span class="line">&#123;</span><br><span class="line">  Optional&lt;std::string&gt; msg &#x3D; self.getInput&lt;std::string&gt;(&quot;message&quot;);</span><br><span class="line">  &#x2F;&#x2F; Check if optional is valid. If not, throw its error</span><br><span class="line">  if (!msg)</span><br><span class="line">  &#123;</span><br><span class="line">    throw BT::RuntimeError(&quot;missing required input [message]: &quot;, msg.error());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; use the method value() to extract the valid message.</span><br><span class="line">  std::cout &lt;&lt; &quot;Robot says: &quot; &lt;&lt; msg.value() &lt;&lt; std::endl;</span><br><span class="line">  return NodeStatus::SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：当一个自定义的树节点拥有输入/输出端口时，这些端口必须在以下静态方法中声明</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static MyCustomNode::PortsList providedPorts();</span><br></pre></td></tr></table></figure>
+
+<p>使用模板方法TreeNode::getInput<T>(key)便可以从端口message中读取输入值。但是这个方法并不稳定，需要使用者去检测它的返回值的合法性并采取相应的措施：</T></p>
+<ul>
+<li>是否返回了NodeStatus::FAILURE</li>
+<li>是否抛出了异常</li>
+<li>是否使用了一个不同的默认值</li>
+</ul>
+<p><strong>建议在tick()函数中调用getInput()方法，而不要在构造函数中调用。C++不会去假定输入的值是静态或者动态的。动态的输入在运行时会发生变化，需要周期性地去读取。</strong></p>
+</li>
+</ol>
+<h1 id="Output-ports"><a href="#Output-ports" class="headerlink" title="Output ports"></a>Output ports</h1><p><strong>只有当另一个节点已经向blackboard的一个条目中写入了某些内容时，一个指向blackboard同一条目的输入端口才是有效的。</strong></p>
+<p>ThinkWhatToSay是一个利用输出端口向条目中写入字符串的例子，实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class ThinkWhatToSay : public SyncActionNode</span><br><span class="line">&#123;</span><br><span class="line">  public:</span><br><span class="line">    ThinkWhatToSay(const std::string&amp; name, const NodeConfiguration&amp; config)</span><br><span class="line">      : SyncActionNode(name, config)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static PortsList providedPorts()</span><br><span class="line">    &#123;</span><br><span class="line">        return &#123; OutputPort&lt;std::string&gt;(&quot;text&quot;) &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; This Action writes a value into the port &quot;text&quot;</span><br><span class="line">    NodeStatus tick() override</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; the output may change at each tick(). Here we keep it simple.</span><br><span class="line">        setOutput(&quot;text&quot;, &quot;The answer is 42&quot; );</span><br><span class="line">        return NodeStatus::SUCCESS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>或者，大多数情况下，出于调试的目的，可以在XML中使用内置操作SetBlackboard将静态值写入条目中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;SetBlackboard   output_key&#x3D;&quot;the_answer&quot; value&#x3D;&quot;The answer is 42&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="完整的例子"><a href="#完整的例子" class="headerlink" title="完整的例子"></a>完整的例子</h1><p>在此示例中，执行了 5 个操作的序列：</p>
+<ul>
+<li>操作 1 和 4从静态字符串中读取输入message。</li>
+<li>操作 3 和 5从黑板中名为the_answer的条目中读取输入message。</li>
+<li>动作 2 在名为the_answer的黑板条目中写入一些东西。</li>
+</ul>
+<p>SaySomething2也是一个SimpleActionNode，在注册的时候会看到，它的函数体就是SaySomethingSimple，但是注册名变更为了SaySomething2。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;root main_tree_to_execute &#x3D; &quot;MainTree&quot; &gt;</span><br><span class="line">    &lt;BehaviorTree ID&#x3D;&quot;MainTree&quot;&gt;</span><br><span class="line">       &lt;Sequence name&#x3D;&quot;root_sequence&quot;&gt;</span><br><span class="line">           &lt;SaySomething     message&#x3D;&quot;start thinking...&quot; &#x2F;&gt;</span><br><span class="line">           &lt;ThinkWhatToSay   text&#x3D;&quot;&#123;the_answer&#125;&quot;&#x2F;&gt;</span><br><span class="line">           &lt;SaySomething     message&#x3D;&quot;&#123;the_answer&#125;&quot; &#x2F;&gt;</span><br><span class="line">           &lt;SaySomething2    message&#x3D;&quot;SaySomething2 works too...&quot; &#x2F;&gt;</span><br><span class="line">           &lt;SaySomething2    message&#x3D;&quot;&#123;the_answer&#125;&quot; &#x2F;&gt;</span><br><span class="line">       &lt;&#x2F;Sequence&gt;</span><br><span class="line">    &lt;&#x2F;BehaviorTree&gt;</span><br><span class="line">&lt;&#x2F;root&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注册节点的代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;behaviortree_cpp_v3&#x2F;bt_factory.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; file that contains the custom nodes definitions</span><br><span class="line">#include &quot;dummy_nodes.h&quot;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    using namespace DummyNodes;</span><br><span class="line"></span><br><span class="line">    BehaviorTreeFactory factory;</span><br><span class="line"></span><br><span class="line">    factory.registerNodeType&lt;SaySomething&gt;(&quot;SaySomething&quot;);</span><br><span class="line">    factory.registerNodeType&lt;ThinkWhatToSay&gt;(&quot;ThinkWhatToSay&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; SimpleActionNodes can not define their own method providedPorts().</span><br><span class="line">    &#x2F;&#x2F; We should pass a PortsList explicitly if we want the Action to </span><br><span class="line">    &#x2F;&#x2F; be able to use getInput() or setOutput();</span><br><span class="line">    PortsList say_something_ports &#x3D; &#123; InputPort&lt;std::string&gt;(&quot;message&quot;) &#125;;</span><br><span class="line">    factory.registerSimpleAction(&quot;SaySomething2&quot;, SaySomethingSimple, </span><br><span class="line">                                 say_something_ports );</span><br><span class="line"></span><br><span class="line">    auto tree &#x3D; factory.createTreeFromFile(&quot;.&#x2F;my_tree.xml&quot;);</span><br><span class="line"></span><br><span class="line">    tree.tickRoot();</span><br><span class="line"></span><br><span class="line">    &#x2F;*  Expected output:</span><br><span class="line"></span><br><span class="line">        Robot says: start thinking...</span><br><span class="line">        Robot says: The answer is 42</span><br><span class="line">        Robot says: SaySomething2 works too...</span><br><span class="line">        Robot says: The answer is 42</span><br><span class="line">    *&#x2F;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处，我们利用相同的key（the_answer）将输出端口与输入端口连接起来，即他们指向blackboard的同一个条目；这些端口可以互连也是因为他们的类型相同，都是std::string。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/12/29/Navigation2专题二十：创建行为树/" data-toggle="tooltip" data-placement="top" title="Navigation2专题二十：创建行为树">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2021 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2021/12/30/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%B8%80%EF%BC%9A%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E7%AB%AF%E5%8F%A3/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
