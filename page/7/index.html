@@ -18,7 +18,7 @@
         
     </title>
 
-    <link rel="canonical" href="https://figoowen2003.github.io/page/2/">
+    <link rel="canonical" href="https://figoowen2003.github.io/page/7/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -318,9 +318,9 @@
 
 
 <div class="w3-row-padding">
-	<a href="/2021/12/27/Navigation2专题十四：行为树中的基本概念/">
+	<a href="/2021/04/07/ROS2基础/">
         <h2 class="post-title">
-            Navigation2专题十四：行为树中的基本概念
+            ROS2基础
         </h2>
         <h3 class="post-subtitle">
             
@@ -329,324 +329,18 @@
 
 <div>
 
-    <a href="/2021/12/27/Navigation2专题十四：行为树中的基本概念/">
+    <a href="/2021/04/07/ROS2基础/">
 
         <div class="post-content-preview">
-            
-BehaviorTree.CPP：是一个C++库，可以集成到分布式的middleware中，比如ROS或者SmartSoft。
-
-Node vs Tree
-用户需要创建自定义功能的动作节点和状态节点（ActionNode、ConditionNodes），这些节点都是叶子节点。BehaviorTree.CPP库会帮助用户将自定义叶子节点组合到树中。
-自定义节点应该是高度可重用的。
-
-t.........
+            概念ROS是一个用于在不同进程间匿名的发布、订阅、传递信息的中间件。 ROS2系统的核心部分是ROS网络(ROS Graph)。ROS网络是指在ROS系统中不同的节点间相互通信的连接关系。 ROS Graph这里翻译成了ROS网络，因为我觉得Graph更加抽象，而网络的概念更容易帮助理解其内涵。
+ROS网络(ROS Graph)概念简介
+​    节点(Nodes)： 一个节点是一个利.........
         </div>
     </a>
     
         <p class="post-meta">
             Posted by Mu Wenfeng on
-            2021-12-27
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/12/27/Navigation2专题十三：Behavior-Trees简介/">
-        <h2 class="post-title">
-            Navigation2专题十三：Behavior Trees简介
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/12/27/Navigation2专题十三：Behavior-Trees简介/">
-
-        <div class="post-content-preview">
-            概念Behavior Tree：行为树，它是一种分层的节点树，用于控制决策流和“任务”的执行，我们也可以将“任务”进一步理解为“动作”。
-leaves：树的叶子节点是实际的命令，即我们的协调组件与系统其余部分交互的地方。
-​                举个例子，在一个面向服务的架构中，叶子节点包含了“客户端”代码，通过该代码与执行操作                的“服务器”通信.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-12-27
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/12/13/Navigation2专题十二：编写一个新的恢复器插件/">
-        <h2 class="post-title">
-            Navigation2专题十二：编写一个新的恢复器插件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/12/13/Navigation2专题十二：编写一个新的恢复器插件/">
-
-        <div class="post-content-preview">
-            概述恢复器插件（Recovery Plugin）位于恢复器服务器中，不同于规划器与控制器，每个恢复器都会持有自己独特的动作服务器。规划器和控制器在完成相同的任务时会使用相同的API。而由于恢复器可以执行多种任务，故每个恢复器都可以有自己独特的action消息定义及对应的动作服务器。这为恢复服务器的运行提供了巨大的灵活性。
-要求要求在本地机器上已经安装或构建好了以下软件包：
-● ROS .........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-12-13
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/12/06/Navigation2专题十一：编写一个新的行为树插件/">
-        <h2 class="post-title">
-            Navigation2专题十一：编写一个新的行为树插件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/12/06/Navigation2专题十一：编写一个新的行为树插件/">
-
-        <div class="post-content-preview">
-            行为树插件（Behaviour Tree Plugin）会被用作行为树XML文件中的节点来使用，BT Navigator来处理这个XML文件用于提供导航逻辑。
-要求在本地机器上已经安装或构建了以下软件包：
-● ROS 2（二进制安装或从源代码构建）
-● Nav2（包括依赖包）
-● Gazebo
-● Turtlebot3
-步骤1. 创建一个新的BT插件本教程中将以nav2_behavio.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-12-06
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/12/01/Navigation2专题十：编写一个新的规划器插件/">
-        <h2 class="post-title">
-            Navigation2专题十：编写一个新的规划器插件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/12/01/Navigation2专题十：编写一个新的规划器插件/">
-
-        <div class="post-content-preview">
-            概述如何自定义一个新的规划器插件。
-要求在本地机器上已经安装或者构建好了以下功能包：
-
-ROS2：这里使用galactic版本，可以apt install，也可以本地编译
-Nav2及其依赖包
-Gazebo
-Turtlebot3：可以直接安装或者源码编译
-
-实现步骤1. 创建一个新的规划器插件我们将创建一个简单的直线规划器。教程中的代码也是来自navigation_tutorials 仓.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-12-01
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/11/30/Navigation2专题九：编写一个新的Costmap2D插件/">
-        <h2 class="post-title">
-            Navigation2专题九：编写一个新的Costmap2D插件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/11/30/Navigation2专题九：编写一个新的Costmap2D插件/">
-
-        <div class="post-content-preview">
-            前置条件已经安装或编译了ROS2，Gazebo以及Turtlebot3三个功能包。确定Navigation2也在本地进行了编译，可以参考https://navigation.ros.org/build_instructions/index.html#build-instructions。
-步骤1. 编写Costmap2D插件作为演示，我们将创建一个costmap插件，这个插件会将重复的.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-11-30
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/11/29/OpenSSF专题之序：OpenSSF/">
-        <h2 class="post-title">
-            OpenSSF专题之序：OpenSSF
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/11/29/OpenSSF专题之序：OpenSSF/">
-
-        <div class="post-content-preview">
-            开源安全基金会Open Source Security Foundation - OpenSSF共同守护开源生态系统
-开源软件已经在数据中心、消费设备和服务中日益普及，它的价值愈发体现在技术人员和企业中。由于其开发过程的影响，最终到达端侧用户的 开源软件会具有一系列贡献者和依赖项。对用软件用户或者组织的安全性而言，理解并确认依赖链的安全非常重要。
-技术举措漏洞披露vulnerabili.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-11-29
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/11/29/OpenSSF专题之四：criticality-score/">
-        <h2 class="post-title">
-            OpenSSF专题之四：criticality_score
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/11/29/OpenSSF专题之四：criticality-score/">
-
-        <div class="post-content-preview">
-            简介
-Open Source Project Criticality Score(Beta)
-该项目目前由Securing Critical Projects WG组织来维护https://github.com/ossf/wg-securing-critical-projects
-该组织成立的动机：大大小小的开源项目都面临着资源分配的问题，包括所需的时间、资源和注意力。需要一个将关键项.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-11-29
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/11/27/OpenSSF专题之三：allstar/">
-        <h2 class="post-title">
-            OpenSSF专题之三：allstar
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/11/27/OpenSSF专题之三：allstar/">
-
-        <div class="post-content-preview">
-            概念Allstar是一个安装在组织（organization）或者仓库（repositories）上的Github App。它的目的是能够持续监控和检测任何有风险或者不符合安全最佳实践的Github设置或者仓库文件。
-如果Allstar发现仓库不合规，它将采取诸如创建issue或者恢复安全设置的措施。
-
-Allstar的具体策略是高度可配置的，以满足不同项目社区和组织的需求
-指定和贡献.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-11-27
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/11/26/OpenSSF专题之二：package-anlysis/">
-        <h2 class="post-title">
-            OpenSSF专题之二：package-anlysis
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/11/26/OpenSSF专题之二：package-anlysis/">
-
-        <div class="post-content-preview">
-            简介这个repo包含了一些组件来帮助分析开源包，尤其是寻找恶意软件。此代码旨在同Package Feeds项目一起使用，并且也是源自feeds项目。package feeds项目用于监控不同包仓库的变化，并发布数据到外部服务以便进一步处理。google_cloud_run_service
-本repo的组件包括
-
-一个调度器（scheduler）：基于来自package feeds的新的.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-11-26
+            2021-04-07
         </p>
     
 
@@ -661,13 +355,9 @@ Allstar的具体策略是高度可配置的，以满足不同项目社区和组�
 <ul class="pager">
     
         <li class="previous">
-            <a href="/">&larr; Newer Posts</a>
+            <a href="/page/6/">&larr; Newer Posts</a>
         </li>
     
-    
-        <li class="next">
-            <a href="/page/3/">Older Posts &rarr;</a>
-        </li>
     
 </ul>
 
@@ -1030,7 +720,7 @@ Allstar的具体策略是高度可配置的，以满足不同项目社区和组�
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://figoowen2003.github.io/page/2/index.html/js/jquery.tagcloud.js",function(){
+        async("https://figoowen2003.github.io/page/7/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
