@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          ROS2中的launch系统 - null
+          Navigation2专题二十五：端口重映射 - null
         
     </title>
 
-    <link rel="canonical" href="https://figoowen2003.github.io/2021/05/20/ROS2中的launch体系/">
+    <link rel="canonical" href="https://figoowen2003.github.io/2021/12/31/Navigation2专题二十五：端口重映射/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -131,14 +131,12 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#ROS2，launch，python" title="ROS2，launch，python">ROS2，launch，python</a>
-                            
                         </div>
-                        <h1>ROS2中的launch系统</h1>
+                        <h1>Navigation2专题二十五：端口重映射</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Mu Wenfeng on
-                            2021-05-20
+                            2021-12-31
                         </span>
                     </div>
                 
@@ -274,40 +272,25 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>ROS2中launch系统的职责是帮助用户描述他们的系统配置（这里可以理解为ros中的package），并且按照配置去执行该系统。</p>
-<p>系统配置主要包括以下几点：</p>
+                <p>端口重映射是指在一棵树与子树之间的端口重映射。在上一小节例子中，一棵子树从它父节点的角度来看，就如同一个单一的叶子节点一般。</p>
+<p>在一棵庞大的行为树中，为了避免名称冲突，任一颗树与其子树都需要使用Blackboard的不同实例，因此我们需要显示的将一棵树的端口与它子树的端口连接起来。</p>
+<p>这就要用到端口的重映射技术，它只需在XML中进行定义就可以实现。</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>考察下面的行为树</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;root main_tree_to_execute &#x3D; &quot;MainTree&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;BehaviorTree ID&#x3D;&quot;MainTree&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Sequence name&#x3D;&quot;main_sequence&quot;&gt;</span><br><span class="line">            &lt;SetBlackboard output_key&#x3D;&quot;move_goal&quot; value&#x3D;&quot;1;2;3&quot; &#x2F;&gt;</span><br><span class="line">            &lt;SubTree ID&#x3D;&quot;MoveRobot&quot; target&#x3D;&quot;move_goal&quot; output&#x3D;&quot;move_result&quot; &#x2F;&gt;</span><br><span class="line">            &lt;SaySomething message&#x3D;&quot;&#123;move_result&#125;&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;Sequence&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;BehaviorTree&gt;</span><br><span class="line"></span><br><span class="line">    &lt;BehaviorTree ID&#x3D;&quot;MoveRobot&quot;&gt;</span><br><span class="line">        &lt;Fallback name&#x3D;&quot;move_robot_main&quot;&gt;</span><br><span class="line">            &lt;SequenceStar&gt;</span><br><span class="line">                &lt;MoveBase       goal&#x3D;&quot;&#123;target&#125;&quot;&#x2F;&gt;</span><br><span class="line">                &lt;SetBlackboard output_key&#x3D;&quot;output&quot; value&#x3D;&quot;mission accomplished&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;SequenceStar&gt;</span><br><span class="line">            &lt;ForceFailure&gt;</span><br><span class="line">                &lt;SetBlackboard output_key&#x3D;&quot;output&quot; value&#x3D;&quot;mission failed&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;ForceFailure&gt;</span><br><span class="line">        &lt;&#x2F;Fallback&gt;</span><br><span class="line">    &lt;&#x2F;BehaviorTree&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;root&gt;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>要运行什么程序</li>
-<li>在哪里运行这些程序</li>
-<li>在程序之间应该传递什么样的参数</li>
-<li>ros的特殊约定，这些约定通过赋予系统中每个组件不同的配置，使得在整个系统中复用组件变得容易起来</li>
+<li>主树MainTree包含一个子树MoveRobot。</li>
+<li>我们希望将MoveRobot中端口与MainTree的其他端口连接（映射）起来。</li>
 </ul>
-<p>launch还负责监视进程启动的状态，对这些进程状态的变化进行报告或做出反应。</p>
-<h2 id="launch文件中的关键词"><a href="#launch文件中的关键词" class="headerlink" title="launch文件中的关键词"></a>launch文件中的关键词</h2><ul>
-<li><p>action：翻译为动作。执行一个进程，或者包含另外一个launch description等动作都属于action，它用于表达用户的意图。action可以产生直接的作用（例如运行进程或设置变量），同时它也可以产生其他的action。动作是可以带参数的，参数能够影响action的行为，这些参数位于‘launch.Substitution’类被使用的地方。</p>
-</li>
-<li><p>Launch Entity：翻译为启动实体，launch系统中最主要的对象就是‘launch.LaunchDescriptionEntity’这个类，其他的启动实体都从这个实体中继承。这个类或者从这个类派生的子类负责捕获系统架构者有关如何启动这个系统的意图，以及启动本身如何应对启动期间的异步事件（不太明白）。</p>
-<p>当实体被访问时，这些实体可能会产生其他需要被访问的实体，可以从‘root’实体开始使用这个模式，此时launch系统提供了名为‘Launch.LaunchDescription’的类来开始这个启动的过程 。</p>
-</li>
-<li><p>Base Action：‘launch.Action’是所有action的基类，它提供了Launch系统中一些公共的接口。base action是一个启动描述（文件）中的第一个类元素，它也继承了‘launch.LaunchDescriptionEntity’。action可以和条件结合起来，如‘launch.IfCondition’类，‘launch.UnlessCondition’类，以此来决定这个action是否执行。action也可以传递参数。</p>
-</li>
-<li><p>Substitution：它有点类似与C++中的模板参数，在launch文件被执行之前，我们都无法得知它究竟表示的是什么。目前已经存在很多substitution的变体，它们都继承自‘launch.Substitution’这个类。</p>
-</li>
-<li><p>The Launch Service：启动服务负责处理已发送的事件，将它们分发给事件处理程序（句柄），并根据需要执行action。Launch service提供了三种主要服务：</p>
+<p>下图显示的两颗树之间的重映射关系</p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%BA%94%EF%BC%9A%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84/t06_remapping.png" alt="ports remapping"></p>
 <ul>
-<li>包含一个launch description供任何线程调用</li>
-<li>运行事件循环</li>
-<li>关闭：取消任何正在运行的action和事件程序；终止正在运行的事件循环；能被任何线程调用</li>
+<li>MainTree端口move_goal被映射为MoveRobot的target</li>
+<li>MainTree端口move_result被映射为MoveRobot的output</li>
 </ul>
-</li>
-<li><p>Event Handlers：事件处理程序（句柄），它由名为‘launch.EventHandler’的基类来表示。它定义了两种主要的方法：</p>
-<ul>
-<li>‘launch.EventHandler.matches’：将事件作为输入，如果事件句柄和事件匹配返回true，反之false</li>
-<li>‘launch.EventHandler.handle’：将事件和launch上下文作为输入，可以选择返回一个被launch service访问的‘launch.LaunchDescriptionEntity’对象的列表。</li>
-</ul>
-<p>它并不是继承自‘launch.LaunchDescriptionEntity’，但是能够被launch service所访问。</p>
-</li>
-</ul>
+<p>处于调试的目的，我们也可以使用debugMessage()方法来显示一个Blackboard的当前状态信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    BT::BehaviorTreeFactory factory;</span><br><span class="line"></span><br><span class="line">    factory.registerNodeType&lt;SaySomething&gt;(&quot;SaySomething&quot;);</span><br><span class="line">    factory.registerNodeType&lt;MoveBaseAction&gt;(&quot;MoveBase&quot;);</span><br><span class="line"></span><br><span class="line">    auto tree &#x3D; factory.createTreeFromText(xml_text);</span><br><span class="line"></span><br><span class="line">    NodeStatus status &#x3D; NodeStatus::RUNNING;</span><br><span class="line">    &#x2F;&#x2F; Keep on ticking until you get either a SUCCESS or FAILURE state</span><br><span class="line">    while( status &#x3D;&#x3D; NodeStatus::RUNNING)</span><br><span class="line">    &#123;</span><br><span class="line">        status &#x3D; tree.tickRoot();</span><br><span class="line">        SleepMS(1);   &#x2F;&#x2F; optional sleep to avoid &quot;busy loops&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; let&#39;s visualize some information about the current state of the blackboards.</span><br><span class="line">    std::cout &lt;&lt; &quot;--------------&quot; &lt;&lt; std::endl;</span><br><span class="line">    tree.blackboard_stack[0]-&gt;debugMessage();</span><br><span class="line">    std::cout &lt;&lt; &quot;--------------&quot; &lt;&lt; std::endl;</span><br><span class="line">    tree.blackboard_stack[1]-&gt;debugMessage();</span><br><span class="line">    std::cout &lt;&lt; &quot;--------------&quot; &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;* Expected output:</span><br><span class="line"></span><br><span class="line">    [ MoveBase: STARTED ]. goal: x&#x3D;1 y&#x3D;2.0 theta&#x3D;3.00</span><br><span class="line">    [ MoveBase: FINISHED ]</span><br><span class="line">    Robot says: mission accomplished</span><br><span class="line">    --------------</span><br><span class="line">    move_result (std::string) -&gt; full</span><br><span class="line">    move_goal (Pose2D) -&gt; full</span><br><span class="line">    --------------</span><br><span class="line">    output (std::string) -&gt; remapped to parent [move_result]</span><br><span class="line">    target (Pose2D) -&gt; remapped to parent [move_goal]</span><br><span class="line">    --------------</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+
 
                 
 
@@ -315,13 +298,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/06/16/programming language white paper/" data-toggle="tooltip" data-placement="top" title="programming language white paper">&larr; Previous post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2021/05/19/与ROS相关的一些工具/" data-toggle="tooltip" data-placement="top" title="与ROS相关的一些工具">Next post &rarr;</a>
+                            <a href="/2021/12/31/Navigation2专题二十四：子树与日志/" data-toggle="tooltip" data-placement="top" title="Navigation2专题二十四：子树与日志">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -371,8 +350,6 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#ROS2，launch，python" title="ROS2，launch，python">ROS2，launch，python</a>
-                        
                     </div>
                 </section>
                 
@@ -546,7 +523,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://figoowen2003.github.io/2021/05/20/ROS2%E4%B8%AD%E7%9A%84launch%E4%BD%93%E7%B3%BB/index.html/js/jquery.tagcloud.js",function(){
+        async("https://figoowen2003.github.io/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%BA%94%EF%BC%9A%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

@@ -318,9 +318,9 @@
 
 
 <div class="w3-row-padding">
-	<a href="/2021/06/16/programming language white paper/">
+	<a href="/2021/06/28/URDF集成到Gazebo/">
         <h2 class="post-title">
-            programming language white paper
+            URDF集成到Gazebo
         </h2>
         <h3 class="post-subtitle">
             
@@ -329,17 +329,25 @@
 
 <div>
 
-    <a href="/2021/06/16/programming language white paper/">
+    <a href="/2021/06/28/URDF集成到Gazebo/">
 
         <div class="post-content-preview">
-            现代编程语言及其发展现状什么是现代编程语言“现代编程语言”该怎么理解？许多人认为Python、JavaScript等语言是现代编程语言，而Java是一种古老的编程语言。实际上，它们都是在同一时间出现的:1995年。
-大多数主流编程语言都是在上个世纪发展起来的，主要是在20世纪70年代(如C)、80年代(如C++)、90年代(如Java、Python、JavaScript)。这些语言并不.........
+            在Gazebo中显示urdfurdf语法简介urdf文件是一个标准的xml文件，其中预定义了一系列的标签用于描述机器人模型，主要标签包括：
+
+robot根标签
+link连杆标签
+joint关节标签
+gazebo标签，用于集成gazebo中的插件，在使用gazebo仿真时会用到，用于配置仿真环境所需要的参数
+
+robot标签
+属性name用于指定机器人模型的名字，可以是任意字符串
+展开r.........
         </div>
     </a>
     
         <p class="post-meta">
             Posted by Mu Wenfeng on
-            2021-06-16
+            2021-06-28
         </p>
     
 
@@ -365,6 +373,37 @@
         <div class="post-content-preview">
             现代语言的现状什么是现代编程语言术语“现代编程语言”有歧义。许多人认为Python、JavaScript等语言是现代编程语言。同时，他们认为Java是一种古老的编程语言。实际上，它们都是在同一时间出现的:1995年。
 大多数主流编程语言都是在上个世纪发展起来的，主要是在20世纪70年代(如C)、80年代(如c++)、90年代(如Java、Python、JavaScript)。这些语言并.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by Mu Wenfeng on
+            2021-06-16
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/06/16/programming language white paper/">
+        <h2 class="post-title">
+            programming language white paper
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/06/16/programming language white paper/">
+
+        <div class="post-content-preview">
+            现代编程语言及其发展现状什么是现代编程语言“现代编程语言”该怎么理解？许多人认为Python、JavaScript等语言是现代编程语言，而Java是一种古老的编程语言。实际上，它们都是在同一时间出现的:1995年。
+大多数主流编程语言都是在上个世纪发展起来的，主要是在20世纪70年代(如C)、80年代(如C++)、90年代(如Java、Python、JavaScript)。这些语言并不.........
         </div>
     </a>
     
@@ -649,59 +688,6 @@ mkdir -p ~/.gazebo/model/my_robot
 <hr>
 
 
-<div class="w3-row-padding">
-	<a href="/2021/04/09/dolly跟随机器人研究/">
-        <h2 class="post-title">
-            dolly跟随机器人研究
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/04/09/dolly跟随机器人研究/">
-
-        <div class="post-content-preview">
-            Dolly, the robot​    dolly是一个跟随机器人，dolly的demo由ros2和Gazebo（Ignition）组合实现
-Dolly的版本
-
-
-Branch
-ROS
-Gazebo-classic
-Ignition
-OS
-
-
-
-crystal
-Crystal
-Gazebo 9
-
-Ubuntu Bionic
-
-
-dashing
-Dashing
-Gazebo 9
-
-Ub.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-04-09
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
 
 <!-- Pager -->
 
@@ -912,6 +898,10 @@ Ub.........
     <ul>
       
         <li>
+          <a href="/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%BA%94%EF%BC%9A%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84/">Navigation2专题二十五：端口重映射</a>
+        </li>
+      
+        <li>
           <a href="/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E5%9B%9B%EF%BC%9A%E5%AD%90%E6%A0%91%E4%B8%8E%E6%97%A5%E5%BF%97/">Navigation2专题二十四：子树与日志</a>
         </li>
       
@@ -927,10 +917,6 @@ Ub.........
           <a href="/2021/12/30/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%B8%80%EF%BC%9A%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E7%AB%AF%E5%8F%A3/">Navigation2专题二十一：输入与输出端口</a>
         </li>
       
-        <li>
-          <a href="/2021/12/29/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%EF%BC%9A%E5%88%9B%E5%BB%BA%E8%A1%8C%E4%B8%BA%E6%A0%91/">Navigation2专题二十：创建行为树</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -939,7 +925,7 @@ Ub.........
         
     <h5>Achives</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
     </div>
 
         <hr>
