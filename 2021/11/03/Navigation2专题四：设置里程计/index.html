@@ -274,34 +274,36 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="里程计简介"><a href="#里程计简介" class="headerlink" title="里程计简介"></a>里程计简介</h1><p>里程计系统是基于机器人的运动来对机器人的姿态和速度进行局部的精确估计。里程计信息的来源可以是IMU，LIDAR，RADAR，VIO以及车轮编码器等。需要注意的是，IMU会随时间发生漂移，而车轮编码器则是随着行进距离发生漂移，因此往往将它们一起使用来抵消彼此的负面特性。</p>
+                <h1 id="里程计简介"><a href="#里程计简介" class="headerlink" title="里程计简介"></a>里程计简介</h1><p>里程计系统基于机器人的运动来对机器人的姿态和速度进行局部的精确估计。里程计信息的来源包括IMU，LIDAR，RADAR，VIO以及车轮编码器等。需要注意的是，IMU的数据会随时间发生漂移，而车轮编码器的数据则是随着行进距离发生漂移，因此往往将它们一起使用来抵消彼此的负面特性。</p>
 <ul>
-<li><p>odom坐标系及其相关的变换使用机器人的里程计系统来发布定位信息，这个信息虽然连续但是会随着时间或距离（取决于传感器的模式和漂移）变得不太准确。即便如此，机器人仍然可以使用该信息来检测周边的人/物（如避障）</p>
+<li><p>odom坐标系以及与之相关的坐标变换系统使用机器人的里程计系统来发布定位信息，定位信息连续但会随着时间或距离（取决于传感器的模式和漂移）变得不太准确。即便如此，机器人仍然可以使用该信息来检测周边的人/物（如避障）</p>
 </li>
-<li><p>map坐标系提供了全局的精确信息来纠正odom坐标系，以获得持续的精确的随时间变化的里程计信息。</p>
+<li><p>map坐标系提供了全局的精确信息来纠正odom坐标系，以获得持续而精确的随时间变化的里程计信息。</p>
 </li>
-<li><p>odom坐标系通过odom=&gt;base_link的变换来连接到机器人系统的其他部分和Nav2。这个坐标变换既可以由tf2 broadcaster来发布，也可以由其他框架如robot_localization来发布。</p>
+<li><p>odom坐标系通过odom=&gt;base_link的坐标变换连接到机器人系统的其他部分，变换后的结果才能够被Nav2所使用。这个坐标变换既可以由tf2 broadcaster来发布，也可以由其他框架如robot_localization来发布。</p>
 </li>
-<li><p>除了需要odom=&gt;base_link的变换外，Nav2还需要使用（其他节点）发布的nav_msgs/Odometry消息，因为这个消息中包含了机器人的速度信息，它的具体格式如下</p>
+<li><p>除了需要odom=&gt;base_link的变换外，Nav2还需要使用（其他节点）发布的nav_msgs/Odometry消息，因为这个消息提供了机器人的速度信息，它的具体格式如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># This represents estimates of position and velocity in free space.</span><br><span class="line"># The pose in this message should be specified in the coordinate frame given by header.frame_id</span><br><span class="line"># The twist in this message should be specified in the coordinate frame given by the child_frame_id</span><br><span class="line"></span><br><span class="line"># Includes the frame id of the pose parent.</span><br><span class="line">std_msgs&#x2F;Header header</span><br><span class="line"></span><br><span class="line"># Frame id the pose is pointing at. The twist is in this coordinate frame.</span><br><span class="line">string child_frame_id</span><br><span class="line"></span><br><span class="line"># Estimated pose that is typically relative to a fixed world frame.</span><br><span class="line">geometry_msgs&#x2F;PoseWithCovariance pose</span><br><span class="line"></span><br><span class="line"># Estimated linear and angular velocity relative to child_frame_id.</span><br><span class="line">geometry_msgs&#x2F;TwistWithCovariance twist</span><br></pre></td></tr></table></figure>
 
-<p>这个消息提供了机器人位姿和速度的估计值，其中header消息提供了在给定的坐标系中带时间戳的数据，pose消息提供了机器人相对于指定坐标系（由header.frame_id指定）的位置和方向。twist消息给出了指定坐标系（child_frame_id指定）中的角速度和线速度。</p>
-</li>
+<p>这个消息提供了机器人位姿和速度的估计值，其中header消息提供了时间戳与父坐标系的id，pose消息提供了机器人相对于指定坐标系（由header.frame_id指定的父坐标系）的位置和方向。twist消息给出了指定坐标系（child_frame_id指定）中的角速度和线速度。</p>
+<p>以下是Header的定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Standard metadata for higher-level stamped data types.</span><br><span class="line"></span><br><span class="line"># This is generally used to communicate timestamped data</span><br><span class="line"></span><br><span class="line"># in a particular coordinate frame.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Two-integer timestamp that is expressed as seconds and nanoseconds.</span><br><span class="line"></span><br><span class="line">builtin_interfaces&#x2F;Time stamp</span><br><span class="line"></span><br><span class="line"># Transform frame with which this data is associated.</span><br><span class="line"># 用于表示和此数据关联的帧，在坐标系变化中可以理解为数据所在的坐标系名称</span><br><span class="line">string frame_id</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h1 id="设置机器人的里程计"><a href="#设置机器人的里程计" class="headerlink" title="设置机器人的里程计"></a>设置机器人的里程计</h1><p>机器人可以使用哪些里程计传感器决定了如何为它设置Nav的里程计系统。这里将使用一些基础的例子来帮助你配置机器人的Nav2。</p>
+<h1 id="设置机器人的里程计"><a href="#设置机器人的里程计" class="headerlink" title="设置机器人的里程计"></a>设置机器人的里程计</h1><p>我们应当根据机器人实体使用的里程计传感器类型来决定如何为它设置Nav2的里程计系统。这里将使用一些基础的例子来帮助你配置机器人的Nav2。</p>
 <p>以车轮编码器作为机器人的里程计来源。</p>
 <ul>
-<li><p>Nav2本身不需要车轮编码器。设置里程计的目的是计算里程计信息、发布nav_msgs/Odometry消息和odom=&gt;base_link的转换。</p>
+<li><p>Nav2本身不需要车轮编码器。设置里程计是为了计算里程计信息、发布nav_msgs/Odometry消息和执行odom=&gt;base_link的转换。</p>
 </li>
-<li><p>车轮编码器信息到里程计信息的公式如下：</p>
+<li><p>通过TF2来发布nav_msgs/Odometry的消息</p>
+<p>车轮编码器信息到里程计信息的公式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linear &#x3D; (right_wheel_est_vel + left_wheel_est_vel) &#x2F; 2</span><br><span class="line">angular &#x3D; (right_wheel_est_vel - left_wheel_est_vel) &#x2F; wheel_separation;</span><br></pre></td></tr></table></figure>
 
-<p>right_wheel_est_vel和left_wheel_est_vel分别是左右轮的估计速度，它们能通过获取车轮中轴随时间变化的位置关系来简单的获得。wheel_separation是车轮之间的距离。这些信息都被用于发布Nav2需要的消息，详情参考<a target="_blank" rel="noopener" href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom/%E3%80%82">http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom/。</a></p>
+<p>right_wheel_est_vel和left_wheel_est_vel分别是左右轮的估计速度，它们能通过获取车轮中轴随时间变化的位置关系来简单的获得。wheel_separation是车轮之间的距离。这些信息都被用于发布Nav2需要的消息，发布的方式详情参考<a target="_blank" rel="noopener" href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom/%E3%80%82">http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom/。</a></p>
 </li>
-<li><p>通过ros2_control框架来手动发布这些消息。ros2_control矿建包含了可以实时控制机器人的不同ROS2功能包。</p>
+<li><p>另一种方式则是通过ros2_control框架来手动发布这些消息。ros2_control框架包含了用于实时操控机器人的不同ROS2功能包。</p>
 <ul>
-<li>对于车轮编码器，提供了diff_drive_controller（位于ros2_controller功能包中），它订阅了cmd_vel话题，提取其中的geometry_msgs/Twist消息，计算出里程计信息并以odom话题为载体发布nav_msgs/Odometry消息。</li>
-<li>其他的功能包则会去处理其他类型的传感器。</li>
+<li>对于车轮编码器，该框架提供了diff_drive_controller节点（差速驱动控制，位于ros2_controller功能包中）去订阅了cmd_vel话题，提取其中的geometry_msgs/Twist消息，计算出里程计信息并以odom话题为载体发布nav_msgs/Odometry消息。</li>
+<li>ros2_control中还包含与其他传感器匹配的功能包。</li>
 </ul>
 </li>
 <li><p>始终记住，Nav2需要nav_msgs/Odometry和odom=&gt;base_link变换，这就是设置里程计系统的目的。</p>
@@ -310,18 +312,18 @@
 <h1 id="使用Gazebo仿真一个Odometry系统"><a href="#使用Gazebo仿真一个Odometry系统" class="headerlink" title="使用Gazebo仿真一个Odometry系统"></a>使用Gazebo仿真一个Odometry系统</h1><ol>
 <li><p>前置条件，假设Gazebo已经安装</p>
 <ul>
-<li><p>安装gazebo_ros_pkgs来模拟里程计，并在Gazebo中用ROS2来控制机器人</p>
+<li><p>需要安装gazebo_ros_pkgs来模拟里程计，并在Gazebo中用ROS2来控制机器人</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ros-&lt;ros2-distro&gt;-gazebo-ros-pkgs</span><br></pre></td></tr></table></figure></li>
 <li><p>修改sam_bot的URDF文件，原因是Gazebo使用SDF文件来描述一个机器人。幸运的是，Gazebo能够自动将特定格式的URDF文件转换为SDF文件。URDF文件能够兼容Gazebo的主要条件就是每一对<link>元素下都必须有<inertia>元素。在专题二中编写的URDF文件刚好满足了这个条件。</inertia></p>
 </li>
 </ul>
 </li>
 <li><p>在URDF文件中添加Gazebo控件</p>
-<p>将添加一个IMU传感器</p>
+<p>添加一个IMU传感器模型插件</p>
 <ul>
-<li><p>GazeboRosImuSensor是一个传感器控件，它需要被添加到一个imu_link上。</p>
+<li><p>创建一个imu_link，imu_link将被<gazebo>元素所引用。</gazebo></p>
 </li>
-<li><p>imu_link将被<gazebo>元素所引用。</gazebo></p>
+<li><p>在该link的标签内添加IMU传感器插件。GazeboRosImuSensor是由Gazebo提供的传感器控件。</p>
 </li>
 <li><p>/demo/imu将被作为发布IMU信息的话题，同时根据REP145的约定，initalOrientationAsReference这个变量需要被设置为false</p>
 </li>
@@ -330,27 +332,27 @@
 <li><p>具体操作为，将下面的内容添加到行的前面</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">&lt;link name&#x3D;&quot;imu_link&quot;&gt;</span><br><span class="line">  &lt;visual&gt;</span><br><span class="line">    &lt;geometry&gt;</span><br><span class="line">      &lt;box size&#x3D;&quot;0.1 0.1 0.1&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;geometry&gt;</span><br><span class="line">  &lt;&#x2F;visual&gt;</span><br><span class="line"></span><br><span class="line">  &lt;collision&gt;</span><br><span class="line">    &lt;geometry&gt;</span><br><span class="line">      &lt;box size&#x3D;&quot;0.1 0.1 0.1&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;geometry&gt;</span><br><span class="line">  &lt;&#x2F;collision&gt;</span><br><span class="line"></span><br><span class="line">  &lt;xacro:box_inertia m&#x3D;&quot;0.1&quot; w&#x3D;&quot;0.1&quot; d&#x3D;&quot;0.1&quot; h&#x3D;&quot;0.1&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;link&gt;</span><br><span class="line"></span><br><span class="line">&lt;joint name&#x3D;&quot;imu_joint&quot; type&#x3D;&quot;fixed&quot;&gt;</span><br><span class="line">  &lt;parent link&#x3D;&quot;base_link&quot;&#x2F;&gt;</span><br><span class="line">  &lt;child link&#x3D;&quot;imu_link&quot;&#x2F;&gt;</span><br><span class="line">  &lt;origin xyz&#x3D;&quot;0 0 0.01&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;joint&gt;</span><br><span class="line"></span><br><span class="line"> &lt;gazebo reference&#x3D;&quot;imu_link&quot;&gt;</span><br><span class="line">  &lt;sensor name&#x3D;&quot;imu_sensor&quot; type&#x3D;&quot;imu&quot;&gt;</span><br><span class="line">   &lt;plugin filename&#x3D;&quot;libgazebo_ros_imu_sensor.so&quot; name&#x3D;&quot;imu_plugin&quot;&gt;</span><br><span class="line">      &lt;ros&gt;</span><br><span class="line">        &lt;namespace&gt;&#x2F;demo&lt;&#x2F;namespace&gt;</span><br><span class="line">        &lt;remapping&gt;~&#x2F;out:&#x3D;imu&lt;&#x2F;remapping&gt;</span><br><span class="line">      &lt;&#x2F;ros&gt;</span><br><span class="line">      &lt;initial_orientation_as_reference&gt;false&lt;&#x2F;initial_orientation_as_reference&gt;</span><br><span class="line">    &lt;&#x2F;plugin&gt;</span><br><span class="line">    &lt;always_on&gt;true&lt;&#x2F;always_on&gt;</span><br><span class="line">    &lt;update_rate&gt;100&lt;&#x2F;update_rate&gt;</span><br><span class="line">    &lt;visualize&gt;true&lt;&#x2F;visualize&gt;</span><br><span class="line">    &lt;imu&gt;</span><br><span class="line">      &lt;angular_velocity&gt;</span><br><span class="line">        &lt;x&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;2e-4&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.0000075&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.0000008&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;x&gt;</span><br><span class="line">        &lt;y&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;2e-4&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.0000075&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.0000008&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;y&gt;</span><br><span class="line">        &lt;z&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;2e-4&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.0000075&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.0000008&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;z&gt;</span><br><span class="line">      &lt;&#x2F;angular_velocity&gt;</span><br><span class="line">      &lt;linear_acceleration&gt;</span><br><span class="line">        &lt;x&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;1.7e-2&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.1&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.001&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;x&gt;</span><br><span class="line">        &lt;y&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;1.7e-2&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.1&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.001&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;y&gt;</span><br><span class="line">        &lt;z&gt;</span><br><span class="line">          &lt;noise type&#x3D;&quot;gaussian&quot;&gt;</span><br><span class="line">            &lt;mean&gt;0.0&lt;&#x2F;mean&gt;</span><br><span class="line">            &lt;stddev&gt;1.7e-2&lt;&#x2F;stddev&gt;</span><br><span class="line">            &lt;bias_mean&gt;0.1&lt;&#x2F;bias_mean&gt;</span><br><span class="line">            &lt;bias_stddev&gt;0.001&lt;&#x2F;bias_stddev&gt;</span><br><span class="line">          &lt;&#x2F;noise&gt;</span><br><span class="line">        &lt;&#x2F;z&gt;</span><br><span class="line">      &lt;&#x2F;linear_acceleration&gt;</span><br><span class="line">    &lt;&#x2F;imu&gt;</span><br><span class="line">  &lt;&#x2F;sensor&gt;</span><br><span class="line">&lt;&#x2F;gazebo&gt;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p>添加一个差速驱动</p>
+<p>添加一个差速驱动模型插件</p>
 <ul>
 <li><p>添加差速驱动模型插件（ModelPlugin），通过配置这个插件，便可以通过话题/demo/odom来发布nav_msgs/Odometry消息。</p>
 </li>
-<li><p>左右轮的关节将被设置为sam_bot的车轮关节</p>
+<li><p>left_joint与right_joint被设置为sam_bot的车轮关节</p>
 </li>
-<li><p>车轮分离距离和直径将根据wheel_ygap和wheel_radius的值来确定</p>
+<li><p>车轮间距wheel_separation和直径wheel_diameter根据变量wheel_ygap（y轴方向轮子与机器人本体的间隙）和wheel_radius的值来确定</p>
 </li>
-<li><p>具体操作为，在标签下面一行插入以下内容</p>
+<li><p>具体添加方法为，在上一部分的标签下面一行插入以下内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;gazebo&gt;</span><br><span class="line">  &lt;plugin name&#x3D;&#39;diff_drive&#39; filename&#x3D;&#39;libgazebo_ros_diff_drive.so&#39;&gt;</span><br><span class="line">    &lt;ros&gt;</span><br><span class="line">      &lt;namespace&gt;&#x2F;demo&lt;&#x2F;namespace&gt;</span><br><span class="line">    &lt;&#x2F;ros&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- wheels --&gt;</span><br><span class="line">    &lt;left_joint&gt;drivewhl_l_joint&lt;&#x2F;left_joint&gt;</span><br><span class="line">    &lt;right_joint&gt;drivewhl_r_joint&lt;&#x2F;right_joint&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- kinematics --&gt;</span><br><span class="line">    &lt;wheel_separation&gt;0.025&lt;&#x2F;wheel_separation&gt;</span><br><span class="line">    &lt;wheel_diameter&gt;0.2&lt;&#x2F;wheel_diameter&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- limits --&gt;</span><br><span class="line">    &lt;max_wheel_torque&gt;20&lt;&#x2F;max_wheel_torque&gt;</span><br><span class="line">    &lt;max_wheel_acceleration&gt;1.0&lt;&#x2F;max_wheel_acceleration&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- output --&gt;</span><br><span class="line">    &lt;publish_odom&gt;true&lt;&#x2F;publish_odom&gt;</span><br><span class="line">    &lt;publish_odom_tf&gt;true&lt;&#x2F;publish_odom_tf&gt;</span><br><span class="line">    &lt;publish_wheel_tf&gt;true&lt;&#x2F;publish_wheel_tf&gt;</span><br><span class="line"></span><br><span class="line">    &lt;odometry_frame&gt;odom&lt;&#x2F;odometry_frame&gt;</span><br><span class="line">    &lt;robot_base_frame&gt;base_link&lt;&#x2F;robot_base_frame&gt;</span><br><span class="line">  &lt;&#x2F;plugin&gt;</span><br><span class="line">&lt;&#x2F;gazebo&gt;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p>编译和运行</p>
 <ul>
 <li><p>编辑launch文件：删除joint state publiser的GUI节点，添加孵化sam_bot的节点</p>
-<p>删除</p>
+<p>删除以下两部分内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">joint_state_publisher_gui_node &#x3D; launch_ros.actions.Node(</span><br><span class="line">  package&#x3D;&#39;joint_state_publisher_gui&#39;,</span><br><span class="line">  executable&#x3D;&#39;joint_state_publisher_gui&#39;,</span><br><span class="line">  name&#x3D;&#39;joint_state_publisher_gui&#39;,</span><br><span class="line">  condition&#x3D;launch.conditions.IfCondition(LaunchConfiguration(&#39;gui&#39;))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">joint_state_publisher_gui_node,</span><br></pre></td></tr></table></figure>
 
-<p>添加</p>
+<p>添加以下内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">launch.actions.ExecuteProcess(cmd&#x3D;[&#39;gazebo&#39;, &#39;--verbose&#39;, &#39;-s&#39;, &#39;libgazebo_ros_factory.so&#39;], output&#x3D;&#39;screen&#39;),</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spawn_entity &#x3D; launch_ros.actions.Node(</span><br><span class="line">  package&#x3D;&#39;gazebo_ros&#39;,</span><br><span class="line">  executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">  arguments&#x3D;[&#39;-entity&#39;, &#39;sam_bot&#39;, &#39;-topic&#39;, &#39;robot_description&#39;],</span><br><span class="line">  output&#x3D;&#39;screen&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
@@ -371,7 +373,7 @@
 
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%9B%9B%EF%BC%9A%E8%AE%BE%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/image-20211104084841020.png" alt="image-20211104084841020"></p>
 <p>可见/demo/imu话题发布了sensor_msgs/msg/Imu类型的消息，/demo/odom话题发布了nav_msgs/msg/Odometry类型的消息。这两个消息来自Gazebo对IMU传感器和差速驱动器的模拟。</p>
-<p>我们还需要注意，以上两个话题都没有订阅者。接下来我们将创建一个robot_localization节点去订阅它们，随后该节点还会使用两个话题发布的消息去为Nav2融合出一个局部精确且平滑的里程计信息。</p>
+<p>我们还需要注意，以上两个话题都没有订阅者。接下来我们将创建一个robot_localization节点去订阅它们，随后该节点还会融合这两个消息携带的数据来生成一个局部精确且平滑的里程计信息，最终供Nav2使用。</p>
 <p>下图是rqt_graph的结果</p>
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%9B%9B%EF%BC%9A%E8%AE%BE%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/image-20211104090051306.png" alt="image-20211104090051306"></p>
 </li>
@@ -379,21 +381,21 @@
 </li>
 </ol>
 <h1 id="Robot-Localization-Demo"><a href="#Robot-Localization-Demo" class="headerlink" title="Robot Localization Demo"></a>Robot Localization Demo</h1><ol>
-<li><p>robot_localization功能包根据来自不同里程计传感器的数据，将他们融合成一个局部精确且平滑的历程及信息。它能够接收的数据类型包括nav_msgs/Odometry，sensor_msgs/Imu，geometry_msgs/PoseWithCovarianceStamped以及geometry_msgs/TwistWithCovarianceStamped。</p>
+<li><p>robot_localization功能包接收来自不同里程计传感器的数据，将他们融合成一个局部精确且平滑的里程计信息。它能够接收的数据类型包括nav_msgs/Odometry，sensor_msgs/Imu，geometry_msgs/PoseWithCovarianceStamped以及geometry_msgs/TwistWithCovarianceStamped。</p>
 </li>
 <li><p>robot_localization基本原理</p>
 <ul>
-<li><p>通常一个机器人至少以一个车轮编码器和一个IMU来组成它的里程计传感器。当多个传感器数据被提供给robot_localization后，它能够利用状态估计节点（state estimation nodes）来融合这些传感器数据。</p>
+<li><p>通常一个机器人至少使用一个车轮编码器和一个IMU来组成它的里程计传感器。当多个传感器数据被提供给robot_localization后，它能够利用状态估计节点（state estimation nodes）来融合这些传感器数据。</p>
 </li>
 <li><p>状态估计节点要么使用扩展的卡尔曼滤波（Extended Kalman filter, ekf_node），要么使用无迹卡尔曼滤波（Unscented Kalman filter, ukf_node）来实现融合。</p>
 </li>
-<li><p>此外robot_localization功能包还实现了navsat_transform_node，它被用于在使用GPS时，将地理坐标系转换为机器人的时间坐标系。</p>
+<li><p>此外robot_localization功能包还实现了navsat_transform_node，它被用于在使用GPS时，将地理坐标系转换为机器人的世界坐标系。</p>
 </li>
-<li><p>在使能robot_localization配置的条件下，融合的传感器数据将被以odometry/filtered以及accel/filtered两个话题的方式发布。</p>
+<li><p>如果在配置文件中使能robot_localization功能包，它会通过odometry/filtered以及accel/filtered两个话题来发布融合后的传感器数据。</p>
 </li>
 <li><p>此外robot_localization还将通过/tf话题去发布odom=&gt;base_link的变换关系。</p>
 </li>
-<li><p>如果机器人只有一个里程计源，我们依然可以使用robot_localization接收数据然后完成除了平滑之外的最小程度的处理。当然，在这种情况下，一个替代方式就是通过tf2的broadcaster在里程计节点的单一源中去发布变换。你也可以选择robot_localization去发布变换，并且也可以在输出结果中观测一些平滑的属性。</p>
+<li><p>如果机器人只有一个里程计源，我们依然可以使用robot_localization接收数据，然后完成除了平滑之外的最小处理。当然，在这种情况下，一个替代方式就是通过tf2的broadcaster在里程计节点的单一源中去发布变换。你也可以选择robot_localization去发布变换，并且也可以在输出结果中观测一些平滑的属性。</p>
 </li>
 </ul>
 </li>
@@ -408,10 +410,10 @@
 
 <p>在上述配置文件yaml中，我们定义了frequency，two_d_mode，publish_acceleration，publish_tf，map_frame，odom_frame，base_link_frame以及world_frame这些参数的值。如果需要更详细的理解这些内容，可以参考<a target="_blank" rel="noopener" href="http://docs.ros.org/en/melodic/api/robot_localization/html/state_estimation_nodes.html#parameters">Parameters of state estimation nodes</a>。</p>
 <p>为了添加一个传感器的输入到ekf_filter_node，需要在基本名字（odom，imu，pose，twist）之后添加数字序号。在本例中，只有一个nav_msgs/Odometry和一个sensor_msgs/Imu作为滤波器的输入，因此只需使用odom0和imu0。</p>
-<p>我们可以通过_config参数来指定一个传感器的哪些数值将被滤波器使用。这些数值的含义一次为x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpithc, vyaw, ax, ay, az。</p>
-<p>本demo中，我们将odom0_config的抵1，2，3和12个元素设置为true，这表示滤波器仅仅使用odom0的x, y, z和vyaw的值。</p>
+<p>我们可以通过_config参数来指定一个传感器的哪些数值将被滤波器使用。这些数值的含义依次为x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpithc, vyaw, ax, ay, az。</p>
+<p>本demo中，我们将odom0_config的第1，2，3和12个元素设置为true，这表示滤波器仅仅使用odom0的x, y, z和vyaw的值。</p>
 <p>在imu0_config矩阵中，只有roll，pitch和yaw被使用。典型的移动机器人级别的IMU还将提供角速度和线性加速度。</p>
-<p>为了确保robot_localization能够正常工作，不应该将那些可以彼此衍生的领域数据进行融合。比如角速度被融合到IMU内部以提供roll，pitch和yaw的估计值，我们就不应该在robot_localization中融合角速度。此外，我们不融合角速度还因为它在不使用所期望的高质量(昂贵)IMU时具有噪声特性。</p>
+<p>为了确保robot_localization能够正常工作，不应该将那些可以彼此衍生的领域数据进行融合。比如角速度被融合到IMU内部以提供roll，pitch和yaw的估计值，我们就不应该在robot_localization中融合角速度。此外，我们不融合角速度还因为如果不使用高质量(昂贵)IMU时它具有噪声特性。</p>
 </li>
 </ul>
 </li>

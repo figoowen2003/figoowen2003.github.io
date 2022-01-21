@@ -275,11 +275,11 @@
                 <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
 <li><p>Open Source Project Criticality Score(Beta)</p>
 <p>该项目目前由Securing Critical Projects WG组织来维护<a target="_blank" rel="noopener" href="https://github.com/ossf/wg-securing-critical-projects">https://github.com/ossf/wg-securing-critical-projects</a></p>
-<p>该组织成立的动机：大大小小的开源项目都面临着资源分配的问题，包括所需的时间、资源和注意力。需要一个将关键项目与可为其提供支持的组织联系起来的方法。</p>
+<p>该组织成立的动机：大大小小的开源项目都面临着资源分配的问题，包括所需的时间、资源和关注度。需要一个将关键项目与可为其提供支持的组织紧密联系起来的方法。</p>
 </li>
 <li><p>目标</p>
 <ul>
-<li>为每一个开源项目生成一个关键性分数（临界分数）</li>
+<li>为每一个开源项目生成一个关键性分数（也可以翻译为临界分数）</li>
 <li>创建开源社区所依赖的关键项目列表</li>
 <li>使用这些数据主动改善这些关键项目的安全状况</li>
 </ul>
@@ -293,7 +293,7 @@
 <thead>
 <tr>
 <th>参数 (S i )</th>
-<th>重量 (α i )</th>
+<th>权重(α i )</th>
 <th>最大阈值 (T i )</th>
 <th>描述</th>
 <th>推理</th>
@@ -311,7 +311,7 @@
 <td>-1</td>
 <td>120</td>
 <td>自项目上次更新以来的时间（以月为单位）</td>
-<td>最近没有提交的未维护项目有更高的机会不那么依赖。</td>
+<td>最近没有提交的并且也不被维护项目有较低的被依赖度。</td>
 </tr>
 <tr>
 <td><strong>contributor_count</strong></td>
@@ -332,21 +332,21 @@
 <td>1</td>
 <td>1000</td>
 <td>去年平均每周提交次数</td>
-<td>较高的代码流失稍微表明了项目的重要性。此外，对漏洞的敏感性更高。</td>
+<td>较高的代码变更在某种意义上表明了项目的重要性。当然，其对漏洞也更敏感。</td>
 </tr>
 <tr>
 <td>recent_releases_count</td>
 <td>0.5</td>
 <td>26</td>
 <td>去年发布的数量</td>
-<td>频繁发布表明用户依赖。重量较轻，因为这并不总是使用。</td>
+<td>频繁发布表明用户依赖度较高。但是这个参数权重较轻，因为该参数并不总是使用。</td>
 </tr>
 <tr>
 <td>closed_issues_count</td>
 <td>0.5</td>
 <td>5000</td>
 <td>过去 90 天内关闭的问题数量</td>
-<td>表示贡献者高度参与并专注于解决用户问题。较低的权重，因为它依赖于项目贡献者。</td>
+<td>表示贡献者高度参与，并专注于解决用户的issue。较低的权重，因为它依赖于项目贡献者。</td>
 </tr>
 <tr>
 <td>updated_issues_count</td>
@@ -367,7 +367,7 @@
 <td><strong>2</strong></td>
 <td>500000</td>
 <td>在commit 消息中提及的项目数量</td>
-<td>表示存储库使用，通常在版本卷中。此参数适用于所有语言，包括没有包依赖关系图的 C/C++（虽然是 hack-ish）。计划在不久的将来添加包依赖树。</td>
+<td>表示该仓库的使用情况，通常用在在版本迭代中。此参数适用于所有语言，包括没有包依赖关系图的 C/C++（虽然是 hack-ish）。计划在不久的将来添加包依赖树。</td>
 </tr>
 </tbody></table>
 <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><ul>

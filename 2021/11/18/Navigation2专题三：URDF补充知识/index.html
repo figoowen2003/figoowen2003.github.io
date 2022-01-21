@@ -304,7 +304,7 @@
 <h2 id="2-在Launch文件中设置topic"><a href="#2-在Launch文件中设置topic" class="headerlink" title="2. 在Launch文件中设置topic"></a>2. 在Launch文件中设置topic</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spawn_entity &#x3D; Node(package&#x3D;&#39;gazebo_ros&#39;, node_executable&#x3D;&#39;spawn_entity.py&#39;,</span><br><span class="line">                    arguments&#x3D;[&#39;-entity&#39;, &#39;demo&#39;, &#39;0&#39;, &#39;0.5&#39;, &#39;0.0&#39;],</span><br><span class="line">                    output&#x3D;&#39;screen&#39;)</span><br></pre></td></tr></table></figure>
 
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162116545.png" alt="image-20211118162116545"></p>
-<p>在arguments参数列表中，第二个参数’demo’代表命名空间，因此在孵化机器人模型的过程中会为机器人的参数如topic添加该命名空间，并且此处设置的topicde 命名空间优先级在SDF或者URDF文件之上。</p>
+<p>在arguments参数列表中，第二个参数’demo’代表命名空间，因此在孵化机器人模型的过程中会为机器人的参数如topic添加该命名空间，并且此处设置的topic的命名空间优先级高于SDF或者URDF文件中的配置。</p>
 <p>需要将第二个参数设置为空</p>
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162450214.png" alt="image-20211118162450214"></p>
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B8%89%EF%BC%9AURDF%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86/image-20211118162624615.png" alt="image-20211118162624615"></p>

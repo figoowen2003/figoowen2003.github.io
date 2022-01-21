@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          ROS2中的launch系统 - null
+          OpenSSF专题六：ttl.sh使用 - null
         
     </title>
 
-    <link rel="canonical" href="https://figoowen2003.github.io/2021/05/20/ROS2中的launch体系/">
+    <link rel="canonical" href="https://figoowen2003.github.io/2022/01/18/OpenSSF专题六：ttl-sh使用/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -131,14 +131,12 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#ROS2，launch，python" title="ROS2，launch，python">ROS2，launch，python</a>
-                            
                         </div>
-                        <h1>ROS2中的launch系统</h1>
+                        <h1>OpenSSF专题六：ttl.sh使用</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Mu Wenfeng on
-                            2021-05-20
+                            2022-01-18
                         </span>
                     </div>
                 
@@ -274,40 +272,35 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>ROS2中launch系统的职责是帮助用户描述他们的系统配置（这里可以理解为ros中的package），并且按照配置去执行该系统。</p>
-<p>系统配置主要包括以下几点：</p>
-<ul>
-<li>要运行什么程序</li>
-<li>在哪里运行这些程序</li>
-<li>在程序之间应该传递什么样的参数</li>
-<li>ros的特殊约定，这些约定通过赋予系统中每个组件不同的配置，使得在整个系统中复用组件变得容易起来</li>
-</ul>
-<p>launch还负责监视进程启动的状态，对这些进程状态的变化进行报告或做出反应。</p>
-<h2 id="launch文件中的关键词"><a href="#launch文件中的关键词" class="headerlink" title="launch文件中的关键词"></a>launch文件中的关键词</h2><ul>
-<li><p>action：翻译为动作。执行一个进程，或者包含另外一个launch description等动作都属于action，它用于表达用户的意图。action可以产生直接的作用（例如运行进程或设置变量），同时它也可以产生其他的action。动作是可以带参数的，参数能够影响action的行为，这些参数位于‘launch.Substitution’类被使用的地方。</p>
-</li>
-<li><p>Launch Entity：翻译为启动实体，launch系统中最主要的对象就是‘launch.LaunchDescriptionEntity’这个类，其他的启动实体都从这个实体中继承。这个类或者从这个类派生的子类负责捕获系统架构者有关如何启动这个系统的意图，以及启动本身如何应对启动期间的异步事件（不太明白）。</p>
-<p>当实体被访问时，这些实体可能会产生其他需要被访问的实体，可以从‘root’实体开始使用这个模式，此时launch系统提供了名为‘Launch.LaunchDescription’的类来开始这个启动的过程 。</p>
-</li>
-<li><p>Base Action：‘launch.Action’是所有action的基类，它提供了Launch系统中一些公共的接口。base action是一个启动描述（文件）中的第一个类元素，它也继承了‘launch.LaunchDescriptionEntity’。action可以和条件结合起来，如‘launch.IfCondition’类，‘launch.UnlessCondition’类，以此来决定这个action是否执行。action也可以传递参数。</p>
-</li>
-<li><p>Substitution：它有点类似与C++中的模板参数，在launch文件被执行之前，我们都无法得知它究竟表示的是什么。目前已经存在很多substitution的变体，它们都继承自‘launch.Substitution’这个类。</p>
-</li>
-<li><p>The Launch Service：启动服务负责处理已发送的事件，将它们分发给事件处理程序（句柄），并根据需要执行action。Launch service提供了三种主要服务：</p>
-<ul>
-<li>包含一个launch description供任何线程调用</li>
-<li>运行事件循环</li>
-<li>关闭：取消任何正在运行的action和事件程序；终止正在运行的事件循环；能被任何线程调用</li>
-</ul>
-</li>
-<li><p>Event Handlers：事件处理程序（句柄），它由名为‘launch.EventHandler’的基类来表示。它定义了两种主要的方法：</p>
-<ul>
-<li>‘launch.EventHandler.matches’：将事件作为输入，如果事件句柄和事件匹配返回true，反之false</li>
-<li>‘launch.EventHandler.handle’：将事件和launch上下文作为输入，可以选择返回一个被launch service访问的‘launch.LaunchDescriptionEntity’对象的列表。</li>
-</ul>
-<p>它并不是继承自‘launch.LaunchDescriptionEntity’，但是能够被launch service所访问。</p>
-</li>
-</ul>
+                <h1 id="一个简单的Dockfile"><a href="#一个简单的Dockfile" class="headerlink" title="一个简单的Dockfile"></a>一个简单的Dockfile</h1><p>一、Dockerfile 概念<br>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
+<p>镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的无法重复的问题、镜像构建透明性的问题、体积的问题就都会解决。这个脚本就是 Dockerfile。</p>
+<p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。有了 Dockerfile，当我们需要定制自己额外的需求时，只需在 Dockerfile 上添加或者修改指令，重新生成 image 即可，省去了敲命令的麻烦。<br>二、Dockerfile文件格式</p>
+<p>格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">##  Dockerfile文件格式</span><br><span class="line"></span><br><span class="line"># This dockerfile uses the ubuntu image</span><br><span class="line"># VERSION 2 - EDITION 1</span><br><span class="line"># Author: docker_user</span><br><span class="line"># Command format: Instruction [arguments &#x2F; command] ..</span><br><span class="line"> </span><br><span class="line"># 1、第一行必须指定 基础镜像信息</span><br><span class="line">FROM ubuntu</span><br><span class="line"> </span><br><span class="line"># 2、维护者信息</span><br><span class="line">MAINTAINER docker_user docker_user@email.com</span><br><span class="line"> </span><br><span class="line"># 3、镜像操作指令</span><br><span class="line">RUN echo &quot;deb http:&#x2F;&#x2F;archive.ubuntu.com&#x2F;ubuntu&#x2F; raring main universe&quot; &gt;&gt; &#x2F;etc&#x2F;apt&#x2F;sources.list</span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y nginx</span><br><span class="line">RUN echo &quot;\ndaemon off;&quot; &gt;&gt; &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>Dockerfile 分为四部分：基础镜像信息、维护者信息、镜像操作指令、容器启动执行指令。一开始必须要指明所基于的镜像名称，接下来一般会说明维护者信息；后面则是镜像操作指令，例如 RUN 指令。每执行一条RUN 指令，镜像添加新的一层，并提交；最后是 CMD 指令，来指明运行容器时的操作命令。</p>
+<p>三、构建镜像</p>
+<p>docker build 命令会根据 Dockerfile 文件及上下文构建新 Docker 镜像。构建上下文是指 Dockerfile 所在的本地路径或一个URL（Git仓库地址）。构建上下文环境会被递归处理，所以构建所指定的路径还包括了子目录，而URL还包括了其中指定的子模块。</p>
+<p>将当前目录做为构建上下文时，可以像下面这样使用docker build命令构建镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build .</span><br><span class="line">Sending build context to Docker daemon  6.51 MB</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>说明：构建会在 Docker 后台守护进程（daemon）中执行，而不是CLI中。构建前，构建进程会将全部内容（递归）发送到守护进程。大多情况下，应该将一个空目录作为构建上下文环境，并将 Dockerfile 文件放在该目录下。</p>
+<p>在构建上下文中使用的 Dockerfile 文件，是一个构建指令文件。为了提高构建性能，可以通过.dockerignore文件排除上下文目录下不需要的文件和目录。</p>
+<p>在 Docker 构建镜像的第一步，docker CLI 会先在上下文目录中寻找.dockerignore文件，根据.dockerignore 文件排除上下文目录中的部分文件和目录，然后把剩下的文件和目录传递给 Docker 服务。</p>
+<p>Dockerfile 一般位于构建上下文的根目录下，也可以通过-f指定该文件的位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f &#x2F;path&#x2F;to&#x2F;a&#x2F;Dockerfile .</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="ttl-sh使用"><a href="#ttl-sh使用" class="headerlink" title="ttl.sh使用"></a>ttl.sh使用</h1><p><a target="_blank" rel="noopener" href="https://ttl.sh/">ttl.sh</a> 是一个域名，它提供了免费、短期（以小时计）的、匿名的容器镜像托管。具体操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ IMAGE_NAME&#x3D;$(uuidgen)			# 以UUID作为测试镜像的名称</span><br><span class="line">$ docker build -t ttl.sh&#x2F;$&#123;IMAGE_NAME&#125;:1h .  # 需要在当前路径下存在一个Dockerfile文件，执行后就会创建名为ttl.sh&#x2F;$&#123;IMAGE_NAME&#125;的镜像</span><br><span class="line">$ docker push ttl.sh&#x2F;$&#123;IMAGE_NAME&#125;:1h</span><br><span class="line"> </span><br><span class="line"> ................................................</span><br><span class="line"> image ttl.sh&#x2F;xxxx-yyyy-nnnn-2a2222-4b44 is available for 1 hour</span><br><span class="line"> </span><br><span class="line"> ttl.sh is contributed by Replicated (www.replicated.com)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/image-20220118150801726.png" alt="image-20220118150801726"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/image-20220118153625677.png" alt="image-20220118153625677"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/image-20220118153750320.png" alt="image-20220118153750320"></p>
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/image-20220118154351562.png" alt="image-20220118154351562"></p>
 
                 
 
@@ -315,13 +308,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/06/16/rust-and-go/" data-toggle="tooltip" data-placement="top" title="rust and go">&larr; Previous post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2021/05/19/与ROS相关的一些工具/" data-toggle="tooltip" data-placement="top" title="与ROS相关的一些工具">Next post &rarr;</a>
+                            <a href="/2021/12/31/Navigation2专题二十八：使用Coroutines的异步Actions/" data-toggle="tooltip" data-placement="top" title="Navigation2专题二十八：使用Coroutines的异步Actions">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -371,8 +360,6 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#ROS2，launch，python" title="ROS2，launch，python">ROS2，launch，python</a>
-                        
                     </div>
                 </section>
                 
@@ -546,7 +533,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://figoowen2003.github.io/2021/05/20/ROS2%E4%B8%AD%E7%9A%84launch%E4%BD%93%E7%B3%BB/index.html/js/jquery.tagcloud.js",function(){
+        async("https://figoowen2003.github.io/2022/01/18/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

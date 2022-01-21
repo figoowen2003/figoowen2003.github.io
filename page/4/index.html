@@ -318,6 +318,37 @@
 
 
 <div class="w3-row-padding">
+	<a href="/2021/11/08/Navigation2专题五：设置传感器/">
+        <h2 class="post-title">
+            Navigation2专题五：设置传感器
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/11/08/Navigation2专题五：设置传感器/">
+
+        <div class="post-content-preview">
+            传感器简介移动机器人装备了大量的传感器来看见和感知周围的环境。这些传感器获取的信息被用于构建和维护环境的地图，在地图上定位机器人以及观察环境中的障碍物。这些任务对于在动态环境中安全而有效地导航机器人至关重要。
+常用的传感器有lidar，radar，RGB camera，depth camera，IMU和GPS。为了标准化这些传感器的消息格式并让供应商之间更容易整合，ROS提供了sens.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by Mu Wenfeng on
+            2021-11-08
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
 	<a href="/2021/11/03/Navigation2专题四：设置里程计/">
         <h2 class="post-title">
             Navigation2专题四：设置里程计
@@ -332,9 +363,9 @@
     <a href="/2021/11/03/Navigation2专题四：设置里程计/">
 
         <div class="post-content-preview">
-            里程计简介里程计系统是基于机器人的运动来对机器人的姿态和速度进行局部的精确估计。里程计信息的来源可以是IMU，LIDAR，RADAR，VIO以及车轮编码器等。需要注意的是，IMU会随时间发生漂移，而车轮编码器则是随着行进距离发生漂移，因此往往将它们一起使用来抵消彼此的负面特性。
+            里程计简介里程计系统基于机器人的运动来对机器人的姿态和速度进行局部的精确估计。里程计信息的来源包括IMU，LIDAR，RADAR，VIO以及车轮编码器等。需要注意的是，IMU的数据会随时间发生漂移，而车轮编码器的数据则是随着行进距离发生漂移，因此往往将它们一起使用来抵消彼此的负面特性。
 
-odom坐标系及其相关的变换使用机器人的里程计系统来发布定位信息，这个信息虽然连续但是会随着时间或距离（取.........
+odom坐标系以及与之相关的坐标变换系统使用机器人的里程计系统来发布定位信息，定位信息连续但会随着.........
         </div>
     </a>
     
@@ -615,38 +646,6 @@ msg：.msg文件是简单的文本文件，用于描述ROS2中的消息messa....
 <hr>
 
 
-<div class="w3-row-padding">
-	<a href="/2021/09/07/Robot-State-Publisher与Joint-State-Publisher/">
-        <h2 class="post-title">
-            Robot State Publisher与Joint State Publisher
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/09/07/Robot-State-Publisher与Joint-State-Publisher/">
-
-        <div class="post-content-preview">
-            机器人模型的Links和Joints为了更好的理解Robot State Publisher和Joint State Publisher两个功能包的差异，我们这里先科普一下机器人的两大组成部分：Joints与Links。
-Links（连杆）是机器人的刚性部件，可以理解为“骨头”；Joints（关节）是机器人的移动部分；Links通过Joints互相连接。
-以人的手臂为例，肩、肘和腕是关.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by Mu Wenfeng on
-            2021-09-07
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
 
 <!-- Pager -->
 
@@ -857,6 +856,10 @@ Links（连杆）是机器人的刚性部件，可以理解为“骨头”；Joi
     <ul>
       
         <li>
+          <a href="/2022/01/18/OpenSSF%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9Attl-sh%E4%BD%BF%E7%94%A8/">OpenSSF专题六：ttl.sh使用</a>
+        </li>
+      
+        <li>
           <a href="/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E5%85%AB%EF%BC%9A%E4%BD%BF%E7%94%A8Coroutines%E7%9A%84%E5%BC%82%E6%AD%A5Actions/">Navigation2专题二十八：使用Coroutines的异步Actions</a>
         </li>
       
@@ -872,10 +875,6 @@ Links（连杆）是机器人的刚性部件，可以理解为“骨头”；Joi
           <a href="/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E4%BA%94%EF%BC%9A%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84/">Navigation2专题二十五：端口重映射</a>
         </li>
       
-        <li>
-          <a href="/2021/12/31/Navigation2%E4%B8%93%E9%A2%98%E4%BA%8C%E5%8D%81%E5%9B%9B%EF%BC%9A%E5%AD%90%E6%A0%91%E4%B8%8E%E6%97%A5%E5%BF%97/">Navigation2专题二十四：子树与日志</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -884,7 +883,7 @@ Links（连杆）是机器人的刚性部件，可以理解为“骨头”；Joi
         
     <h5>Achives</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
     </div>
 
         <hr>
