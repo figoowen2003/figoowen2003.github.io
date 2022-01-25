@@ -301,11 +301,14 @@
 <li><p>重新编译整个工程，然后运行display.launch.py脚本，用以启动robot state publisher，在Gazebo中孵化sam_bot，在Rviz中可视化sam_bot和它的足迹。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colcon build</span><br><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 launch sam_bot_description display.launch.py</span><br></pre></td></tr></table></figure></li>
 <li><p>接下来，为了简单起见，使用tf2_ros中的static_transform_publiser来发布map=&gt;odom的坐标变换。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  &#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">- 最后，启动Nav2，并使用nav_params.yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>```</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom</span><br></pre></td></tr></table></figure></li>
+<li><p>最后，启动Nav2，并使用nav_params.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch nav2_bringup navigation_launch.py params_file:&#x3D;&lt;full&#x2F;path&#x2F;to&#x2F;config&#x2F;nav2_params.yaml&gt;</span><br></pre></td></tr></table></figure>
+
+<p>params_file后面为文件绝对路径比如ros2 launch nav2_bringup navigation_launch.py params_file:=/home/ubuntu-ros2/robot_sim/src/sam_bot_description/config/nav2_params.yaml</p>
 </li>
 <li><p>在Rviz中可视化局部代价地图的足迹</p>
-<p>Rviz左侧窗口中电机add，选中By topic标签，选择/local_costmap/published_footprint话题下的Polygon</p>
+<p>Rviz左侧窗口中点击add按钮，选中By topic标签，选择/local_costmap/published_footprint话题下的Polygon</p>
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9A%E8%AE%BE%E7%BD%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84Footprint/add_topic_local_costmap.png" alt="../../_images/add_topic_local_costmap.png"></p>
 <p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E5%85%AD%EF%BC%9A%E8%AE%BE%E7%BD%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84Footprint/image-20211111163331001.png" alt="image-20211111163331001"></p>
 </li>
