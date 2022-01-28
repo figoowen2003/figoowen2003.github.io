@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Navigation2专题九补充：设置生命周期与组合节点 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://figoowen2003.github.io/2022/01/27/Navigation2专题九补充：设置生命周期与组合节点/">
+
+    <!-- Bootstrap Core CSS -->
+
+   
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    
+
+    <!-- Custom CSS --> 
+    
+<link rel="stylesheet" href="/css/beantech.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/donate.css">
+
+	
+<link rel="stylesheet" href="/css/w3.css">
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/toc.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+    }
+   .post-heading{
+    padding:20px;
+    }
+  .person {
+    border: 10px solid transparent;
+    margin-bottom: 25px;
+    width: 80%;
+    height: 80%;
+    opacity: 0.7;
+  }
+  .person:hover {
+    border-color: #f1f1f1;
+  }
+ 
+    .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+    }
+
+    .carousel-caption h3 {
+      color: #fff !important;
+    }
+
+</style>
+
+<header id="headerid" class="w3-indigo intro-header" style="position:relative;">
+    <!-- Signature -->
+	
+        <div class="container">
+            <div class=" row" >
+			
+			<canvas id="particles-js-canvas" style="position:absolute;z-index:1;top:0px;left:0px;" width="100%" height="50%"></canvas>
+			
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="z-index:2;">
+                
+                    <div class="post-heading" style="padding:40px">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Navigation2专题九补充：设置生命周期与组合节点</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Mu Wenfeng on
+                            2022-01-27
+                        </span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+  
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hexo of Muwenfeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a  href="/">Homepage</a>
+                    </li>
+		    
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu1</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu2</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu3</a>
+                           
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+           
+                            <a  href="#">menu5</a>
+                           
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>ROS2中引入了生命周期的概念，用来系统地管理参与机器人操作的不同节点的启动和关闭。生命周期节点（Lifecycle node）的使用确保了所有节点在开始执行任务之前都成功实例化，并且如果出现任何未响应的节点，Nav2会关闭所有节点。</p>
+<p>生命周期节点包含状态机转换机制，用于使能ROS2服务器中的确定性行为。Lifecycle Manager是Nav2中处理生命周期节点转换的组件，它对生命周期节点的状态进行转换，同时对系统的状态提供更大的控制。</p>
+<h2 id="生命周期节点的主要状态："><a href="#生命周期节点的主要状态：" class="headerlink" title="生命周期节点的主要状态："></a>生命周期节点的主要状态：</h2><ul>
+<li><p><strong>Unconfigured</strong>：是生命周期节点被实例化之后的初始状态。</p>
+<p>​                            Lifecycle Manager通过实现Configurating这个转换方法将一个节点从Unconfigured状态切换为Inactive状态。这个方法会设置所有的配置参数，还会准备其他所需要的设置，比如分配内存、设置静态发布与订阅的话题等等。</p>
+</li>
+<li><p><strong>Inactive</strong>：处于Inactive状态的节点被允许重新配置其参数，但是不能执行任何处理操作。</p>
+<p>​                Lifecycle Manager通过实现Activating方法完成节点从Inactive到Active状态的转换。</p>
+</li>
+<li><p><strong>Active</strong>：是节点的主状态。一个处于Active状态的节点被允许执行任何处理操作。</p>
+</li>
+<li><p><strong>Finalized</strong>：是节点声明周期结束后的状态。如果一个非Finalized状态的节点崩溃了，Lifecycle Manager会关闭系统来阻止任何严重故障的发生。在关闭系统的过程中，LM会执行必要的清理操作包括Deactivating, Cleaning, ShuttingDown，然后将节点状态转换为Finalized。</p>
+</li>
+</ul>
+<h2 id="如何自定义生命周期节点"><a href="#如何自定义生命周期节点" class="headerlink" title="如何自定义生命周期节点"></a>如何自定义生命周期节点</h2><p>你可能希望将自己的节点集成到Nav2的框架中，亦或者将新的生命周期节点添加到你自己的系统中。</p>
+<p>下面是官方的一个例子，其中新增了一个名义上（概念上）的生命周期节点sensor_driver，以便通过Nav2的Lifecycle Manager来控制它，这样能确保在激活导航之前传感器的反馈数据是有效的。</p>
+<p>我们可以通过将sensor_driver节点添加到launch文件中来达到这个目的，具体内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">lifecycle_nodes &#x3D; [&#39;sensor_driver&#39;,</span><br><span class="line">                   &#39;controller_server&#39;,</span><br><span class="line">                   &#39;smoother_server&#39;,</span><br><span class="line">                   &#39;planner_server&#39;,</span><br><span class="line">                   &#39;recoveries_server&#39;,</span><br><span class="line">                   &#39;bt_navigator&#39;,</span><br><span class="line">                   &#39;waypoint_follower&#39;]</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;nav2_sensor_driver&#39;,</span><br><span class="line">    executable&#x3D;&#39;sensor_driver&#39;,</span><br><span class="line">    name&#x3D;&#39;sensor_driver&#39;,</span><br><span class="line">    output&#x3D;&#39;screen&#39;,</span><br><span class="line">    parameters&#x3D;[configured_params],</span><br><span class="line">    remappings&#x3D;remappings),</span><br><span class="line"></span><br><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;nav2_lifecycle_manager&#39;,</span><br><span class="line">    executable&#x3D;&#39;lifecycle_manager&#39;,</span><br><span class="line">    name&#x3D;&#39;lifecycle_manager_navigation&#39;,</span><br><span class="line">    output&#x3D;&#39;screen&#39;,</span><br><span class="line">    parameters&#x3D;[&#123;&#39;autostart&#39;: autostart&#125;,</span><br><span class="line">                &#123;&#39;node_names&#39;: lifecycle_nodes&#125;]),</span><br></pre></td></tr></table></figure>
+
+<p>node_names参数用于设置Lifecycle Manager将要处理的节点，它接收一个有序的节点列表，以便通过Lifecycle转换来启动这些节点。lifecycle_nodes是launch文件定义的一个有序的节点列表，Lifecycle Manager将按照列表中的顺序依次对这些节点启动状态转换（执行Configurating和Activating方法），而如果是进行shutdown转换，则是按照相反的顺序来处理这些节点。因此sensor_driver向先于其他导航服务器几点启动，这样就可以保证传感器数据在导航服务器被激活之前是可用的。</p>
+<p>Lifecycle Manager中的另外两个参数：autostart被置为true，意味着你希望在启动时就将转换节点的转台设置为Active，false则表示你需要手动触发Lifecycle Manager来完成系统状态转换；bond_time则是设置了等待时间以决定在一个节点没有响应的情况下何时继续转换下一个节点。</p>
+<h1 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h1><p>组合是ROS2中的另一个新概念，它通过将多个节点放到一个进程中来减少CPU和内存的开销。在Nav2中，组合这个概念被用于在单个进程中组合所有的Nav2节点，而不是单独启动他们。这个特性对于在嵌入式平台上部署整个系统非常有用。</p>
+<p>接下来，我们将举例说明如何将新的Nav2服务器（route_server）添加到系统中，有手动组合与动态组合两种方式。</p>
+<h2 id="手动组合"><a href="#手动组合" class="headerlink" title="手动组合"></a>手动组合</h2><p>Nav2代码仓中提供了名为composed_bringup.cpp的文件，位于nav2_bringup功能包下（事实上，我并没有在代码仓中发现这个文件，只在commit和issue记录中看到了它）。我们可以按照以下步骤添加route_server。</p>
+<ol>
+<li><p>添加以下内容到composed_bringup.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;nav2_route_server&#x2F;route_server.hpp&quot;</span><br></pre></td></tr></table></figure>
+
+<p>创建共享指针route_node并将其名称添加到navigation_node_names容器中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto route_node &#x3D; std::make_shared&lt;nav2_route_server::RouteServer&gt;();</span><br><span class="line">navigation_node_names.push_back(route_node-&gt;get_name());</span><br></pre></td></tr></table></figure>
+
+<p>将route_node放入threads来创建一个单线程执行器route_node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">threads.push_back(create_spin_thread(route_node));</span><br></pre></td></tr></table></figure></li>
+<li><p>在你的package.xml文件中天剑nav2_route_server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;nav2_route_server&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>修改CMakeList</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find_package(nav2_route_server REQUIRED)</span><br><span class="line">set(dependencies nav2_route_server)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="动态组合"><a href="#动态组合" class="headerlink" title="动态组合"></a>动态组合</h1><p>在动态组合中，我们将利用launch文件将不同的服务器组合到一个进程中。这个进程酱油ComposableNodeContainer容器来创建，该容器中填充着不同的组合节点。这个容器可以像任何其他Nav2节点一样去启动和使用。</p>
+<ol>
+<li><p>在launch文件中添加一个新的ComposableNode()实例来指向你选择的组件容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">container &#x3D; ComposableNodeContainer(</span><br><span class="line">    name&#x3D;&#39;my_container&#39;,</span><br><span class="line">    namespace&#x3D;&#39;&#39;,</span><br><span class="line">    package&#x3D;&#39;rclcpp_components&#39;,</span><br><span class="line">    executable&#x3D;&#39;component_container&#39;,</span><br><span class="line">    composable_node_descriptions&#x3D;[</span><br><span class="line">        ComposableNode(</span><br><span class="line">            package&#x3D;&#39;nav2_route_server&#39;,</span><br><span class="line">            plugin&#x3D;&#39;nav2_route_server::RouteServer&#39;,</span><br><span class="line">            name&#x3D;&#39;nav2_route_server&#39;),</span><br><span class="line">    ],</span><br><span class="line">    output&#x3D;&#39;screen&#39;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+<li><p>将包含该服务器的功能包添加到package.xml文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;nav2_route_server&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>请参阅composition_demo.launch.py](<a target="_blank" rel="noopener" href="https://github.com/ros2/demos/blob/master/composition/launch/composition_demo.launch.py)%E4%B8%AD%E7%9A%84%E7%A4%BA%E4%BE%8B%E3%80%82">https://github.com/ros2/demos/blob/master/composition/launch/composition_demo.launch.py)中的示例。</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line"># Copyright 2019 Open Source Robotics Foundation, Inc.</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#     http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License for the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;Launch a talker and a listener in a component container.&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import launch</span><br><span class="line">from launch_ros.actions import ComposableNodeContainer</span><br><span class="line">from launch_ros.descriptions import ComposableNode</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    &quot;&quot;&quot;Generate launch description with multiple components.&quot;&quot;&quot;</span><br><span class="line">    container &#x3D; ComposableNodeContainer(</span><br><span class="line">            name&#x3D;&#39;my_container&#39;,</span><br><span class="line">            namespace&#x3D;&#39;&#39;,</span><br><span class="line">            package&#x3D;&#39;rclcpp_components&#39;,</span><br><span class="line">            executable&#x3D;&#39;component_container&#39;,</span><br><span class="line">            composable_node_descriptions&#x3D;[</span><br><span class="line">                ComposableNode(</span><br><span class="line">                    package&#x3D;&#39;composition&#39;,</span><br><span class="line">                    plugin&#x3D;&#39;composition::Talker&#39;,</span><br><span class="line">                    name&#x3D;&#39;talker&#39;),</span><br><span class="line">                ComposableNode(</span><br><span class="line">                    package&#x3D;&#39;composition&#39;,</span><br><span class="line">                    plugin&#x3D;&#39;composition::Listener&#39;,</span><br><span class="line">                    name&#x3D;&#39;listener&#39;)</span><br><span class="line">            ],</span><br><span class="line">            output&#x3D;&#39;screen&#39;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    return launch.LaunchDescription([container])</span><br></pre></td></tr></table></figure>
+
+<p><img src="/home/ubuntu-ros2/myBlog/source/_posts/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%E8%A1%A5%E5%85%85%EF%BC%9A%E8%AE%BE%E7%BD%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%B8%8E%E7%BB%84%E5%90%88%E8%8A%82%E7%82%B9/image-20220128170925045.png" alt="image-20220128170925045"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2022/01/18/OpenSSF专题六：ttl-sh使用/" data-toggle="tooltip" data-placement="top" title="OpenSSF专题六：ttl.sh使用">Next post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+				
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">Tags</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.github.com" target="_blank">github</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kinggozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mu Wenfeng 2022 
+                    <br>
+                    Powered by <a target="_blank" rel="noopener" href="http://www.hexo.io">Hexo</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a target="_blank" rel="noopener" href="https://github.com/kinggozhang/hexo-theme-ace">ACE</a> 
+					
+					
+					<i class="fa fa-eye" id="leancounter"></i>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+   
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+
+<!-- Bootstrap Core JavaScript -->
+
+   
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+	
+<script src="/js/particles.js"></script>
+
+	
+<script src="/js/particles_config.js"></script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://figoowen2003.github.io/2022/01/27/Navigation2%E4%B8%93%E9%A2%98%E4%B9%9D%E8%A1%A5%E5%85%85%EF%BC%9A%E8%AE%BE%E7%BD%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%B8%8E%E7%BB%84%E5%90%88%E8%8A%82%E7%82%B9/index.html/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://figoowen2003.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
